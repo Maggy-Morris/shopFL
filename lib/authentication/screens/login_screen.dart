@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodpanda_seller/User/screens/home_screen/user_home_screen.dart';
 import 'package:foodpanda_seller/authentication/screens/send_verification_email_screen.dart';
 import 'package:foodpanda_seller/authentication/widgets/custom_textbutton.dart';
 import 'package:foodpanda_seller/constants/colors.dart';
@@ -10,10 +11,12 @@ import 'package:foodpanda_seller/widgets/my_snack_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'forgot_password.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/login-screen';
-  const LoginScreen({super.key});
+  final String role;
+  const LoginScreen({super.key, required this.role});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -86,18 +89,33 @@ class _LoginScreenState extends State<LoginScreen> {
             );
             authenticationProvider.resetError();
           } else {
-            await authenticationProvider
-                .getUserDataFromFirestore(authenticationProvider.uid);
-            await authenticationProvider.saveDataToSharedPreferences();
+            if (widget.role == "تاجر") {
+              await authenticationProvider
+                  .getUserDataFromFirestore(authenticationProvider.uid);
+            }
+             else {
+              await authenticationProvider
+                  .getUserUSERDataFromFirestore(authenticationProvider.uid);
+            }
+
+            await authenticationProvider.saveDataToSharedPreferences(
+                roleChosen: authenticationProvider.role ?? '');
             await authenticationProvider.setSignIn();
             if (authenticationProvider.emailVerified) {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, HomeScreen.routeName, (route) => false);
+              if (authenticationProvider.role == "تاجر") {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, HomeScreen.routeName, (route) => false);
+              } else {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, UserHomeScreen.routeName, (route) => false);
+              }
             } else {
               Navigator.pushNamedAndRemoveUntil(
                   context, HomeScreen.routeName, (route) => false);
               Navigator.pushNamed(
-                  context, SendVerificationEmailScreen.routeName);
+                  arguments: widget.role,
+                  context,
+                  SendVerificationEmailScreen.routeName);
             }
           }
         });
@@ -184,17 +202,41 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push (
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ResetPasswordScreen()
-                          ),
+                              builder: (context) => ResetPasswordScreen()),
                         );
                       },
-                      child: Text(
-                        'I forgot my password',
-                        style: TextStyle(
-                          color: scheme.primary,
+                      child: Center(
+                        child: Text(
+                          'I forgot my password',
+                          style: TextStyle(
+                            color: scheme.primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            arguments: widget.role,
+                            context,
+                            RegisterScreen.routeName);
+
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => ResetPasswordScreen()),
+                        // );
+                      },
+                      child: Center(
+                        child: Text(
+                          "I'm New",
+                          style: TextStyle(
+                            color: scheme.primary,
+                          ),
                         ),
                       ),
                     )

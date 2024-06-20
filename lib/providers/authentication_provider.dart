@@ -25,6 +25,8 @@ class AuthenticationProvider extends ChangeNotifier {
   String? _name;
   String? get name => _name;
 
+  String? _role;
+  String? get role => _role;
   String? _email;
   String? get email => _email;
 
@@ -75,12 +77,12 @@ class AuthenticationProvider extends ChangeNotifier {
     sharedPreferences.clear();
   }
 
-  Future registerWithEmail(name, email, password) async {
+  Future registerWithEmail( name, email, password , role) async {
     try {
       final User userDetails = (await firebaseAuth
               .createUserWithEmailAndPassword(email: email, password: password))
           .user!;
-
+      _role = role;
       _name = name;
       _email = userDetails.email;
       _imageUrl = userDetails.photoURL ?? '';
@@ -124,8 +126,10 @@ class AuthenticationProvider extends ChangeNotifier {
     //     return result.user;
   }
 
-  Future saveEmailVerified(uid) async {
-    final DocumentReference ref = firestore.collection('sellers').doc(uid);
+  Future saveEmailVerified({uid, required String roleChosen}) async {
+    final DocumentReference ref = (roleChosen == "تاجر")
+        ? firestore.collection('sellers').doc(uid)
+        : firestore.collection('users').doc(uid);
     await ref.update(
       {
         "emailVerified": true,
@@ -135,13 +139,16 @@ class AuthenticationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future saveUserDataToFirestore() async {
-    final DocumentReference ref = firestore.collection('sellers').doc(_uid);
+  Future saveUserDataToFirestore({required String roleChosen}) async {
+    final DocumentReference ref = (roleChosen == "تاجر")
+        ? firestore.collection('sellers').doc(_uid)
+        : firestore.collection('users').doc(_uid);
     await ref.set(
       {
         "name": _name,
         "email": _email,
         "uid": _uid,
+        "role": roleChosen,
         "image_url": _imageUrl,
         "phoneNumber": _phoneNumber,
         "emailVerified": _emailVerified,
@@ -151,10 +158,12 @@ class AuthenticationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future saveDataToSharedPreferences() async {
+  Future saveDataToSharedPreferences({required String roleChosen}) async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     await sharedPreferences.setString('name', _name!);
+    await sharedPreferences.setString('role', roleChosen );
+
     await sharedPreferences.setString('email', _email!);
     await sharedPreferences.setString('uid', _uid!);
     await sharedPreferences.setString('image_url', _imageUrl!);
@@ -168,6 +177,8 @@ class AuthenticationProvider extends ChangeNotifier {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     _name = sharedPreferences.getString('name');
+    _role = sharedPreferences.getString('role');
+
     _email = sharedPreferences.getString('email');
     _uid = sharedPreferences.getString('uid');
     _imageUrl = sharedPreferences.getString('image_url');
@@ -178,12 +189,33 @@ class AuthenticationProvider extends ChangeNotifier {
   }
 
   Future getUserDataFromFirestore(uid) async {
+
     await FirebaseFirestore.instance
         .collection('sellers')
         .doc(uid)
         .get()
         .then((DocumentSnapshot snapshot) => {
               _uid = snapshot['uid'],
+              _role = snapshot['role'],
+              _name = snapshot['name'],
+              _email = snapshot['email'],
+              _imageUrl = snapshot['image_url'],
+              _phoneNumber = snapshot['phoneNumber'],
+              _emailVerified = snapshot['emailVerified'],
+              _isApproved = snapshot['isApproved'],
+            });
+
+    notifyListeners();
+  }
+
+  Future getUserUSERDataFromFirestore(uid) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot snapshot) => {
+              _uid = snapshot['uid'],
+              _role = snapshot['role'],
               _name = snapshot['name'],
               _email = snapshot['email'],
               _imageUrl = snapshot['image_url'],

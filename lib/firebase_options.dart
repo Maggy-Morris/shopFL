@@ -92,4 +92,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'wafarha-2bf77.appspot.com',
     measurementId: 'G-JF76WHY8GC',
   );
+
 }

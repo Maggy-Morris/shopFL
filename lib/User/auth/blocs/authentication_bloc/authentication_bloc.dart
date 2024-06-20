@@ -9,20 +9,21 @@ import '../../user_repo.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-class AuthenticationUserBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
-
+class AuthenticationUserBloc
+    extends Bloc<AuthenticationEvent, AuthenticationUserState> {
   final UserRepo userRepo;
   late StreamSubscription<User?> _userSubscription;
 
-  AuthenticationUserBloc({required this.userRepo}) : super(const AuthenticationState.unknown()) {
+  AuthenticationUserBloc({required this.userRepo})
+      : super(const AuthenticationUserState.unknown()) {
     _userSubscription = userRepo.user.listen((user) {
       add(AuthenticationUserChanged(user: user));
     });
     on<AuthenticationUserChanged>((event, emit) {
-      if (event.user != null){
-        emit(AuthenticationState.authenticated(event.user!));
+      if (event.user != null) {
+        emit(AuthenticationUserState.authenticated(event.user!));
       } else {
-        emit(const AuthenticationState.unauthenticated());
+        emit(const AuthenticationUserState.unauthenticated());
       }
     });
   }

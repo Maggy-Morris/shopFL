@@ -12,8 +12,9 @@ import 'package:foodpanda_seller/widgets/my_snack_bar.dart';
 import 'package:provider/provider.dart';
 
 class SendVerificationEmailScreen extends StatefulWidget {
+  final String role;
   static const String routeName = '/send_verification_email_screen';
-  const SendVerificationEmailScreen({super.key});
+  const SendVerificationEmailScreen({super.key, required this.role});
 
   @override
   State<SendVerificationEmailScreen> createState() =>
@@ -70,9 +71,10 @@ class _SendVerificationEmailScreenState
       final authenticationProvider = context.read<AuthenticationProvider>();
 
       // save to firestore
-      await authenticationProvider
-          .saveEmailVerified(FirebaseAuth.instance.currentUser?.uid);
-      await authenticationProvider.saveDataToSharedPreferences();
+      await authenticationProvider.saveEmailVerified(
+          uid: FirebaseAuth.instance.currentUser?.uid, roleChosen: widget.role);
+      await authenticationProvider.saveDataToSharedPreferences(
+          roleChosen: widget.role);
       // save to share preference
 
       Navigator.pushNamedAndRemoveUntil(

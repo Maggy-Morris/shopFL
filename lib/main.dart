@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodpanda_seller/constants/colors.dart';
 import 'package:foodpanda_seller/firebase_options.dart';
 import 'package:foodpanda_seller/providers/location_provider.dart';
@@ -11,11 +12,12 @@ import 'package:foodpanda_seller/router.dart';
 import 'package:foodpanda_seller/splash_screen/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'User/auth/blocs/authentication_bloc/authentication_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'AnwerShop',
         theme: ThemeData(
-           useMaterial3: true,
+          useMaterial3: true,
           colorScheme: scheme,
           scaffoldBackgroundColor: Colors.white,
           dialogBackgroundColor: Colors.white,

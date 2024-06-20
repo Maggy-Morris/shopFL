@@ -169,86 +169,88 @@ class _MapScreenState extends State<MapScreen> {
                   marker.discount <= discountRange.end;
             }).toList();
             return SizedBox(
-              height: MediaQuery.of(context).size.height * 0.45,
-              child: state.locationFetched
-                  ? FlutterMap(
-                      options: MapOptions(
-                        initialCenter: state.currentLocation,
-                        initialZoom: 14.0,
-                        onTap: (tapPosition, latLng) {
-                          _removeOverlay();
-                        },
-                      ),
-                      children: [
-                        TileLayer(
-                          urlTemplate:
-                              'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                height: MediaQuery.of(context).size.height * 0.45,
+                child:
+                    //  state.locationFetched
+                    //     ?
+                    FlutterMap(
+                  options: MapOptions(
+                    initialCenter: state.currentLocation,
+                    initialZoom: 14.0,
+                    onTap: (tapPosition, latLng) {
+                      _removeOverlay();
+                    },
+                  ),
+                  children: [
+                    TileLayer(
+                      urlTemplate:
+                          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
-                          // 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                          // userAgentPackageName: 'com.example.app',
-                          subdomains: ['a', 'b', 'c'],
+                      // 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      // userAgentPackageName: 'com.example.app',
+                      subdomains: ['a', 'b', 'c'],
+                    ),
+                    MarkerLayer(
+                      markers: [
+                        Marker(
+                          width: 80.0,
+                          height: 80.0,
+                          point: state.currentLocation,
+                          child:
+                              const Icon(Icons.location_on, color: Colors.red),
                         ),
-                        MarkerLayer(
-                          markers: [
-                            Marker(
+                        ...filteredMarkers.map(
+                          (marker) {
+                            return Marker(
                               width: 80.0,
                               height: 80.0,
-                              point: state.currentLocation,
-                              child: const Icon(Icons.location_on,
-                                  color: Colors.red),
-                            ),
-                            ...filteredMarkers.map(
-                              (marker) {
-                                return Marker(
-                                  width: 80.0,
-                                  height: 80.0,
-                                  point: marker.position,
-                                  child: Builder(
-                                    builder: (context) => GestureDetector(
-                                      onTap: () {
-                                        RenderBox renderBox = context
-                                            .findRenderObject() as RenderBox;
-                                        Offset markerPosition = renderBox
-                                            .localToGlobal(Offset.zero);
-                                        Size markerSize = renderBox.size;
-                                        Offset overlayPosition =
-                                            markerPosition.translate(
-                                          markerSize.width / 2,
-                                          -markerSize.height / 2,
-                                        );
-                                        _showOverlay(context, overlayPosition);
-                                      },
-                                      child: Stack(
-                                        children: [
-                                          SvgPicture.asset(
-                                            'assets/icon_images/Union.svg',
-                                            color: const Color(0xff606161),
-                                            height: 40.0,
-                                            width: 40.0,
-                                          ),
-                                          Positioned(
-                                            left: 7.0,
-                                            top: 7.0,
-                                            child: Image.asset(
-                                              'assets/icon_images/rabais 1.png',
-                                              color: Colors.white,
-                                              height: 20.0,
-                                              width: 20.0,
-                                            ),
-                                          ),
-                                        ],
+                              point: marker.position,
+                              child: Builder(
+                                builder: (context) => GestureDetector(
+                                  onTap: () {
+                                    RenderBox renderBox =
+                                        context.findRenderObject() as RenderBox;
+                                    Offset markerPosition =
+                                        renderBox.localToGlobal(Offset.zero);
+                                    Size markerSize = renderBox.size;
+                                    Offset overlayPosition =
+                                        markerPosition.translate(
+                                      markerSize.width / 2,
+                                      -markerSize.height / 2,
+                                    );
+                                    _showOverlay(context, overlayPosition);
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/icon_images/Union.svg',
+                                        color: const Color(0xff606161),
+                                        height: 40.0,
+                                        width: 40.0,
                                       ),
-                                    ),
+                                      Positioned(
+                                        left: 7.0,
+                                        top: 7.0,
+                                        child: Image.asset(
+                                          'assets/icon_images/rabais 1.png',
+                                          color: Colors.white,
+                                          height: 20.0,
+                                          width: 20.0,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                );
-                              },
-                            ),
-                          ],
-                        )
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ],
                     )
-                  : const Center(child: CircularProgressIndicator()),
-            );
+                  ],
+                )
+                // : const Center(child: CircularProgressIndicator()),
+                );
           },
         );
       },

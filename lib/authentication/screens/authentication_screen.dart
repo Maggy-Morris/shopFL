@@ -1,10 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodpanda_seller/User/auth/blocs/authentication_bloc/authentication_bloc.dart';
 // import 'package:foodpanda_seller/User/user%20home%20screen/user_home_screen.dart';
 import 'package:foodpanda_seller/authentication/screens/login_screen.dart';
 import 'package:foodpanda_seller/authentication/screens/register_screen.dart';
 import 'package:foodpanda_seller/authentication/widgets/custom_textbutton.dart';
+import 'package:foodpanda_seller/constants/colors.dart';
 
 import '../../User/screens/home_screen/user_home_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:foodpanda_seller/authentication/screens/register_screen.dart';
+import 'package:foodpanda_seller/authentication/screens/login_screen.dart';
+import 'package:foodpanda_seller/home/screens/home_screen.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   static const String routeName = '/authentication-screen';
@@ -16,31 +24,78 @@ class AuthenticationScreen extends StatefulWidget {
 }
 
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
+  bool isCustomer = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF3D7CA),
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xffF3D7CA),
-      // ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.55,
+              height: MediaQuery.of(context).size.height * 0.45,
               child: Center(
                 child: Image.asset(
                   'assets/images/cart.png',
-                  // width: 200,
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isCustomer = true;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: isCustomer ? scheme.primary : Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        'مستخدم'.tr(),
+                        style: TextStyle(
+                            color: isCustomer ? Colors.white : scheme.primary),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isCustomer = false;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: !isCustomer ? scheme.primary : Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        'تاجر'.tr(),
+                        style: TextStyle(
+                            color: !isCustomer ? Colors.white : scheme.primary),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
-                'Elevated your business with us,',
+                'Elevate your business with us,',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
@@ -59,23 +114,30 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
             CustomTextButton(
               text: 'I\'m new here',
               onPressed: () {
-                Navigator.pushNamed(context, RegisterScreen.routeName);
+                Navigator.pushNamed(
+                    arguments: isCustomer ? "مستخدم" : "تاجر",
+                    context,
+                    RegisterScreen.routeName);
               },
               isDisabled: false,
             ),
             CustomTextButton(
               text: 'Sign In',
               onPressed: () {
-                Navigator.pushNamed(context, LoginScreen.routeName);
+                Navigator.pushNamed(
+                    arguments: isCustomer ? "مستخدم" : "تاجر",
+                    context,
+                    LoginScreen.routeName);
               },
               isDisabled: false,
               isOutlined: true,
             ),
             TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, UserHomeScreen.routeName);
-                },
-                child: Text("Countinue as Guest "))
+              onPressed: () {
+                Navigator.pushNamed(context, UserHomeScreen.routeName);
+              },
+              child: const Text("Continue as Guest"),
+            ),
           ],
         ),
       ),

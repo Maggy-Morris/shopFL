@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+import 'package:foodpanda_seller/User/screens/home_screen/user_home_screen.dart';
 import 'package:foodpanda_seller/authentication/screens/send_verification_email_screen.dart';
 import 'package:foodpanda_seller/authentication/widgets/custom_textbutton.dart';
 import 'package:foodpanda_seller/constants/colors.dart';
@@ -12,7 +14,8 @@ import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = '/register-screen';
-  const RegisterScreen({super.key});
+  final String role;
+  const RegisterScreen({super.key, required this.role});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -77,10 +80,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } else {
         await authenticationProvider
             .registerWithEmail(
-          '${firstNameController.text.trim()} ${lastNameController.text.trim()}',
-          emailController.text.trim().toString(),
-          passwordController.text.toString(),
-        )
+                '${firstNameController.text.trim()} ${lastNameController.text.trim()}',
+                emailController.text.trim().toString(),
+                passwordController.text.toString(),
+                widget.role)
             .then((value) async {
           if (authenticationProvider.hasError) {
             openSnackbar(
@@ -91,13 +94,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
             authenticationProvider.resetError();
           } else {
             // save to firestore
-            await authenticationProvider.saveUserDataToFirestore();
-            await authenticationProvider.saveDataToSharedPreferences();
-            await authenticationProvider.setSignIn();
+            await authenticationProvider.saveUserDataToFirestore(
+                roleChosen: widget.role);
 
-            Navigator.pushNamedAndRemoveUntil(
-                context, HomeScreen.routeName, (route) => false);
-            Navigator.pushNamed(context, SendVerificationEmailScreen.routeName);
+            await authenticationProvider.saveDataToSharedPreferences(
+                roleChosen: widget.role);
+            await authenticationProvider.setSignIn();
+            (widget.role == "تاجر")
+                ? Navigator.pushNamedAndRemoveUntil(
+                    context, HomeScreen.routeName, (route) => false)
+                : Navigator.pushNamedAndRemoveUntil(
+                    context, UserHomeScreen.routeName, (route) => false);
+
+            Navigator.pushNamed(
+                arguments: widget.role,
+                context,
+                SendVerificationEmailScreen.routeName);
           }
         });
       }
@@ -135,11 +147,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         padding: const EdgeInsets.all(15),
         child: Column(
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 15, bottom: 20),
@@ -148,95 +160,102 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         width: 60,
                       ),
                     ),
-                    const Text(
-                      'Sign up with your email',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 25.0),
+                      child: Text(
+                        "${widget.role}".tr(),
+                        style: TextStyle(fontSize: 18),
                       ),
-                    ),
-                    const SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width / 2 - 15,
-                          padding: const EdgeInsets.only(right: 7),
-                          child: CustomTextField(
-                            controller: firstNameController,
-                            labelText: 'First name',
-                            onChanged: (value) {
-                              setState(() {
-                                firstNameText = value;
-                              });
-                            },
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 2 - 15,
-                          padding: const EdgeInsets.only(left: 7),
-                          child: CustomTextField(
-                            controller: lastNameController,
-                            labelText: 'Last name',
-                            onChanged: (value) {
-                              setState(() {
-                                lastNameText = value;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextField(
-                      controller: emailController,
-                      labelText: 'Email',
-                      onChanged: (value) {
-                        setState(() {
-                          emailText = value;
-                        });
-                      },
-                      errorText: errorEmailText,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextField(
-                      controller: passwordController,
-                      labelText: 'Password',
-                      noIcon: false,
-                      onChanged: (value) {
-                        setState(() {
-                          passwordText = value;
-                        });
-                      },
-                      errorText: errorText,
-                    ),
-                    const SizedBox(height: 20),
-                    FlutterPwValidator(
-                      controller: passwordController,
-                      minLength: 6,
-                      uppercaseCharCount: 1,
-                      lowercaseCharCount: 1,
-                      numericCharCount: 1,
-                      specialCharCount: 1,
-                      width: 400,
-                      defaultColor: Colors.grey[400]!,
-                      failureColor: Colors.red,
-                      height: 150,
-                      onSuccess: () {
-                        setState(() {
-                          isError = false;
-                        });
-                      },
-                      onFail: () {
-                        setState(() {
-                          isError = true;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 20),
+                    )
                   ],
                 ),
-              ),
+                const Text(
+                  'Sign up with your email',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 - 15,
+                      padding: const EdgeInsets.only(right: 7),
+                      child: CustomTextField(
+                        controller: firstNameController,
+                        labelText: 'First name',
+                        onChanged: (value) {
+                          setState(() {
+                            firstNameText = value;
+                          });
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 - 15,
+                      padding: const EdgeInsets.only(left: 7),
+                      child: CustomTextField(
+                        controller: lastNameController,
+                        labelText: 'Last name',
+                        onChanged: (value) {
+                          setState(() {
+                            lastNameText = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                CustomTextField(
+                  controller: emailController,
+                  labelText: 'Email',
+                  onChanged: (value) {
+                    setState(() {
+                      emailText = value;
+                    });
+                  },
+                  errorText: errorEmailText,
+                ),
+                const SizedBox(height: 20),
+                CustomTextField(
+                  controller: passwordController,
+                  labelText: 'Password',
+                  noIcon: false,
+                  onChanged: (value) {
+                    setState(() {
+                      passwordText = value;
+                    });
+                  },
+                  errorText: errorText,
+                ),
+                const SizedBox(height: 20),
+                FlutterPwValidator(
+                  controller: passwordController,
+                  minLength: 6,
+                  uppercaseCharCount: 1,
+                  lowercaseCharCount: 1,
+                  numericCharCount: 1,
+                  specialCharCount: 1,
+                  width: 400,
+                  defaultColor: Colors.grey[400]!,
+                  failureColor: Colors.red,
+                  height: 150,
+                  onSuccess: () {
+                    setState(() {
+                      isError = false;
+                    });
+                  },
+                  onFail: () {
+                    setState(() {
+                      isError = true;
+                    });
+                  },
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
             Divider(
               color: Colors.grey[300],

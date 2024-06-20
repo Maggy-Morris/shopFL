@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodpanda_seller/User/screens/home_screen/user_home_screen.dart';
 import 'package:foodpanda_seller/authentication/screens/authentication_screen.dart';
 import 'package:foodpanda_seller/constants/colors.dart';
 import 'package:foodpanda_seller/home/screens/home_screen.dart';
 import 'package:foodpanda_seller/home/screens/home_screen_no_approve.dart';
 import 'package:foodpanda_seller/providers/authentication_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,11 +30,19 @@ class _SplashScreenState extends State<SplashScreen> {
       if (!ap.isSignedIn) {
         Navigator.pushReplacementNamed(context, AuthenticationScreen.routeName);
       } else {
-        await ap
-            .getUserDataFromFirestore(FirebaseAuth.instance.currentUser!.uid);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String role = prefs.getString('role') ?? "";
+        (role == "تاجر")
+            ? await ap.getUserDataFromFirestore(
+                FirebaseAuth.instance.currentUser!.uid)
+            : await ap.getUserUSERDataFromFirestore(
+                FirebaseAuth.instance.currentUser!.uid);
 
         if (ap.isApproved) {
-          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          (role == "تاجر")
+              ? Navigator.pushReplacementNamed(context, HomeScreen.routeName)
+              : Navigator.pushReplacementNamed(
+                  context, UserHomeScreen.routeName);
         } else {
           Navigator.pushReplacementNamed(
               context, HomeScreenNoApprove.routeName);

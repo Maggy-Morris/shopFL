@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../auth/screens/login_screen/login_screen.dart';
+import '../../../authentication/screens/login_screen.dart';
+import '../../../authentication/screens/register_screen.dart';
 
 class NotSignInScreen extends StatelessWidget {
+  static const String routeName = '/NotSignedIn-screen';
+
   const NotSignInScreen({super.key});
 
   @override
@@ -42,7 +44,10 @@ class NotSignInScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+                Navigator.pushNamed(
+                    arguments: "مستخدم", context, LoginScreen.routeName);
+
+                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xff4624C2),
@@ -51,15 +56,19 @@ class NotSignInScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              child: const Text("Sign in", style: TextStyle(color: Colors.white)),
+              child:
+                  const Text("Sign in", style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
-
               },
-                child: const Text("Back to Home ", style: TextStyle(color: Colors.blue),),),
+              child: const Text(
+                "Back to Home ",
+                style: TextStyle(color: Colors.blue),
+              ),
+            ),
           ],
         ),
       ),

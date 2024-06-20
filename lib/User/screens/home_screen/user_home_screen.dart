@@ -3,13 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:foodpanda_seller/User/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
+// import 'package:foodpanda_seller/User/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:foodpanda_seller/User/screens/home_screen/widgets/custom_buttoms.dart';
 import 'package:foodpanda_seller/User/screens/home_screen/widgets/image_slider_widget.dart';
 
+import '../../../authentication/screens/authentication_screen.dart';
+import '../../../authentication/screens/login_screen.dart';
+import '../../../providers/authentication_provider.dart';
+// import '../../auth/blocs/authentication_bloc/authentication_bloc.dart';
+import '../../../widgets/my_alert_dialog.dart';
 import '../../auth/blocs/authentication_bloc/authentication_bloc.dart';
-import '../../auth/screens/login_screen/login_screen.dart';
-import '../seller_screen/seller_home_screen.dart';
+import '../../auth/blocs/sign_in_bloc/sign_in_bloc.dart';
+// import '../../auth/screens/login_screen/login_screen.dart';
+// import '../seller_screen/seller_home_screen.dart';
 import 'cubit/map_marker_cubit.dart';
 import 'cubit/slider_cubit.dart';
 import 'widgets/custom_appbar.dart';
@@ -27,396 +33,448 @@ class UserHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ap = context.watch<AuthenticationProvider>();
+
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => AuthenticationUserBloc(
-              userRepo: context.read<AuthenticationUserBloc>().userRepo),
-        ),
+        // BlocProvider(
+        //   create: (context) => AuthenticationUserBloc(
+        //       userRepo: context.read<AuthenticationUserBloc>().userRepo),
+        // ),
         BlocProvider(
           create: (context) => MapMarkerCubit(),
         ),
-        BlocProvider(
-          create: (context) => SignInBloc(
-              userRepository: context.read<AuthenticationUserBloc>().userRepo),
-        ),
+        // BlocProvider(
+        //   create: (context) => SignInBloc(
+        //       userRepository: context.read<AuthenticationUserBloc>().userRepo),
+        // ),
         BlocProvider(
           create: (context) => SliderCubit(),
         ),
       ],
-      child: BlocBuilder<AuthenticationUserBloc, AuthenticationState>(
-        builder: (context, state) {
-          // context.read<MapMarkerCubit>().getCurrentLocation();
+      child:
+          //  BlocBuilder<AuthenticationUserBloc, AuthenticationUserState>(
+          //   builder: (context, state) {
+          //     // context.read<MapMarkerCubit>().getCurrentLocation();
           // context.read<MapMarkerCubit>().getAddressFromLatLng();
-          if (state.status == AuthenticationStatus.authenticated) {
-            return AdvancedDrawer(
-              backdropColor: Colors.white,
-              controller: _advancedDrawerController,
-              animationCurve: Curves.easeInOut,
-              animationDuration: const Duration(milliseconds: 300),
-              animateChildDecoration: true,
-              disabledGestures: false,
-              childDecoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-              ),
-              drawer: SafeArea(
-                child: ListTileTheme(
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Color(0xffF0F5FA),
-                        child: Icon(
-                          Icons.person,
-                          size: 40,
-                          color: Color(0xffD2D5F9),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Text("//${state.user?.displayName}"),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      const Divider(),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            DropdownButton<String>(
-                              iconEnabledColor: const Color(0xff4624C2),
-                              items: <String>['العربية', 'English']
-                                  .map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: const TextStyle(
-                                          color: Color(0xff4624C2))),
-                                );
-                              }).toList(),
-                              onChanged: (_) {},
-                              hint: const Text('العربية',
-                                  style: TextStyle(color: Color(0xff4624C2))),
-                            ),
-                            const Spacer(),
-                            const Text('اللغة'),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            SvgPicture.asset("assets/icon_images/lang.svg"),
-                          ],
-                        ),
-                      ),
-                      const Divider(),
-                      CustomButton(
-                        text: 'الاشعارات',
-                        icon: "assets/icon_images/ic_round-notifications.svg",
-                        onTap: () {},
-                      ),
-                      const Divider(),
-                      CustomButton(
-                        text: 'القائمة المفضلة',
-                        icon: "assets/icon_images/favorite.svg",
-                        onTap: () {},
-                      ),
-                      const Divider(),
-                      CustomButton(
-                        text: 'بريد',
-                        icon: "assets/icon_images/phone.svg",
-                        onTap: () {},
-                      ),
-                      const Divider(),
-                      CustomButton(
-                        text: 'الاعدادات',
-                        icon: "assets/icon_images/sitting.svg",
-                        onTap: () {},
-                      ),
-                      const Divider(),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xff4624C2)),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text('مشاركة التطبيق'),
-                            const SizedBox(width: 10),
-                            SvgPicture.asset("assets/icon_images/share.svg"),
-                          ],
-                        ),
-                      ),
-                      const Spacer(),
-                      ElevatedButton(
-                        onPressed: () {
-                          context
-                              .read<SignInBloc>()
-                              .add(const SignOutRequired());
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginScreen()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff4624C2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: const Text(
-                          'تسجيل الخروج',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                    ],
+          (ap.isSignedIn)
+              ? AdvancedDrawer(
+                  backdropColor: Colors.white,
+                  controller: _advancedDrawerController,
+                  animationCurve: Curves.easeInOut,
+                  animationDuration: const Duration(milliseconds: 300),
+                  animateChildDecoration: true,
+                  disabledGestures: false,
+                  childDecoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
                   ),
-                ),
-              ),
-              rtlOpening: true,
-              child: SafeArea(
-                child: Scaffold(
-                  body: SingleChildScrollView(
-                    // Added SingleChildScrollView here
-                    child: Column(
-                      children: [
-                        CustomAppBar(
-                            advancedDrawerController:
-                                _advancedDrawerController),
-                        const MapScreen(),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        // slider range
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.25,
-                          child: ImageSlideshow(
-                            children: [
-                              Image.network(
-                                "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
-                                fit: BoxFit.cover,
-                              ),
-                              Image.network(
-                                "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
-                                fit: BoxFit.cover,
-                              ),
-                            ],
+                  drawer: SafeArea(
+                    child: ListTileTheme(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
                           ),
+                          const CircleAvatar(
+                            radius: 40,
+                            backgroundColor: Color(0xffF0F5FA),
+                            child: Icon(
+                              Icons.person,
+                              size: 40,
+                              color: Color(0xffD2D5F9),
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          Text("//${ap.name}"),
+
+                          // Text("//${state.user?.displayName}"),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          const Divider(),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                DropdownButton<String>(
+                                  iconEnabledColor: const Color(0xff4624C2),
+                                  items: <String>['العربية', 'English']
+                                      .map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value,
+                                          style: const TextStyle(
+                                              color: Color(0xff4624C2))),
+                                    );
+                                  }).toList(),
+                                  onChanged: (_) {},
+                                  hint: const Text('العربية',
+                                      style:
+                                          TextStyle(color: Color(0xff4624C2))),
+                                ),
+                                const Spacer(),
+                                const Text('اللغة'),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                SvgPicture.asset("assets/icon_images/lang.svg"),
+                              ],
+                            ),
+                          ),
+                          const Divider(),
+                          CustomButton(
+                            text: 'الاشعارات',
+                            icon:
+                                "assets/icon_images/ic_round-notifications.svg",
+                            onTap: () {},
+                          ),
+                          const Divider(),
+                          CustomButton(
+                            text: 'القائمة المفضلة',
+                            icon: "assets/icon_images/favorite.svg",
+                            onTap: () {},
+                          ),
+                          const Divider(),
+                          CustomButton(
+                            text: 'بريد',
+                            icon: "assets/icon_images/phone.svg",
+                            onTap: () {},
+                          ),
+                          const Divider(),
+                          CustomButton(
+                            text: 'الاعدادات',
+                            icon: "assets/icon_images/sitting.svg",
+                            onTap: () {},
+                          ),
+                          const Divider(),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: const Color(0xff4624C2)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text('مشاركة التطبيق'),
+                                const SizedBox(width: 10),
+                                SvgPicture.asset(
+                                    "assets/icon_images/share.svg"),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          //             ElevatedButton(
+                          //               onPressed: () {
+                          //   Scaffold.of(context).closeDrawer();
+                          //   showDialog(
+                          //     context: context,
+                          //     builder: (ctx) => MyAlertDialog(
+                          //       title: 'Logging out?',
+                          //       subtitle: 'Thanks for stopping by. See you again soon!',
+                          //       action1Name: 'Cancel',
+                          //       action2Name: 'Log out',
+                          //       action1Func: () {
+                          //         Navigator.pop(ctx);
+                          //       },
+                          //       action2Func: () async {
+                          //         await ap.userSignOut();
+
+                          //         Navigator.pushNamedAndRemoveUntil(ctx,
+                          //             AuthenticationScreen.routeName, (route) => false);
+                          //       },
+                          //     ),
+                          //   );
+                          // },
+                          //               style: ElevatedButton.styleFrom(
+                          //                 backgroundColor: const Color(0xff4624C2),
+                          //                 shape: RoundedRectangleBorder(
+                          //                   borderRadius: BorderRadius.circular(10),
+                          //                 ),
+                          //               ),
+                          //               child: const Text(
+                          //                 'تسجيل الخروج',
+                          //                 style: TextStyle(color: Colors.white),
+                          //               ),
+                          //             ),
+
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  rtlOpening: true,
+                  child: SafeArea(
+                    child: Scaffold(
+                      body: SingleChildScrollView(
+                        // Added SingleChildScrollView here
+                        child: Column(
+                          children: [
+                            CustomAppBar(
+                                advancedDrawerController:
+                                    _advancedDrawerController),
+                            const MapScreen(),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.03,
+                            ),
+                            // slider range
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.25,
+                              child: ImageSlideshow(
+                                children: [
+                                  Image.network(
+                                    "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Image.network(
+                                    "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+                                    fit: BoxFit.cover,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const CustomNavigationBar()
+                          ],
                         ),
-                        const CustomNavigationBar()
-                      ],
+                      ),
+                    ),
+                  ),
+                )
+              : AdvancedDrawer(
+                  backdropColor: Colors.white,
+                  controller: _advancedDrawerController,
+                  animationCurve: Curves.easeInOut,
+                  animationDuration: const Duration(milliseconds: 300),
+                  animateChildDecoration: true,
+                  disabledGestures: false,
+                  childDecoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                  ),
+                  drawer: SafeArea(
+                    child: ListTileTheme(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const CircleAvatar(
+                            radius: 40,
+                            backgroundColor: Color(0xffF0F5FA),
+                            child: Icon(
+                              Icons.person,
+                              size: 40,
+                              color: Color(0xffD2D5F9),
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  arguments: "مستخدم",
+                                  context,
+                                  LoginScreen.routeName);
+
+                              // Navigator.pushReplacement(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             const LoginScreen()));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff4624C2),
+                              fixedSize: const Size(200, 30),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: const Text(
+                              'تسجيل الدخول',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  arguments: "تاجر",
+                                  context,
+                                  LoginScreen.routeName);
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             const SellerHomeScreen()));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff4624C2),
+                              fixedSize: const Size(200, 30),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: const Text(
+                              'تسجيل الدخول كتاجر',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          const Divider(),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                DropdownButton<String>(
+                                  iconEnabledColor: const Color(0xff4624C2),
+                                  items: <String>['العربية', 'English']
+                                      .map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value,
+                                          style: const TextStyle(
+                                              color: Color(0xff4624C2))),
+                                    );
+                                  }).toList(),
+                                  onChanged: (_) {},
+                                  hint: const Text('العربية',
+                                      style:
+                                          TextStyle(color: Color(0xff4624C2))),
+                                ),
+                                const Spacer(),
+                                const Text('اللغة'),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                SvgPicture.asset("assets/icon_images/lang.svg"),
+                              ],
+                            ),
+                          ),
+                          const Divider(),
+                          CustomButton(
+                            text: 'الشروط و الأحكام',
+                            icon: "assets/icon_images/conditions.svg",
+                            onTap: () {},
+                          ),
+                          const Divider(),
+                          CustomButton(
+                            text: 'سياسة الخصوصية',
+                            icon: "assets/icon_images/politics.svg",
+                            onTap: () {},
+                          ),
+                          const Divider(),
+                          CustomButton(
+                            text: 'تواصل معنا',
+                            icon: "assets/icon_images/phone.svg",
+                            onTap: () {},
+                          ),
+                          const Divider(),
+                          CustomButton(
+                            text: 'الاشعارات',
+                            icon:
+                                "assets/icon_images/ic_round-notifications.svg",
+                            onTap: () {},
+                          ),
+                          const Divider(),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: const Color(0xff4624C2)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text('مشاركة التطبيق'),
+                                const SizedBox(width: 10),
+                                SvgPicture.asset(
+                                    "assets/icon_images/share.svg"),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          ElevatedButton(
+                            onPressed: () {
+                              Scaffold.of(context).closeDrawer();
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => MyAlertDialog(
+                                  title: 'Logging out?',
+                                  subtitle:
+                                      'Thanks for stopping by. See you again soon!',
+                                  action1Name: 'Cancel',
+                                  action2Name: 'Log out',
+                                  action1Func: () {
+                                    Navigator.pop(ctx);
+                                  },
+                                  action2Func: () async {
+                                    await ap.userSignOut();
+
+                                    Navigator.pushNamedAndRemoveUntil(
+                                        ctx,
+                                        AuthenticationScreen.routeName,
+                                        (route) => false);
+                                  },
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff4624C2),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: const Text(
+                              'تسجيل الخروج',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  rtlOpening: true,
+                  child: SafeArea(
+                    child: Scaffold(
+                      body: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            CustomAppBar(
+                                advancedDrawerController:
+                                    _advancedDrawerController),
+                            const MapScreen(),
+                            const SliderWidget(),
+                            const ImageSliderWidget(),
+                            const CustomNavigationBar()
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          } else {
-            return AdvancedDrawer(
-              backdropColor: Colors.white,
-              controller: _advancedDrawerController,
-              animationCurve: Curves.easeInOut,
-              animationDuration: const Duration(milliseconds: 300),
-              animateChildDecoration: true,
-              disabledGestures: false,
-              childDecoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-              ),
-              drawer: SafeArea(
-                child: ListTileTheme(
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Color(0xffF0F5FA),
-                        child: Icon(
-                          Icons.person,
-                          size: 40,
-                          color: Color(0xffD2D5F9),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginScreen()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff4624C2),
-                          fixedSize: const Size(200, 30),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: const Text(
-                          'تسجيل الدخول',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SellerHomeScreen()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff4624C2),
-                          fixedSize: const Size(200, 30),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: const Text(
-                          'تسجيل الدخول كتاجر',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      const Divider(),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            DropdownButton<String>(
-                              iconEnabledColor: const Color(0xff4624C2),
-                              items: <String>['العربية', 'English']
-                                  .map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: const TextStyle(
-                                          color: Color(0xff4624C2))),
-                                );
-                              }).toList(),
-                              onChanged: (_) {},
-                              hint: const Text('العربية',
-                                  style: TextStyle(color: Color(0xff4624C2))),
-                            ),
-                            const Spacer(),
-                            const Text('اللغة'),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            SvgPicture.asset("assets/icon_images/lang.svg"),
-                          ],
-                        ),
-                      ),
-                      const Divider(),
-                      CustomButton(
-                        text: 'الشروط و الأحكام',
-                        icon: "assets/icon_images/conditions.svg",
-                        onTap: () {},
-                      ),
-                      const Divider(),
-                      CustomButton(
-                        text: 'سياسة الخصوصية',
-                        icon: "assets/icon_images/politics.svg",
-                        onTap: () {},
-                      ),
-                      const Divider(),
-                      CustomButton(
-                        text: 'تواصل معنا',
-                        icon: "assets/icon_images/phone.svg",
-                        onTap: () {},
-                      ),
-                      const Divider(),
-                      CustomButton(
-                        text: 'الاشعارات',
-                        icon: "assets/icon_images/ic_round-notifications.svg",
-                        onTap: () {},
-                      ),
-                      const Divider(),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xff4624C2)),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text('مشاركة التطبيق'),
-                            const SizedBox(width: 10),
-                            SvgPicture.asset("assets/icon_images/share.svg"),
-                          ],
-                        ),
-                      ),
-                      const Spacer(),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.read<SignInBloc>().add(SignOutRequired());
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginScreen()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff4624C2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: const Text(
-                          'تسجيل الخروج',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              rtlOpening: true,
-              child: SafeArea(
-                child: Scaffold(
-                  body: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        CustomAppBar(
-                            advancedDrawerController:
-                                _advancedDrawerController),
-                        const MapScreen(),
-                        const SliderWidget(),
-                        const ImageSliderWidget(),
-                        const CustomNavigationBar()
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
-          }
-        },
-      ),
+      //     }
+      //   },
+      // ),
     );
   }
 }
