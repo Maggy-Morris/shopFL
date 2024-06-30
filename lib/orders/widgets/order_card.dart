@@ -1,10 +1,10 @@
 // import 'package:flutter/material.dart';
-// import 'package:foodpanda_seller/authentication/widgets/custom_textbutton.dart';
-// import 'package:foodpanda_seller/constants/colors.dart';
-// // import 'package:foodpanda_seller/foods/widgets/text_tag.dart';
-// import 'package:foodpanda_seller/models/order.dart';
-// import 'package:foodpanda_seller/orders/widgets/view_detail.dart';
-// import 'package:foodpanda_seller/widgets/my_alert_dialog.dart';
+// import 'package:anwer_shop/authentication/widgets/custom_textbutton.dart';
+// import 'package:anwer_shop/constants/colors.dart';
+// // import 'package:anwer_shop/foods/widgets/text_tag.dart';
+// import 'package:anwer_shop/models/order.dart';
+// import 'package:anwer_shop/orders/widgets/view_detail.dart';
+// import 'package:anwer_shop/widgets/my_alert_dialog.dart';
 // import 'package:intl/intl.dart';
 // import 'package:url_launcher/url_launcher.dart';
 

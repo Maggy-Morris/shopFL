@@ -1,18 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodpanda_seller/User/auth/blocs/authentication_bloc/authentication_bloc.dart';
-// import 'package:foodpanda_seller/User/user%20home%20screen/user_home_screen.dart';
-import 'package:foodpanda_seller/authentication/screens/login_screen.dart';
-import 'package:foodpanda_seller/authentication/screens/register_screen.dart';
-import 'package:foodpanda_seller/authentication/widgets/custom_textbutton.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
+import 'package:anwer_shop/User/auth/blocs/authentication_bloc/authentication_bloc.dart';
+// import 'package:anwer_shop/User/user%20home%20screen/user_home_screen.dart';
+import 'package:anwer_shop/authentication/screens/login_screen.dart';
+import 'package:anwer_shop/authentication/screens/register_screen.dart';
+import 'package:anwer_shop/authentication/widgets/custom_textbutton.dart';
+import 'package:anwer_shop/constants/colors.dart';
 
 import '../../User/screens/home_screen/user_home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/authentication/screens/register_screen.dart';
-import 'package:foodpanda_seller/authentication/screens/login_screen.dart';
-import 'package:foodpanda_seller/home/screens/home_screen.dart';
+import 'package:anwer_shop/authentication/screens/register_screen.dart';
+import 'package:anwer_shop/authentication/screens/login_screen.dart';
+import 'package:anwer_shop/home/screens/home_screen.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   static const String routeName = '/authentication-screen';

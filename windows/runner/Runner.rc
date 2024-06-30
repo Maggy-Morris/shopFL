@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "foodpanda_seller" "\0"
+            VALUE "FileDescription", "anwer_shop" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "foodpanda_seller" "\0"
+            VALUE "InternalName", "anwer_shop" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "foodpanda_seller.exe" "\0"
-            VALUE "ProductName", "foodpanda_seller" "\0"
+            VALUE "OriginalFilename", "anwer_shop.exe" "\0"
+            VALUE "ProductName", "anwer_shop" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

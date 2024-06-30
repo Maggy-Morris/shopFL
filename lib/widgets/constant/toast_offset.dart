@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/widgets/enum/enum.dart';
+import 'package:anwer_shop/widgets/enum/enum.dart';
 
 Offset getOffset(ToastPosition position) {
   if (position == ToastPosition.top) {

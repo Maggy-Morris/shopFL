@@ -1,6 +1,5 @@
 part of 'online_store_bloc.dart';
 
-
 class OnlineStoreState extends Equatable {
   final String shopDescription;
   final String shopLink;

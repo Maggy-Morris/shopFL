@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:foodpanda_seller/address/screens/address_screen.dart';
-import 'package:foodpanda_seller/authentication/screens/authentication_screen.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/order_history/screens/order_history_screen.dart';
-import 'package:foodpanda_seller/providers/authentication_provider.dart';
-import 'package:foodpanda_seller/register_shop/screens/register_shop_screen.dart';
-import 'package:foodpanda_seller/widgets/my_alert_dialog.dart';
+import 'package:anwer_shop/address/screens/address_screen.dart';
+import 'package:anwer_shop/authentication/screens/authentication_screen.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/providers/authentication_provider.dart';
+import 'package:anwer_shop/register_shop/screens/register_shop_screen.dart';
+import 'package:anwer_shop/widgets/my_alert_dialog.dart';
 import 'package:provider/provider.dart';
 
 class MyDrawer extends StatelessWidget {

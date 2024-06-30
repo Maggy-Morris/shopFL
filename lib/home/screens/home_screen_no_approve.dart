@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
+import 'package:anwer_shop/constants/colors.dart';
 
 class HomeScreenNoApprove extends StatelessWidget {
   static const String routeName = '/home-screen-no-approve';

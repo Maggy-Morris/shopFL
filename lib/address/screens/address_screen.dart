@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/authentication/widgets/custom_textbutton.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/widgets/custom_textfield.dart';
-import 'package:foodpanda_seller/widgets/ficon_button.dart';
+import 'package:anwer_shop/authentication/widgets/custom_textbutton.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/widgets/custom_textfield.dart';
+import 'package:anwer_shop/widgets/ficon_button.dart';
 
 class AddressScreen extends StatefulWidget {
   static const String routeName = '/address-screen';

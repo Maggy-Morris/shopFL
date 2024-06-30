@@ -1,13 +1,12 @@
-import 'package:bloc/bloc.dart';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodpanda_seller/providers/register_shop_provider.dart';
-import 'package:foodpanda_seller/widgets/branches_widget.dart';
+import 'package:anwer_shop/providers/register_shop_provider.dart';
+import 'package:anwer_shop/widgets/branches_widget.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../models/address.dart';
 import '../../widgets/enum/enum.dart';
-
 part 'register_shop_event.dart';
 part 'register_shop_state.dart';
 
@@ -30,6 +29,7 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
     on<EditShopEmail>(_onEditShopEmail);
     on<EditShopPhoneNumber>(_onEditShopPhoneNumber);
     on<EditbranchesList>(_onEditbranchesList);
+    on<AddFilesEvent>(_onAddFilesEvent);
 
     on<EditShopImage>(_onEditShopImage);
 
@@ -219,6 +219,122 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
       print("Error fetching shop info: $e");
     }
   }
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+
+  // void pickAndAddFiles() async {
+  //   try {
+  //     List<XFile>? result = await ImagePicker().pickMultiImage();
+
+  //     if (result.isNotEmpty) {
+  //       List<Future<PlatformFile>> pickedFilesFutures =
+  //           result.map((file) async {
+  //         int size = await File(file.path).length();
+  //         return PlatformFile(
+  //           name: file.name,
+  //           path: file.path,
+  //           size: size,
+  //           bytes: await File(file.path).readAsBytes(),
+  //         );
+  //       }).toList();
+
+  //       List<PlatformFile> pickedFiles = await Future.wait(pickedFilesFutures);
+
+  //       List<PlatformFile> updatedFiles = List.from(state.files);
+  //       updatedFiles.addAll(pickedFiles);
+
+  // add(pickImageXFile(imageXFile: pickedFile));
+  //       add(EditShopImage(shopImage: pickedFile.path ?? ""));
+  //       // add(AddFilesEvent(files: updatedFiles));
+  //     }
+  //   } catch (error) {
+  //     // Handle error
+  //     print("Error picking images: $error");
+  //   }
+  // }
+
+  void captureAndAddImage() async {
+    try {
+      XFile? image = await ImagePicker().pickImage(
+        source: ImageSource.camera, // Specify the image source as camera
+      );
+
+      if (image != null) {
+        int size = await File(image.path).length();
+        PlatformFile pickedFile = PlatformFile(
+          name: image.name,
+          path: image.path,
+          size: size,
+          bytes: await File(image.path).readAsBytes(),
+        );
+
+        // List<PlatformFile> updatedFiles = List.from(state.files);
+        // updatedFiles.add(pickedFile);
+
+        add(pickImageXFile(imageXFile: image));
+        add(EditShopImage(shopImage: image.path));
+      }
+    } catch (error) {
+      // Handle error
+      print("Error picking image from camera: $error");
+    }
+  }
+
+  void pickAndAddFile() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      XFile? result = await picker.pickImage(source: ImageSource.gallery);
+
+      if (result != null) {
+        int size = await File(result.path).length();
+        PlatformFile pickedFile = PlatformFile(
+          name: result.name,
+          path: result.path,
+          size: size,
+          bytes: await File(result.path).readAsBytes(),
+        );
+
+        // Assuming `state.files` is a list of PlatformFile
+        List<PlatformFile> updatedFiles = List.from(state.files);
+        updatedFiles.add(pickedFile);
+
+        // Add your custom event handlers here
+        add(pickImageXFile(imageXFile: result));
+        add(EditShopImage(shopImage: result.path));
+        // add(AddFilesEvent(files: updatedFiles));
+      }
+    } catch (error) {
+      // Handle error
+      print("Error picking image: $error");
+    }
+  }
+
+  void removeFileAtIndex(int index) {
+    List<PlatformFile> updatedFiles = List.from(state.files);
+    updatedFiles.removeAt(index);
+    emit(state.copyWith(files: updatedFiles));
+  }
+
+  _onAddFilesEvent(AddFilesEvent event, Emitter<RegisterShopState> emit) {
+    List<PlatformFile> newFiles = List.from(state.files);
+
+    if (event.files != null && event.files.isNotEmpty) {
+      newFiles.addAll(event.files);
+
+      emit(state.copyWith(
+        files: newFiles,
+      ));
+    } else if (event.index != null) {
+      newFiles.removeAt(event.index ?? 0);
+      emit(state.copyWith(
+        files: newFiles,
+      ));
+    }
+  }
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
 
   _onEditShopDataToFireBase(
       EditShopDataToFireBase event, Emitter<RegisterShopState> emit) async {
@@ -238,6 +354,7 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
               province: "",
               floor: ''),
       imageUrl: state.shopImage,
+      image: state.imageXFile,
       shopCategories: state.shopCategories,
       shopType: state.shopType,
       shopAddress: state.shopLocation,

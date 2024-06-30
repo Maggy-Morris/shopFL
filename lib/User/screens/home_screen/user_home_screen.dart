@@ -1,21 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:foodpanda_seller/User/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
-import 'package:foodpanda_seller/User/screens/home_screen/widgets/custom_buttoms.dart';
-import 'package:foodpanda_seller/User/screens/home_screen/widgets/image_slider_widget.dart';
-
+import 'package:anwer_shop/User/screens/home_screen/widgets/custom_buttoms.dart';
+import 'package:anwer_shop/User/screens/home_screen/widgets/image_slider_widget.dart';
 import '../../../authentication/screens/authentication_screen.dart';
 import '../../../authentication/screens/login_screen.dart';
 import '../../../providers/authentication_provider.dart';
-// import '../../auth/blocs/authentication_bloc/authentication_bloc.dart';
 import '../../../widgets/my_alert_dialog.dart';
-import '../../auth/blocs/authentication_bloc/authentication_bloc.dart';
-import '../../auth/blocs/sign_in_bloc/sign_in_bloc.dart';
-// import '../../auth/screens/login_screen/login_screen.dart';
-// import '../seller_screen/seller_home_screen.dart';
 import 'cubit/map_marker_cubit.dart';
 import 'cubit/slider_cubit.dart';
 import 'widgets/custom_appbar.dart';
@@ -37,17 +31,11 @@ class UserHomeScreen extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        // BlocProvider(
-        //   create: (context) => AuthenticationUserBloc(
-        //       userRepo: context.read<AuthenticationUserBloc>().userRepo),
-        // ),
         BlocProvider(
-          create: (context) => MapMarkerCubit(),
+          create: (context) => MapMarkerCubit()
+            ..getAddressFromLatLng()
+            ..getCurrentLocation(),
         ),
-        // BlocProvider(
-        //   create: (context) => SignInBloc(
-        //       userRepository: context.read<AuthenticationUserBloc>().userRepo),
-        // ),
         BlocProvider(
           create: (context) => SliderCubit(),
         ),
@@ -55,7 +43,7 @@ class UserHomeScreen extends StatelessWidget {
       child:
           //  BlocBuilder<AuthenticationUserBloc, AuthenticationUserState>(
           //   builder: (context, state) {
-          //     // context.read<MapMarkerCubit>().getCurrentLocation();
+          //     context.read<MapMarkerCubit>().getCurrentLocation();
           // context.read<MapMarkerCubit>().getAddressFromLatLng();
           (ap.isSignedIn)
               ? AdvancedDrawer(
@@ -87,7 +75,7 @@ class UserHomeScreen extends StatelessWidget {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
-                          Text("//${ap.name}"),
+                          Text("${ap.name}"),
 
                           // Text("//${state.user?.displayName}"),
                           SizedBox(
@@ -172,39 +160,42 @@ class UserHomeScreen extends StatelessWidget {
                             ),
                           ),
                           const Spacer(),
-                          //             ElevatedButton(
-                          //               onPressed: () {
-                          //   Scaffold.of(context).closeDrawer();
-                          //   showDialog(
-                          //     context: context,
-                          //     builder: (ctx) => MyAlertDialog(
-                          //       title: 'Logging out?',
-                          //       subtitle: 'Thanks for stopping by. See you again soon!',
-                          //       action1Name: 'Cancel',
-                          //       action2Name: 'Log out',
-                          //       action1Func: () {
-                          //         Navigator.pop(ctx);
-                          //       },
-                          //       action2Func: () async {
-                          //         await ap.userSignOut();
+                          ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => MyAlertDialog(
+                                  title: 'Logging out?'.tr(),
+                                  subtitle:
+                                      'Thanks for stopping by. See you again soon!'
+                                          .tr(),
+                                  action1Name: 'Cancel'.tr(),
+                                  action2Name: 'Log out'.tr(),
+                                  action1Func: () {
+                                    Navigator.pop(ctx);
+                                  },
+                                  action2Func: () async {
+                                    await ap.userSignOut();
 
-                          //         Navigator.pushNamedAndRemoveUntil(ctx,
-                          //             AuthenticationScreen.routeName, (route) => false);
-                          //       },
-                          //     ),
-                          //   );
-                          // },
-                          //               style: ElevatedButton.styleFrom(
-                          //                 backgroundColor: const Color(0xff4624C2),
-                          //                 shape: RoundedRectangleBorder(
-                          //                   borderRadius: BorderRadius.circular(10),
-                          //                 ),
-                          //               ),
-                          //               child: const Text(
-                          //                 'تسجيل الخروج',
-                          //                 style: TextStyle(color: Colors.white),
-                          //               ),
-                          //             ),
+                                    Navigator.pushNamedAndRemoveUntil(
+                                        ctx,
+                                        AuthenticationScreen.routeName,
+                                        (route) => false);
+                                  },
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff4624C2),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: const Text(
+                              'تسجيل الخروج',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
 
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
@@ -220,30 +211,43 @@ class UserHomeScreen extends StatelessWidget {
                         // Added SingleChildScrollView here
                         child: Column(
                           children: [
-                            CustomAppBar(
-                                advancedDrawerController:
-                                    _advancedDrawerController),
-                            const MapScreen(),
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.03,
-                            ),
-                            // slider range
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.25,
-                              child: ImageSlideshow(
-                                children: [
-                                  Image.network(
-                                    "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
-                                    fit: BoxFit.cover,
+                            Column(
+                              children: [
+                                CustomAppBar(
+                                    advancedDrawerController:
+                                        _advancedDrawerController),
+                                const MapScreen(),
+
+                                const SliderWidget(),
+
+                                // slider range
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.25,
+                                  child: ImageSlideshow(
+                                    children: [
+                                      Image.network(
+                                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+                                        fit: BoxFit.cover,
+                                      ),
+                                      Image.network(
+                                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ],
                                   ),
-                                  Image.network(
-                                    "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
-                                    fit: BoxFit.cover,
-                                  ),
-                                ],
-                              ),
+                                ),
+
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.0),
+                                  child: CustomNavigationBar(),
+                                )
+                                // SizedBox(
+                                //   height: 10,
+                                // ),
+                              ],
                             ),
-                            const CustomNavigationBar()
                           ],
                         ),
                       ),

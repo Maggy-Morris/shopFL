@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import '../models/map_marker_model.dart';
-
 part 'map_marker_state.dart';
 
 class MapMarkerCubit extends Cubit<MapMarkerState> {
@@ -102,7 +100,8 @@ class MapMarkerCubit extends Cubit<MapMarkerState> {
 
       if (_currentPosition != null) {
         emit(state.copyWith(
-          currentLocation: LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
+          currentLocation:
+              LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
           locationFetched: true,
         ));
       } else {
@@ -125,7 +124,8 @@ class MapMarkerCubit extends Cubit<MapMarkerState> {
       if (placeMarks.isNotEmpty) {
         Placemark place = placeMarks[0];
         emit(state.copyWith(
-          currentLocationName: "${place.street}-${place.administrativeArea}-${place.country}",
+          currentLocationName:
+              "${place.street}-${place.administrativeArea}-${place.country}",
         ));
       } else {
         emit(state.copyWith(errorMessage: ""));

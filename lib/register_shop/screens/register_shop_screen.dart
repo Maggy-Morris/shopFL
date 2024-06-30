@@ -5,16 +5,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:foodpanda_seller/authentication/widgets/custom_textbutton.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/generated/assets.dart';
-import 'package:foodpanda_seller/models/address.dart';
-import 'package:foodpanda_seller/providers/register_shop_provider.dart';
-import 'package:foodpanda_seller/register_shop/bloc/register_shop_bloc.dart';
-import 'package:foodpanda_seller/register_shop/screens/search_address_manual_screen.dart';
-import 'package:foodpanda_seller/widgets/drop_down_widgets.dart';
+import 'package:anwer_shop/authentication/widgets/custom_textbutton.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/generated/assets.dart';
+import 'package:anwer_shop/models/address.dart';
+import 'package:anwer_shop/providers/register_shop_provider.dart';
+import 'package:anwer_shop/register_shop/bloc/register_shop_bloc.dart';
+import 'package:anwer_shop/register_shop/screens/search_address_manual_screen.dart';
+import 'package:anwer_shop/widgets/drop_down_widgets.dart';
 
-import 'package:foodpanda_seller/widgets/my_snack_bar.dart';
+import 'package:anwer_shop/widgets/my_snack_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +29,7 @@ class RegisterShopScreen extends StatelessWidget {
   RegisterShopScreen({super.key});
 
   // XFile? imageXFile;
-  final ImagePicker _picker = ImagePicker();
+  // final ImagePicker _picker = ImagePicker();
 
   dynamic mapPreviewController;
 
@@ -164,37 +164,38 @@ class RegisterShopScreen extends StatelessWidget {
               centerTitle: true,
               actions: [
                 IconButton(
-                  onPressed: state.shopName.isNotEmpty &&
-                          state.shopDescription.isNotEmpty &&
-                          state.shopAddress != null
+                  onPressed:
+                      //  state.shopName.isNotEmpty &&
+                      // state.shopDescription.isNotEmpty &&
+                      //         state.shopAddress != null
                       // &&
                       // ((state.imageXFile == null &&
                       //         state.shopImage.isNotEmpty) ||
                       //     (state.imageXFile != null &&
                       //         state.shopImage.isEmpty))
-                      ? () {
-                          RegisterShopBloc.get(context).add(EditShopDescription(
-                              shopDescription: controllerShopDescription.text));
+                      // ?
+                      () {
+                    RegisterShopBloc.get(context).add(EditShopDescription(
+                        shopDescription: controllerShopDescription.text));
 
-                          RegisterShopBloc.get(context).add(EditShopCategories(
-                              shopCategories: controllerShopCategories.text));
+                    RegisterShopBloc.get(context).add(EditShopCategories(
+                        shopCategories: controllerShopCategories.text));
 
-                          RegisterShopBloc.get(context).add(EditShopLocation(
-                              shopLocation: controllerShopWebsite.text));
-                          RegisterShopBloc.get(context).add(EditShopEmail(
-                              shopEmail: controllerShopEmail.text));
-                          RegisterShopBloc.get(context).add(EditShopPhoneNumber(
-                              shopPhoneNumber: controllerShopPhoneNumber.text));
+                    RegisterShopBloc.get(context).add(EditShopLocation(
+                        shopLocation: controllerShopWebsite.text));
+                    RegisterShopBloc.get(context).add(
+                        EditShopEmail(shopEmail: controllerShopEmail.text));
+                    RegisterShopBloc.get(context).add(EditShopPhoneNumber(
+                        shopPhoneNumber: controllerShopPhoneNumber.text));
 
-                          RegisterShopBloc.get(context)
-                              .add(const EditShopDataToFireBase());
-                          // Navigator.pop(context);
-                        }
-                      : null,
+                    RegisterShopBloc.get(context)
+                        .add(const EditShopDataToFireBase());
+                    Navigator.pop(context);
+                  },
+                  // : null,
                   icon: Icon(
                     Icons.arrow_forward_ios_sharp,
-                    color: state.shopName.isNotEmpty &&
-                            state.shopDescription.isNotEmpty &&
+                    color: state.shopDescription.isNotEmpty &&
                             state.shopAddress != null &&
                             ((state.imageXFile == null &&
                                     state.shopImage.isNotEmpty) ||
@@ -643,36 +644,40 @@ class RegisterShopScreen extends StatelessWidget {
                                                                   'Take a photo',
                                                               onPressed:
                                                                   () async {
-                                                                await _picker
-                                                                    .pickImage(
-                                                                  source:
-                                                                      ImageSource
-                                                                          .camera,
-                                                                  maxHeight:
-                                                                      720,
-                                                                  maxWidth:
-                                                                      1280,
-                                                                )
-                                                                    .then(
-                                                                        (value) {
-                                                                  RegisterShopBloc
-                                                                          .get(
-                                                                              context)
-                                                                      .add(
-                                                                    pickImageXFile(
-                                                                        imageXFile:
-                                                                            value),
-                                                                  );
-                                                                  RegisterShopBloc
-                                                                          .get(
-                                                                              context)
-                                                                      .add(
-                                                                    EditShopImage(
-                                                                        shopImage:
-                                                                            value?.path ??
-                                                                                ""),
-                                                                  );
-                                                                });
+                                                                RegisterShopBloc
+                                                                        .get(
+                                                                            context)
+                                                                    .captureAndAddImage();
+                                                                // await _picker
+                                                                //     .pickImage(
+                                                                //   source:
+                                                                //       ImageSource
+                                                                //           .camera,
+                                                                //   maxHeight:
+                                                                //       720,
+                                                                //   maxWidth:
+                                                                //       1280,
+                                                                // )
+                                                                //     .then(
+                                                                //         (value) {
+                                                                //   RegisterShopBloc
+                                                                //           .get(
+                                                                //               context)
+                                                                //       .add(
+                                                                //     pickImageXFile(
+                                                                //         imageXFile:
+                                                                //             value),
+                                                                //   );
+                                                                //   RegisterShopBloc
+                                                                //           .get(
+                                                                //               context)
+                                                                //       .add(
+                                                                //     EditShopImage(
+                                                                //         shopImage:
+                                                                //             value?.path ??
+                                                                //                 ""),
+                                                                //   );
+                                                                // });
                                                               },
                                                               isDisabled: false,
                                                             ),
@@ -685,36 +690,41 @@ class RegisterShopScreen extends StatelessWidget {
                                                                   'Upload a photo',
                                                               onPressed:
                                                                   () async {
-                                                                await _picker
-                                                                    .pickImage(
-                                                                  source:
-                                                                      ImageSource
-                                                                          .gallery,
-                                                                  maxHeight:
-                                                                      720,
-                                                                  maxWidth:
-                                                                      1280,
-                                                                )
-                                                                    .then(
-                                                                        (value) {
-                                                                  RegisterShopBloc
-                                                                          .get(
-                                                                              context)
-                                                                      .add(
-                                                                    pickImageXFile(
-                                                                        imageXFile:
-                                                                            value),
-                                                                  );
-                                                                  RegisterShopBloc
-                                                                          .get(
-                                                                              context)
-                                                                      .add(
-                                                                    EditShopImage(
-                                                                        shopImage:
-                                                                            value?.path ??
-                                                                                ""),
-                                                                  );
-                                                                });
+                                                                RegisterShopBloc
+                                                                        .get(
+                                                                            context)
+                                                                    .pickAndAddFile();
+
+                                                                // await _picker
+                                                                //     .pickImage(
+                                                                //   source:
+                                                                //       ImageSource
+                                                                //           .gallery,
+                                                                //   maxHeight:
+                                                                //       720,
+                                                                //   maxWidth:
+                                                                //       1280,
+                                                                // )
+                                                                //     .then(
+                                                                //         (value) {
+                                                                //   RegisterShopBloc
+                                                                //           .get(
+                                                                //               context)
+                                                                //       .add(
+                                                                //     pickImageXFile(
+                                                                //         imageXFile:
+                                                                //             value),
+                                                                //   );
+                                                                //   RegisterShopBloc
+                                                                //           .get(
+                                                                //               context)
+                                                                //       .add(
+                                                                //     EditShopImage(
+                                                                //         shopImage:
+                                                                //             value?.path ??
+                                                                //                 ""),
+                                                                //   );
+                                                                // });
                                                               },
                                                               isDisabled: false,
                                                             ),
@@ -743,7 +753,8 @@ class RegisterShopScreen extends StatelessWidget {
                                           width: 100,
                                           child: Center(
                                             child: Image.file(
-                                              File(state.imageXFile!.path),
+                                              File(
+                                                  state.imageXFile!.path ?? ""),
                                               fit: BoxFit.cover,
                                               errorBuilder:
                                                   (context, error, stackTrace) {
@@ -767,7 +778,9 @@ class RegisterShopScreen extends StatelessWidget {
                             text: "حذف".tr(),
                             onPressed: () {
                               RegisterShopBloc.get(context)
-                                  .add(pickImageXFile(imageXFile: null));
+                                  .removeFileAtIndex(0);
+                              // RegisterShopBloc.get(context)
+                              //     .add(pickImageXFile(imageXFile: null));
                             },
                             imagePath: Assets
                                 .trashCan, // Replace with your image asset path

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
+import 'package:anwer_shop/constants/colors.dart';
 
 class MyAppBar extends StatelessWidget {
   final Color? backgroundColor;

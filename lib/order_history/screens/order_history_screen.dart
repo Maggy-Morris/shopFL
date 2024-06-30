@@ -1,8 +1,8 @@
 // // import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';
-// import 'package:foodpanda_seller/models/order.dart';
-// import 'package:foodpanda_seller/orders/controllers/order_controller.dart';
-// import 'package:foodpanda_seller/orders/widgets/order_card.dart';
+// import 'package:anwer_shop/models/order.dart';
+// import 'package:anwer_shop/orders/controllers/order_controller.dart';
+// import 'package:anwer_shop/orders/widgets/order_card.dart';
 
 // class OrderHistoryScreen extends StatefulWidget {
 //   static const String routeName = '/order-history-screen';

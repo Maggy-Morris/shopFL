@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodpanda_seller/widgets/enum/enum.dart';
+import 'package:anwer_shop/widgets/enum/enum.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../providers/adds_provider.dart';
@@ -300,8 +300,7 @@ class AddsBloc extends Bloc<AddsEvent, AddsState> {
   //   }
   // }
 
-  _onFetchAddsImages(
-      FetchAddsImages event, Emitter<AddsState> emit) async {
+  _onFetchAddsImages(FetchAddsImages event, Emitter<AddsState> emit) async {
     await RegisterAddsProvider().fetchAddImages().then((value) {
       emit(state.copyWith(addImages: value));
     });
@@ -311,13 +310,12 @@ class AddsBloc extends Bloc<AddsEvent, AddsState> {
     emit(state.copyWith(submission: Submission.loading));
 
     final result = await RegisterAddsProvider().addAdds(
-      shopRelated:state.shopRelated,
-      anotherShop:state.anotherShop,
+      shopRelated: state.shopRelated,
+      anotherShop: state.anotherShop,
       image: state.imageXFile,
       // showOffersDisplay: state.showOffersDisplay,
       addsDuration: state.addsDuration,
-      startAddsDate:
-          "${state.startDay}/${state.startMonth}/${state.startYear}",
+      startAddsDate: "${state.startDay}/${state.startMonth}/${state.startYear}",
       endAddsDate: "${state.endDay}/${state.endMonth}/${state.endYear}",
       // originalPrice: state.originalPrice,
       // currency: state.currency,

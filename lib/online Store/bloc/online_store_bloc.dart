@@ -39,7 +39,7 @@ class OnlineStoreBloc extends Bloc<OnlineStoreEvent, OnlineStoreState> {
     // on<EditPriceAfterDiscount>(_onEditPriceAfterDiscount);
     on<EditAgreementPolicy>(_onEditAgreementPolicy);
     on<EditStartDayMonthYear>(_onEditStartDayMonthYear);
-    // on<EditEndDayMonthYear>(_onEditEndDayMonthYear);
+    on<EditEndDayMonthYear>(_onEditEndDayMonthYear);
 
     on<AddOnlineStore>(_onAddOnlineStore);
 
@@ -169,14 +169,14 @@ class OnlineStoreBloc extends Bloc<OnlineStoreEvent, OnlineStoreState> {
         submission: Submission.editing));
   }
 
-  // _onEditEndDayMonthYear(
-  //     EditEndDayMonthYear event, Emitter<OnlineStoreState> emit) {
-  //   emit(state.copyWith(
-  //       endDay: event.endDay,
-  //       endMonth: event.endMonth,
-  //       endYear: event.endYear,
-  //       submission: Submission.editing));
-  // }
+  _onEditEndDayMonthYear(
+      EditEndDayMonthYear event, Emitter<OnlineStoreState> emit) {
+    emit(state.copyWith(
+        endDay: event.endDay,
+        endMonth: event.endMonth,
+        endYear: event.endYear,
+        submission: Submission.editing));
+  }
 
   // _onEditShopImage(EditShopImage event, Emitter<OnlineStoreState> emit) {
   //   emit(state.copyWith(
@@ -337,6 +337,7 @@ class OnlineStoreBloc extends Bloc<OnlineStoreEvent, OnlineStoreState> {
       offersDuration: state.offersDuration,
       startOffersDate:
           "${state.startDay}/${state.startMonth}/${state.startYear}",
+      endOffersDate: "${state.endDay}/${state.endMonth}/${state.endYear}",
       shopLink: state.shopLink,
       shopCategories: state.shopCategories,
       discountPercentageFrom: state.discountPercentageFrom,

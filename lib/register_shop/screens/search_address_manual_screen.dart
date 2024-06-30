@@ -4,11 +4,11 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:provider/provider.dart';
-import 'package:foodpanda_seller/authentication/widgets/custom_textbutton.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/models/address.dart';
-import 'package:foodpanda_seller/providers/location_provider.dart';
-import 'package:foodpanda_seller/register_shop/controllers/network_utils.dart';
+import 'package:anwer_shop/authentication/widgets/custom_textbutton.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/models/address.dart';
+import 'package:anwer_shop/providers/location_provider.dart';
+import 'package:anwer_shop/register_shop/controllers/network_utils.dart';
 
 class SearchAddressManualScreen extends StatefulWidget {
   static const String routeName = '/search-address-manual-screen';
@@ -234,7 +234,7 @@ class _SearchAddressManualScreenState extends State<SearchAddressManualScreen> {
                     width: 30,
                     height: 30,
                     alignment: Alignment.centerLeft,
-                    child:const Icon(
+                    child: const Icon(
                       Icons.location_on,
                       color: Colors.red,
                       size: 30,

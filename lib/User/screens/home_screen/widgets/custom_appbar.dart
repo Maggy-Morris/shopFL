@@ -27,16 +27,22 @@ class CustomAppBar extends StatelessWidget {
               builder: (context, state) {
                 return Row(
                   children: [
-                    InkWell(
-                      child:SvgPicture.asset("assets/icon_images/Location.svg"),
-                      // onTap: () {
-                      //    context.read<MapMarkerCubit>().getCurrentLocation();
-                      //   context.read<MapMarkerCubit>().getAddressFromLatLng();                      },
+                    GestureDetector(
+                      child:
+                          SvgPicture.asset("assets/icon_images/Location.svg"),
+                      onTap: () {
+                        context.read<MapMarkerCubit>().getCurrentLocation();
+                        context.read<MapMarkerCubit>().getAddressFromLatLng();
+                      },
                     ),
                     const SizedBox(width: 10),
-                    Text(
-                      state.currentLocationName,
-                      style: const TextStyle(color: Colors.white, fontSize: 13),
+                    SizedBox(
+                      width: 200,
+                      child: Text(state.currentLocationName,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 13),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis),
                     )
                   ],
                 );

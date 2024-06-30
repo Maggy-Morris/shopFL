@@ -1,29 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/User/core/screen/not_sign_in_screen.dart';
-// import 'package:foodpanda_seller/User/map/markers.dart';
-import 'package:foodpanda_seller/address/screens/address_screen.dart';
-import 'package:foodpanda_seller/adds/adds_screen.dart';
-import 'package:foodpanda_seller/authentication/screens/authentication_screen.dart';
-import 'package:foodpanda_seller/authentication/screens/login_screen.dart';
-import 'package:foodpanda_seller/authentication/screens/register_screen.dart';
-import 'package:foodpanda_seller/authentication/screens/send_verification_email_screen.dart';
-// import 'package:foodpanda_seller/banner/screens/add_banner_screen.dart';
-// import 'package:foodpanda_seller/banner/screens/banner_screen.dart';
-// import 'package:foodpanda_seller/foods/screens/add_category_screen.dart';
-// import 'package:foodpanda_seller/foods/screens/add_customize.dart';
-// import 'package:foodpanda_seller/foods/screens/add_food_screen.dart';
-// import 'package:foodpanda_seller/foods/screens/food_screen.dart';
-// import 'package:foodpanda_seller/foods/screens/menu_screen.dart';
-import 'package:foodpanda_seller/home/screens/home_screen.dart';
-import 'package:foodpanda_seller/home/screens/home_screen_no_approve.dart';
-import 'package:foodpanda_seller/online%20Store/online_store_screen.dart';
-import 'package:foodpanda_seller/order_history/screens/order_history_screen.dart';
-import 'package:foodpanda_seller/orders/screens/order_screen.dart';
-import 'package:foodpanda_seller/register_shop/screens/register_shop_screen.dart';
-import 'package:foodpanda_seller/register_shop/screens/search_address_manual_screen.dart';
+import 'package:anwer_shop/User/core/screen/not_sign_in_screen.dart';
+import 'package:anwer_shop/address/screens/address_screen.dart';
+import 'package:anwer_shop/adds/adds_screen.dart';
+import 'package:anwer_shop/authentication/screens/authentication_screen.dart';
+import 'package:anwer_shop/authentication/screens/login_screen.dart';
+import 'package:anwer_shop/authentication/screens/register_screen.dart';
+import 'package:anwer_shop/authentication/screens/send_verification_email_screen.dart';
+
+import 'package:anwer_shop/home/screens/home_screen.dart';
+import 'package:anwer_shop/home/screens/home_screen_no_approve.dart';
+import 'package:anwer_shop/online%20Store/online_store_screen.dart';
+
+import 'package:anwer_shop/register_shop/screens/register_shop_screen.dart';
+import 'package:anwer_shop/register_shop/screens/search_address_manual_screen.dart';
 
 // import 'User/user home screen/user_home_screen.dart';
 import 'User/screens/home_screen/user_home_screen.dart';
+import 'User/screens/user_profile/user_profile_screen.dart';
 import 'add_offers/add_offers_screen.dart';
 import 'settings/settings_screen.dart';
 
@@ -156,6 +149,12 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const SettingsScreen(),
+      );
+
+    case UserProfileScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const UserProfileScreen(),
       );
 
     case OnlineStoreScreen.routeName:

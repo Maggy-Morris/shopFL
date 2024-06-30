@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/models/order.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/models/order.dart';
 
 class ViewDetail extends StatefulWidget {
   final Order order;
@@ -14,7 +14,6 @@ class _ViewDetailState extends State<ViewDetail> {
   bool isViewDetail = false;
   double totalFoodAndVAT = 0.0;
 
-  
   @override
   Widget build(BuildContext context) {
     int quantity = calculateTotalQuantity();
@@ -248,11 +247,11 @@ class _ViewDetailState extends State<ViewDetail> {
           previousValue + (foodOrder.foodPrice * foodOrder.quantity),
     );
   }
-   int calculateTotalQuantity() {
+
+  int calculateTotalQuantity() {
     return widget.order.foodOrders.fold<int>(
       0,
       (previousValue, foodOrder) => previousValue + foodOrder.quantity,
     );
   }
 }
-

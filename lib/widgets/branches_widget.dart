@@ -1,7 +1,7 @@
 import 'package:csc_picker/csc_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/generated/assets.dart';
+import 'package:anwer_shop/generated/assets.dart';
 
 import '../constants/colors.dart';
 import 'Icons_wit_text.dart';

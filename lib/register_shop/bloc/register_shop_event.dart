@@ -7,6 +7,22 @@ class RegisterShopEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class AddFilesEvent extends RegisterShopEvent {
+  final List<PlatformFile> files;
+  final int? index;
+
+  AddFilesEvent({ required this.files, this.index });
+  @override
+  List<Object?> get props => [files, index];
+}
+
+class RemoveFile extends RegisterShopEvent {
+  final int index;
+
+  RemoveFile(this.index);
+}
+
+
 class EditShopName extends RegisterShopEvent {
   final String shopName;
 

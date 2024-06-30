@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/widgets/assetImage_withtext.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/widgets/assetImage_withtext.dart';
 
 class GradientButtonFb1 extends StatelessWidget {
   final String text;

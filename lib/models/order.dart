@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:foodpanda_seller/models/address.dart';
-import 'package:foodpanda_seller/models/rider.dart';
-import 'package:foodpanda_seller/models/shop.dart';
-import 'package:foodpanda_seller/models/user.dart';
+import 'package:anwer_shop/models/address.dart';
+import 'package:anwer_shop/models/rider.dart';
+import 'package:anwer_shop/models/shop.dart';
+import 'package:anwer_shop/models/user.dart';
 
 class FoodOrder {
   String foodName;

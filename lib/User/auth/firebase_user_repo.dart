@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:foodpanda_seller/User/auth/models/user_model.dart';
-import 'package:foodpanda_seller/User/auth/user_repo.dart';
+import 'package:anwer_shop/User/auth/models/user_model.dart';
+import 'package:anwer_shop/User/auth/user_repo.dart';
 // import 'package:shops/auth/models/user_model.dart';
 // import 'package:shops/auth/user_repo.dart';
 
@@ -28,7 +28,8 @@ class FirebaseUserRepo implements UserRepo {
       {required UserModel myUser, required String password}) async {
     try {
       // Create the user with email and password
-      final UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+      final UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
         email: myUser.email,
         password: password,
       );
@@ -45,7 +46,6 @@ class FirebaseUserRepo implements UserRepo {
       throw Exception(e);
     }
   }
-
 
   @override
   Future<void> setUserData(UserModel user) async {

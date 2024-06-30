@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/models/address.dart';
+import 'package:anwer_shop/models/address.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../common/firebare_storage_repository.dart';
@@ -100,6 +100,7 @@ class RegisterShopProvider extends ChangeNotifier {
 
       _shopName =
           doc.data().toString().contains('shopName') ? doc.get('shopName') : '';
+
       _shopDescription = doc.data().toString().contains('shopDescription')
           ? doc.get('shopDescription')
           : '';
@@ -149,8 +150,7 @@ class RegisterShopProvider extends ChangeNotifier {
         );
       }
 
-      if (_shopName!.isEmpty ||
-          _shopDescription!.isEmpty ||
+      if (_shopDescription!.isEmpty ||
           _shopImage!.isEmpty ||
           latitude.isEmpty ||
           longitude.isEmpty) {

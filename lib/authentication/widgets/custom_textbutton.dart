@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
+import 'package:anwer_shop/constants/colors.dart';
 
 class CustomTextButton extends StatelessWidget {
   final String text;
@@ -37,7 +37,6 @@ class CustomTextButton extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            
             color: isOutlined ? scheme.primary : Colors.white,
           ),
         ),

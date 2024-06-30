@@ -1,6 +1,6 @@
 // import 'package:flutter/material.dart';
-// import 'package:foodpanda_seller/constants/colors.dart';
-// import 'package:foodpanda_seller/models/address.dart';
+// import 'package:anwer_shop/constants/colors.dart';
+// import 'package:anwer_shop/models/address.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 // class MapPreview extends StatelessWidget {

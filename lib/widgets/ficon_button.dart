@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/widgets/ftap_effect.dart';
+import 'package:anwer_shop/widgets/ftap_effect.dart';
 
 class FIconButton extends StatelessWidget {
   final Widget icon;

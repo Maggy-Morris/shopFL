@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodpanda_seller/providers/offers_provider.dart';
+import 'package:anwer_shop/providers/offers_provider.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../register_shop/bloc/register_shop_bloc.dart';

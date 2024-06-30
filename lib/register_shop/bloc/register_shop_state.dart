@@ -16,8 +16,10 @@ class RegisterShopState extends Equatable {
   final String shopImage;
   final String shopPhoneNumber;
   final Submission submission;
+  final List<PlatformFile> files;
 
   RegisterShopState({
+    this.files = const [],
     this.branchesList = const [],
     this.imageXFile,
     this.shopImage = "",
@@ -36,6 +38,8 @@ class RegisterShopState extends Equatable {
   });
 
   RegisterShopState copyWith({
+    List<PlatformFile>? files, // Add this parameter
+
     List<Branches>? branchesList,
     XFile? imageXFile,
     String? shopImage,
@@ -53,6 +57,7 @@ class RegisterShopState extends Equatable {
     Submission? submission,
   }) {
     return RegisterShopState(
+      files: files ?? this.files,
       branchesList: branchesList ?? this.branchesList,
       imageXFile: imageXFile ?? this.imageXFile,
       shopImage: shopImage ?? this.shopImage,
@@ -73,6 +78,7 @@ class RegisterShopState extends Equatable {
 
   @override
   List<Object?> get props => [
+        files,
         branchesList,
         imageXFile,
         shopImage,

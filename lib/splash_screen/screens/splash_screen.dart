@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/User/screens/home_screen/user_home_screen.dart';
-import 'package:foodpanda_seller/authentication/screens/authentication_screen.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/home/screens/home_screen.dart';
-import 'package:foodpanda_seller/home/screens/home_screen_no_approve.dart';
-import 'package:foodpanda_seller/providers/authentication_provider.dart';
+import 'package:anwer_shop/User/screens/home_screen/user_home_screen.dart';
+import 'package:anwer_shop/authentication/screens/authentication_screen.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/home/screens/home_screen.dart';
+import 'package:anwer_shop/home/screens/home_screen_no_approve.dart';
+import 'package:anwer_shop/providers/authentication_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

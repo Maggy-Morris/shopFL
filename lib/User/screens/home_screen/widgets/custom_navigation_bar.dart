@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodpanda_seller/User/core/screen/not_sign_in_screen.dart';
+import 'package:anwer_shop/User/core/screen/not_sign_in_screen.dart';
+import 'package:anwer_shop/User/screens/user_profile/user_profile_screen.dart';
 // import 'package:shops/screens/home_screen/widgets/custom_navigation_icons.dart';
 
 import '../../../../providers/authentication_provider.dart';
 // import '../../../auth/blocs/authentication_bloc/authentication_bloc.dart';
+import '../../../../settings/settings_screen.dart';
 import 'custom_navigation_icons.dart';
 
 class CustomNavigationBar extends StatelessWidget {
@@ -34,7 +36,7 @@ class CustomNavigationBar extends StatelessWidget {
           CustomNavigationIcons(
             onTap: () {
               if (ap.isSignedIn) {
-                print("Authenticated");
+                debugPrint("Authenticated");
               } else {
                 Navigator.pushNamed(context, NotSignInScreen.routeName);
 
@@ -47,7 +49,7 @@ class CustomNavigationBar extends StatelessWidget {
           CustomNavigationIcons(
             onTap: () {
               if (ap.isSignedIn) {
-                print("Authenticated");
+                debugPrint("Authenticated");
               } else {
                 Navigator.pushNamed(context, NotSignInScreen.routeName);
 
@@ -60,7 +62,7 @@ class CustomNavigationBar extends StatelessWidget {
           CustomNavigationIcons(
             onTap: () {
               if (ap.isSignedIn) {
-                print("Authenticated");
+                debugPrint("Authenticated");
               } else {
                 Navigator.pushNamed(context, NotSignInScreen.routeName);
 
@@ -73,7 +75,7 @@ class CustomNavigationBar extends StatelessWidget {
           CustomNavigationIcons(
             onTap: () {
               if (ap.isSignedIn) {
-                print("Authenticated");
+                Navigator.pushNamed(context, UserProfileScreen.routeName);
               } else {
                 Navigator.pushNamed(context, NotSignInScreen.routeName);
 

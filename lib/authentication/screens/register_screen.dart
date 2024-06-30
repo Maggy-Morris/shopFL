@@ -1,15 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
-import 'package:foodpanda_seller/User/screens/home_screen/user_home_screen.dart';
-import 'package:foodpanda_seller/authentication/screens/send_verification_email_screen.dart';
-import 'package:foodpanda_seller/authentication/widgets/custom_textbutton.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/home/screens/home_screen.dart';
-import 'package:foodpanda_seller/providers/authentication_provider.dart';
-import 'package:foodpanda_seller/providers/internet_provider.dart';
-import 'package:foodpanda_seller/widgets/custom_textfield.dart';
-import 'package:foodpanda_seller/widgets/my_snack_bar.dart';
+import 'package:anwer_shop/User/screens/home_screen/user_home_screen.dart';
+import 'package:anwer_shop/authentication/screens/send_verification_email_screen.dart';
+import 'package:anwer_shop/authentication/widgets/custom_textbutton.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/home/screens/home_screen.dart';
+import 'package:anwer_shop/providers/authentication_provider.dart';
+import 'package:anwer_shop/providers/internet_provider.dart';
+import 'package:anwer_shop/widgets/custom_textfield.dart';
+import 'package:anwer_shop/widgets/my_snack_bar.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -26,10 +26,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
+  TextEditingController shopNameController = TextEditingController();
+
   bool isFocus = false;
   bool isObscure = false;
   String firstNameText = '';
   String lastNameText = '';
+  String shopNameText = '';
+
   String emailText = '';
   String passwordText = '';
   String errorText = '';
@@ -43,6 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     passwordController.dispose();
     firstNameController.dispose();
     lastNameController.dispose();
+    shopNameController.dispose();
   }
 
   String? validateEmail(String? value) {
@@ -80,10 +85,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } else {
         await authenticationProvider
             .registerWithEmail(
-                '${firstNameController.text.trim()} ${lastNameController.text.trim()}',
-                emailController.text.trim().toString(),
-                passwordController.text.toString(),
-                widget.role)
+          '${firstNameController.text.trim()} ${lastNameController.text.trim()}',
+          emailController.text.trim().toString(),
+          passwordController.text.toString(),
+          widget.role,
+          shopNameController.text,
+        )
             .then((value) async {
           if (authenticationProvider.hasError) {
             openSnackbar(
@@ -126,6 +133,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           TextButton(
             onPressed: firstNameText.isEmpty ||
                     lastNameText.isEmpty ||
+                    shopNameText.isEmpty ||
                     passwordText.isEmpty
                 ? null
                 : handleRegister,
@@ -135,6 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 color: firstNameText.isEmpty ||
                         lastNameText.isEmpty ||
                         passwordText.isEmpty ||
+                        shopNameText.isEmpty ||
                         emailText.isEmpty
                     ? Colors.black
                     : scheme.primary,
@@ -143,132 +152,151 @@ class _RegisterScreenState extends State<RegisterScreen> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15, bottom: 20),
-                      child: Image.asset(
-                        'assets/images/cart.png',
-                        width: 60,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, bottom: 20),
+                        child: Image.asset(
+                          'assets/images/cart.png',
+                          width: 60,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 25.0),
-                      child: Text(
-                        "${widget.role}".tr(),
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    )
-                  ],
-                ),
-                const Text(
-                  'Sign up with your email',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: const EdgeInsets.only(right: 25.0),
+                        child: Text(
+                          "${widget.role}".tr(),
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-                const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 15,
-                      padding: const EdgeInsets.only(right: 7),
-                      child: CustomTextField(
-                        controller: firstNameController,
-                        labelText: 'First name',
-                        onChanged: (value) {
-                          setState(() {
-                            firstNameText = value;
-                          });
-                        },
-                      ),
+                  Text(
+                    'Sign up with your email'.tr(),
+                    style: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 15,
-                      padding: const EdgeInsets.only(left: 7),
-                      child: CustomTextField(
-                        controller: lastNameController,
-                        labelText: 'Last name',
-                        onChanged: (value) {
-                          setState(() {
-                            lastNameText = value;
-                          });
-                        },
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2 - 15,
+                        padding: const EdgeInsets.only(right: 7),
+                        child: CustomTextField(
+                          controller: firstNameController,
+                          labelText: 'First name',
+                          onChanged: (value) {
+                            setState(() {
+                              firstNameText = value;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                CustomTextField(
-                  controller: emailController,
-                  labelText: 'Email',
-                  onChanged: (value) {
-                    setState(() {
-                      emailText = value;
-                    });
-                  },
-                  errorText: errorEmailText,
-                ),
-                const SizedBox(height: 20),
-                CustomTextField(
-                  controller: passwordController,
-                  labelText: 'Password',
-                  noIcon: false,
-                  onChanged: (value) {
-                    setState(() {
-                      passwordText = value;
-                    });
-                  },
-                  errorText: errorText,
-                ),
-                const SizedBox(height: 20),
-                FlutterPwValidator(
-                  controller: passwordController,
-                  minLength: 6,
-                  uppercaseCharCount: 1,
-                  lowercaseCharCount: 1,
-                  numericCharCount: 1,
-                  specialCharCount: 1,
-                  width: 400,
-                  defaultColor: Colors.grey[400]!,
-                  failureColor: Colors.red,
-                  height: 150,
-                  onSuccess: () {
-                    setState(() {
-                      isError = false;
-                    });
-                  },
-                  onFail: () {
-                    setState(() {
-                      isError = true;
-                    });
-                  },
-                ),
-                const SizedBox(height: 20),
-              ],
-            ),
-            Divider(
-              color: Colors.grey[300],
-            ),
-            CustomTextButton(
-              text: 'Continue',
-              onPressed: handleRegister,
-              isDisabled: firstNameText.isEmpty ||
-                  lastNameText.isEmpty ||
-                  passwordText.isEmpty ||
-                  emailText.isEmpty,
-            ),
-          ],
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2 - 15,
+                        padding: const EdgeInsets.only(left: 7),
+                        child: CustomTextField(
+                          controller: lastNameController,
+                          labelText: 'Last name',
+                          onChanged: (value) {
+                            setState(() {
+                              lastNameText = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  (widget.role == "تاجر")
+                      ? Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: CustomTextField(
+                              controller: shopNameController,
+                              labelText: 'Shop name',
+                              onChanged: (value) {
+                                setState(() {
+                                  shopNameText = value;
+                                });
+                              },
+                            ),
+                          ),
+                        )
+                      : SizedBox.shrink(),
+                  CustomTextField(
+                    controller: emailController,
+                    labelText: 'Email',
+                    onChanged: (value) {
+                      setState(() {
+                        emailText = value;
+                      });
+                    },
+                    errorText: errorEmailText,
+                  ),
+                  const SizedBox(height: 20),
+                  CustomTextField(
+                    controller: passwordController,
+                    labelText: 'Password',
+                    noIcon: false,
+                    onChanged: (value) {
+                      setState(() {
+                        passwordText = value;
+                      });
+                    },
+                    errorText: errorText,
+                  ),
+                  const SizedBox(height: 20),
+                  FlutterPwValidator(
+                    controller: passwordController,
+                    minLength: 6,
+                    uppercaseCharCount: 1,
+                    lowercaseCharCount: 1,
+                    numericCharCount: 1,
+                    specialCharCount: 1,
+                    width: 400,
+                    defaultColor: Colors.grey[400]!,
+                    failureColor: Colors.red,
+                    height: 150,
+                    onSuccess: () {
+                      setState(() {
+                        isError = false;
+                      });
+                    },
+                    onFail: () {
+                      setState(() {
+                        isError = true;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+              Divider(
+                color: Colors.grey[300],
+              ),
+              CustomTextButton(
+                text: 'Continue',
+                onPressed: handleRegister,
+                isDisabled: firstNameText.isEmpty ||
+                    lastNameText.isEmpty ||
+                    passwordText.isEmpty ||
+                    emailText.isEmpty,
+              ),
+            ],
+          ),
         ),
       ),
     );

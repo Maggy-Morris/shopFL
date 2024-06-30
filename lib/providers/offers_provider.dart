@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/common/firebare_storage_repository.dart';
+import 'package:anwer_shop/common/firebare_storage_repository.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterOfferProvider extends ChangeNotifier {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -82,9 +83,14 @@ class RegisterOfferProvider extends ChangeNotifier {
         .doc(firebaseAuth.currentUser!.uid)
         .collection('offers')
         .doc();
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    String shopNameSP = sharedPreferences.getString('shopName') ?? "";
     await ref.set(
       {
         "id": ref.id,
+        "shopName": shopNameSP,
+
         "showOffersDisplay": showOffersDisplay,
         "offersDuration": offersDuration,
         "startOffersDate": startOffersDate,

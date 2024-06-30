@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:foodpanda_seller/models/order.dart' as model;
+import 'package:anwer_shop/models/order.dart' as model;
 
 class OrderController {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;

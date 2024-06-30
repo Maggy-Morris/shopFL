@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/widgets/constant/toast_offset.dart';
+import 'package:anwer_shop/widgets/constant/toast_offset.dart';
 
-import 'package:foodpanda_seller/widgets/enum/enum.dart';
+import 'package:anwer_shop/widgets/enum/enum.dart';
 
 import 'toast_animation.dart';
 import 'toast_provider.dart';

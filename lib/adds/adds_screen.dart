@@ -5,10 +5,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:foodpanda_seller/adds/bloc/adds_bloc.dart';
-import 'package:foodpanda_seller/authentication/widgets/custom_textbutton.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/generated/assets.dart';
+import 'package:anwer_shop/adds/bloc/adds_bloc.dart';
+import 'package:anwer_shop/authentication/widgets/custom_textbutton.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/generated/assets.dart';
 
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -30,109 +30,6 @@ class AddsScreen extends StatefulWidget {
 class _AddsScreenState extends State<AddsScreen> {
   XFile? imageXFile;
   final ImagePicker _picker = ImagePicker();
-  // GoogleMapController? mapPreviewController;
-
-  // TextEditingController nameController = TextEditingController();
-  // TextEditingController categoriesController = TextEditingController();
-
-  // TextEditingController descriptionController = TextEditingController();
-
-  // String nameText = '';
-  // String categoriesText = '';
-
-  // String descriptionText = '';
-  String imageUrl = '';
-  // Address? address;
-
-  // /// Variables to store country state city data in onChanged method.
-  // String? countryValue = "";
-  // String? stateValue = "";
-  // String? cityValue = "";
-  // String address = "";
-
-  // Future checkInfo() async {
-  //   final rp = context.read<RegisterShopProvider>();
-  //   await rp.checkIfAddressExist();
-  //   setState(() {
-  //     // categoriesController.text = rp.shopCategories ?? '';
-  //     // categoriesText = rp.shopCategories;
-
-  //     nameController.text = rp.shopName ?? '';
-  //     nameText = rp.shopName ?? '';
-
-  //     descriptionController.text = rp.shopDescription ?? '';
-  //     descriptionText = rp.shopDescription ?? '';
-
-  //     address = rp.shopAddress;
-  //     imageUrl = rp.shopImage ?? '';
-  //   });
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   checkInfo();
-  // }
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   nameController.dispose();
-  //   descriptionController.dispose();
-  // }
-
-  // handleRegisterShop() async {
-  //   final registerShopProvider = context.read<RegisterShopProvider>();
-  //   final internetProvider = context.read<InternetProvider>();
-
-  //   await internetProvider.checkInternetConnection();
-  //   if (internetProvider.hasInternet == false) {
-  //     Navigator.pop(context);
-  //     openSnackbar(context, 'Check your internet connection', scheme.primary);
-  //   } else {
-  //     if (imageUrl.isNotEmpty) {
-  //       await registerShopProvider.registerShop(
-  //         shopName: nameController.text.trim().toString(),
-  //         shopDescription: descriptionController.text.trim().toString(),
-  //         imageUrl: imageUrl,
-  //         address: address!,
-  //       );
-  //     } else {
-  //       await registerShopProvider.registerShop(
-  //         shopName: nameController.text.trim().toString(),
-  //         shopDescription: descriptionController.text.trim().toString(),
-  //         image: imageXFile!,
-  //         address: address!,
-  //       );
-  //     }
-
-  //     Navigator.pop(context);
-  //   }
-  // }
-
-  // takePhoto() async {
-  //   imageXFile = await _picker.pickImage(
-  //     source: ImageSource.camera,
-  //     maxHeight: 720,
-  //     maxWidth: 1280,
-  //   );
-
-  //   setState(() {
-  //     imageXFile;
-  //   });
-  // }
-
-  // uploadPhoto() async {
-  //   imageXFile = await _picker.pickImage(
-  //     source: ImageSource.gallery,
-  //     maxHeight: 720,
-  //     maxWidth: 1280,
-  //   );
-
-  //   setState(() {
-  //     imageXFile;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -730,27 +627,34 @@ class _AddsScreenState extends State<AddsScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 200,
-                      child: Swiper(
-                        itemBuilder: (context, index) {
-                          final image = state.addImages[index];
-                          return Image.network(
-                            image,
-                            fit: BoxFit.fill,
-                          );
-                        },
-                        indicatorLayout: PageIndicatorLayout.COLOR,
-                        autoplay: true,
-                        itemCount: state.addImages.length,
-                        pagination: const SwiperPagination(),
-                        control: const SwiperControl(),
-                      ),
-                    ),
-
+                    state.addImages.isNotEmpty
+                        ? Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 200,
+                            child: Swiper(
+                              itemBuilder: (context, index) {
+                                final image = state.addImages[index];
+                                return Image.network(
+                                  image,
+                                  fit: BoxFit.fill,
+                                );
+                              },
+                              indicatorLayout: PageIndicatorLayout.COLOR,
+                              autoplay: true,
+                              itemCount: state.addImages.length,
+                              pagination: const SwiperPagination(),
+                              control: const SwiperControl(),
+                            ),
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 200,
+                            child: Center(
+                                child: Text("لا يوجد اعلانات حاليا".tr()))),
                     const SizedBox(height: 20),
+
+
+
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -860,7 +764,13 @@ class _AddsScreenState extends State<AddsScreen> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: GradientButtonFb1(
-                        onPressed: () {},
+                        onPressed: () {
+                          state.agreementPolicy == true
+                              ? AddsBloc.get(context).add(
+                                 const EditAgreementPolicy(agreementPolicy: false))
+                              : AddsBloc.get(context).add(
+                                const  EditAgreementPolicy(agreementPolicy: true));
+                        },
                         text: "اوافق".tr(),
                       ),
                     ),

@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/adds/adds_screen.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/home/widgets/my_drawer.dart';
-import 'package:foodpanda_seller/models/order.dart';
-import 'package:foodpanda_seller/orders/controllers/order_controller.dart';
-import 'package:foodpanda_seller/providers/authentication_provider.dart';
-import 'package:foodpanda_seller/providers/register_shop_provider.dart';
-import 'package:foodpanda_seller/register_shop/screens/register_shop_screen.dart';
+import 'package:anwer_shop/adds/adds_screen.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/home/widgets/my_drawer.dart';
+import 'package:anwer_shop/models/order.dart';
+import 'package:anwer_shop/orders/controllers/order_controller.dart';
+import 'package:anwer_shop/providers/authentication_provider.dart';
+import 'package:anwer_shop/providers/register_shop_provider.dart';
+import 'package:anwer_shop/register_shop/screens/register_shop_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../add_offers/add_offers_screen.dart';

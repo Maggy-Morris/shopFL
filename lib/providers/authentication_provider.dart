@@ -21,9 +21,14 @@ class AuthenticationProvider extends ChangeNotifier {
 
   String? _uid;
   String? get uid => _uid;
+  String? _password;
+  String? get password => _password;
 
   String? _name;
   String? get name => _name;
+
+  String? _shopName;
+  String? get shopName => _shopName;
 
   String? _role;
   String? get role => _role;
@@ -77,13 +82,15 @@ class AuthenticationProvider extends ChangeNotifier {
     sharedPreferences.clear();
   }
 
-  Future registerWithEmail( name, email, password , role) async {
+  Future registerWithEmail(name, email, password, role, shopName) async {
     try {
       final User userDetails = (await firebaseAuth
               .createUserWithEmailAndPassword(email: email, password: password))
           .user!;
       _role = role;
+      _shopName = shopName;
       _name = name;
+      _password = password;
       _email = userDetails.email;
       _imageUrl = userDetails.photoURL ?? '';
       _uid = userDetails.uid;
@@ -146,6 +153,8 @@ class AuthenticationProvider extends ChangeNotifier {
     await ref.set(
       {
         "name": _name,
+        "password": _password,
+        "shopName": _shopName,
         "email": _email,
         "uid": _uid,
         "role": roleChosen,
@@ -162,7 +171,10 @@ class AuthenticationProvider extends ChangeNotifier {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     await sharedPreferences.setString('name', _name!);
-    await sharedPreferences.setString('role', roleChosen );
+    await sharedPreferences.setString('password', _password!);
+
+    await sharedPreferences.setString('shopName', _shopName ?? "");
+    await sharedPreferences.setString('role', roleChosen);
 
     await sharedPreferences.setString('email', _email!);
     await sharedPreferences.setString('uid', _uid!);
@@ -177,6 +189,9 @@ class AuthenticationProvider extends ChangeNotifier {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     _name = sharedPreferences.getString('name');
+    _password = sharedPreferences.getString('password');
+    _shopName = sharedPreferences.getString('shopName');
+
     _role = sharedPreferences.getString('role');
 
     _email = sharedPreferences.getString('email');
@@ -189,7 +204,6 @@ class AuthenticationProvider extends ChangeNotifier {
   }
 
   Future getUserDataFromFirestore(uid) async {
-
     await FirebaseFirestore.instance
         .collection('sellers')
         .doc(uid)
@@ -198,6 +212,8 @@ class AuthenticationProvider extends ChangeNotifier {
               _uid = snapshot['uid'],
               _role = snapshot['role'],
               _name = snapshot['name'],
+              _password = snapshot['password'],
+              _shopName = snapshot['shopName'],
               _email = snapshot['email'],
               _imageUrl = snapshot['image_url'],
               _phoneNumber = snapshot['phoneNumber'],
@@ -217,6 +233,7 @@ class AuthenticationProvider extends ChangeNotifier {
               _uid = snapshot['uid'],
               _role = snapshot['role'],
               _name = snapshot['name'],
+              _password = snapshot['password'],
               _email = snapshot['email'],
               _imageUrl = snapshot['image_url'],
               _phoneNumber = snapshot['phoneNumber'],

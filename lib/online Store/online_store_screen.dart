@@ -1,14 +1,12 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:foodpanda_seller/constants/colors.dart';
+import 'package:anwer_shop/constants/colors.dart';
 
-import 'package:foodpanda_seller/online%20Store/bloc/online_store_bloc.dart';
+import 'package:anwer_shop/online%20Store/bloc/online_store_bloc.dart';
 
-import 'package:foodpanda_seller/widgets/drop_down_widgets.dart';
-
+import 'package:anwer_shop/widgets/drop_down_widgets.dart';
 
 import '../widgets/button_widget.dart';
 import '../widgets/constant/toast.dart';
@@ -171,7 +169,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                           },
                           iconWidget: Icon(Icons.keyboard_arrow_down_sharp),
                           titleName: ".....".tr(),
-                           isEnabled: true,
+                          isEnabled: true,
                           isRequired: false),
                     ),
                     const SizedBox(height: 20),
@@ -218,7 +216,6 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                                     .add(EditOffersDuration(
                                   offersDuration: value,
                                 ));
-                          
                               },
                             ),
                           ),
@@ -283,6 +280,70 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                                       state.startYear == 0
                                   ? "تاريخ بداية العرض".tr()
                                   : "${state.startDay}/${state.startMonth}/${state.startYear}",
+                              style: const TextStyle(
+                                color: MyColors.lightText,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "تاريخ نهاية العرض".tr(),
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400),
+                      ),
+                    ),
+
+                    SizedBox(
+                      height: 55,
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20.0),
+                            ),
+                          ),
+                        ),
+                        onPressed: () async {
+                          showDatePicker(
+                            context: context,
+                            lastDate: DateTime(3000),
+                            firstDate: DateTime(2020),
+                          ).then(
+                            (value) {
+                              if (value != null) {
+                                OnlineStoreBloc.get(context)
+                                    .add(EditEndDayMonthYear(
+                                  endDay: value.day,
+                                  endMonth: value.month,
+                                  endYear: value.year,
+                                ));
+                              }
+                            },
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Icon(
+                              Icons.date_range_outlined,
+                              color: MyColors.lightText,
+                            ),
+                            Text(
+                              state.endDay == 0 &&
+                                      state.endMonth == 0 &&
+                                      state.endYear == 0
+                                  ? "تاريخ نهاية العرض".tr()
+                                  : "${state.endDay}/${state.endMonth}/${state.endYear}",
                               style: const TextStyle(
                                 color: MyColors.lightText,
                               ),
@@ -432,19 +493,16 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                       width: MediaQuery.of(context).size.width,
                       child: GradientButtonFb1(
                         onPressed: () {
-
-
-
-  if (state.agreementPolicy == false) {
+                          if (state.agreementPolicy == false) {
                             FxToast.showErrorToast(
                                 context: context,
                                 message: "وافق علي الشروط والاحكام اولا".tr());
                             return;
                           }
-                          OnlineStoreBloc.get(context).add(const AddOnlineStore());
+                          OnlineStoreBloc.get(context)
+                              .add(const AddOnlineStore());
 
                           Navigator.of(context).pop();
-                          
                         },
                         text: "نشر".tr(),
                       ),

@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/authentication/widgets/custom_textbutton.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/home/screens/home_screen.dart';
-import 'package:foodpanda_seller/providers/authentication_provider.dart';
-import 'package:foodpanda_seller/providers/internet_provider.dart';
-import 'package:foodpanda_seller/widgets/my_snack_bar.dart';
+import 'package:anwer_shop/authentication/widgets/custom_textbutton.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/home/screens/home_screen.dart';
+import 'package:anwer_shop/providers/authentication_provider.dart';
+import 'package:anwer_shop/providers/internet_provider.dart';
+import 'package:anwer_shop/widgets/my_snack_bar.dart';
 import 'package:provider/provider.dart';
 
 class SendVerificationEmailScreen extends StatefulWidget {

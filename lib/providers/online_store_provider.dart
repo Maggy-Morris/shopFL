@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/common/firebare_storage_repository.dart';
+import 'package:anwer_shop/common/firebare_storage_repository.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,8 +25,8 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
   String? _startOffersDate;
   String? get startOffersDate => _startOffersDate;
 
-  // String? _endOffersDate;
-  // String? get endOffersDate => _endOffersDate;
+  String? _endOffersDate;
+  String? get endOffersDate => _endOffersDate;
 
   // String? _offerImage;
   // String? get offerImage => _offerImage;
@@ -56,7 +56,7 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
     required String shopLink,
     required String offersDuration,
     required String startOffersDate,
-    // required String endOffersDate,
+    required String endOffersDate,
     // required String originalPrice,
     required String shopCategories,
     // required String discountPercentage,
@@ -88,7 +88,7 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
         "shopLink": shopLink,
         "offersDuration": offersDuration,
         "startOffersDate": startOffersDate,
-        // "endOffersDate": endOffersDate,
+        "endOffersDate": endOffersDate,
         // "originalPrice": originalPrice,
         // "priceAfterDiscount": priceAfterDiscount,
         // "discountPercentage": discountPercentage,

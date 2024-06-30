@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanda_seller/User/screens/home_screen/user_home_screen.dart';
-import 'package:foodpanda_seller/authentication/screens/send_verification_email_screen.dart';
-import 'package:foodpanda_seller/authentication/widgets/custom_textbutton.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/home/screens/home_screen.dart';
-import 'package:foodpanda_seller/providers/authentication_provider.dart';
-import 'package:foodpanda_seller/providers/internet_provider.dart';
-import 'package:foodpanda_seller/widgets/custom_textfield.dart';
-import 'package:foodpanda_seller/widgets/my_snack_bar.dart';
+import 'package:anwer_shop/User/screens/home_screen/user_home_screen.dart';
+import 'package:anwer_shop/authentication/screens/send_verification_email_screen.dart';
+import 'package:anwer_shop/authentication/widgets/custom_textbutton.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/home/screens/home_screen.dart';
+import 'package:anwer_shop/providers/authentication_provider.dart';
+import 'package:anwer_shop/providers/internet_provider.dart';
+import 'package:anwer_shop/widgets/custom_textfield.dart';
+import 'package:anwer_shop/widgets/my_snack_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'forgot_password.dart';
@@ -92,8 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if (widget.role == "تاجر") {
               await authenticationProvider
                   .getUserDataFromFirestore(authenticationProvider.uid);
-            }
-             else {
+            } else {
               await authenticationProvider
                   .getUserUSERDataFromFirestore(authenticationProvider.uid);
             }

@@ -4,14 +4,14 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodpanda_seller/constants/colors.dart';
-import 'package:foodpanda_seller/generated/assets.dart';
-import 'package:foodpanda_seller/models/address.dart';
-import 'package:foodpanda_seller/providers/register_shop_provider.dart';
-import 'package:foodpanda_seller/widgets/constant/toast.dart';
+import 'package:anwer_shop/constants/colors.dart';
+import 'package:anwer_shop/generated/assets.dart';
+import 'package:anwer_shop/models/address.dart';
+import 'package:anwer_shop/providers/register_shop_provider.dart';
+import 'package:anwer_shop/widgets/constant/toast.dart';
 
-import 'package:foodpanda_seller/widgets/drop_down_widgets.dart';
-import 'package:foodpanda_seller/widgets/enum/enum.dart';
+import 'package:anwer_shop/widgets/drop_down_widgets.dart';
+import 'package:anwer_shop/widgets/enum/enum.dart';
 
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -52,96 +52,11 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
   String? countryValue = "";
   String? stateValue = "";
   String? cityValue = "";
-  // String address = "";
-
-  // Future checkInfo() async {
-  //   final rp = context.read<RegisterShopProvider>();
-  //   await rp.checkIfAddressExist();
-  //   setState(() {
-  //     // categoriesController.text = rp.shopCategories ?? '';
-  //     // categoriesText = rp.shopCategories;
-
-  //     nameController.text = rp.shopName ?? '';
-  //     nameText = rp.shopName ?? '';
-
-  //     descriptionController.text = rp.shopDescription ?? '';
-  //     descriptionText = rp.shopDescription ?? '';
-
-  //     address = rp.shopAddress;
-  //     imageUrl = rp.shopImage ?? '';
-  //   });
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   checkInfo();
-  // }
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   nameController.dispose();
-  //   descriptionController.dispose();
-  // }
-
-  // handleRegisterShop() async {
-  //   final registerShopProvider = context.read<RegisterShopProvider>();
-  //   final internetProvider = context.read<InternetProvider>();
-
-  //   await internetProvider.checkInternetConnection();
-  //   if (internetProvider.hasInternet == false) {
-  //     Navigator.pop(context);
-  //     openSnackbar(context, 'Check your internet connection', scheme.primary);
-  //   } else {
-  //     if (imageUrl.isNotEmpty) {
-  //       await registerShopProvider.registerShop(
-  //         shopName: nameController.text.trim().toString(),
-  //         shopDescription: descriptionController.text.trim().toString(),
-  //         imageUrl: imageUrl,
-  //         address: address!,
-  //       );
-  //     } else {
-  //       await registerShopProvider.registerShop(
-  //         shopName: nameController.text.trim().toString(),
-  //         shopDescription: descriptionController.text.trim().toString(),
-  //         image: imageXFile!,
-  //         address: address!,
-  //       );
-  //     }
-
-  //     Navigator.pop(context);
-  //   }
-  // }
-
-  // takePhoto() async {
-  //   imageXFile = await _picker.pickImage(
-  //     source: ImageSource.camera,
-  //     maxHeight: 720,
-  //     maxWidth: 1280,
-  //   );
-
-  //   setState(() {
-  //     imageXFile;
-  //   });
-  // }
-
-  // uploadPhoto() async {
-  //   imageXFile = await _picker.pickImage(
-  //     source: ImageSource.gallery,
-  //     maxHeight: 720,
-  //     maxWidth: 1280,
-  //   );
-
-  //   setState(() {
-  //     imageXFile;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddOffersBloc()..add(FetchOffersImages()),
+      create: (context) => AddOffersBloc()..add(const FetchOffersImages()),
       child: BlocBuilder<AddOffersBloc, AddOffersState>(
         builder: (context, state) {
           return Scaffold(
@@ -150,7 +65,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
               foregroundColor: Colors.white,
               title: Text(
                 "اضافة عروض".tr(),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 16,
                 ),
@@ -185,28 +100,13 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     const SizedBox(height: 20),
-                    // Text(
-                    //   'بياناتي'.tr(),
-                    //   style: TextStyle(
-                    //     fontSize: 14,
-                    //     fontWeight: FontWeight.w600,
-                    //     color: Colors.grey[600],
-                    //   ),
-                    // ),
-                    // const Text(
-                    //   'Fill in the informations',
-                    //   style: TextStyle(
-                    //     fontSize: 30,
-                    //     fontWeight: FontWeight.w600,
-                    //   ),
-                    // ),
 
                     const SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "أضافة طريقة تقديم العروض".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -227,7 +127,8 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                               showOffersDisplay: value ?? "",
                             ));
                           },
-                          iconWidget: Icon(Icons.keyboard_arrow_down_sharp),
+                          iconWidget:
+                              const Icon(Icons.keyboard_arrow_down_sharp),
                           titleName: "عرض لمنتج واحد في صفحة واحدة".tr(),
                           itemsList: ['كتالوج', 'عرض لمنتج واحد في صفحة واحدة'],
                           isEnabled: true,
@@ -238,7 +139,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "أضافة العروض".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -289,15 +190,15 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                                             ? Image.file(
                                                 File(state.imageXFile!.path),
                                                 fit: BoxFit.fill)
-                                            : Text("No image selected"),
+                                            : const Text("No image selected"),
                                       );
                                     });
                               },
                               icon: Icons.search),
                         ]),
-                    Divider(
+                    const Divider(
                       height: 50,
-                      color: const Color.fromARGB(108, 158, 158, 158),
+                      color: Color.fromARGB(108, 158, 158, 158),
                     ),
                     // const SizedBox(height: 20),
                     // Container(
@@ -339,7 +240,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "مدة العرض".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -348,7 +249,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text("يوم".tr()),
-                        SizedBox(
+                        const SizedBox(
                             width:
                                 10), // Add spacing between text and text field if needed
 
@@ -369,7 +270,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "5".tr(),
-                                counterStyle: TextStyle(
+                                counterStyle: const TextStyle(
                                   color: MyColors.lightText,
                                 ),
                               ),
@@ -397,7 +298,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "تاريخ بداية العرض".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -439,7 +340,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.date_range_outlined,
                               color: MyColors.lightText,
                             ),
@@ -463,7 +364,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "تاريخ نهاية العرض".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -503,7 +404,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.date_range_outlined,
                               color: MyColors.lightText,
                             ),
@@ -532,7 +433,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   "تحديد نسبة الخصم".tr(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400),
                                 ),
@@ -560,7 +461,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                                           keyboardType: TextInputType.number,
                                           textAlign: TextAlign.end,
                                           decoration: InputDecoration(
-                                            prefixIcon: Icon(
+                                            prefixIcon: const Icon(
                                               Icons.percent_rounded,
                                               color: MyColors.lightText,
                                               size: 15,
@@ -602,7 +503,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                                           keyboardType: TextInputType.number,
                                           textAlign: TextAlign.end,
                                           decoration: InputDecoration(
-                                            prefixIcon: Icon(
+                                            prefixIcon: const Icon(
                                               Icons.percent_rounded,
                                               color: MyColors.lightText,
                                               size: 15,
@@ -636,7 +537,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   "تحديد مقدار الخصم".tr(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400),
                                 ),
@@ -806,31 +707,36 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "العروض القائمة".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
                     const SizedBox(height: 20),
-
-                    Container(
-                      width: double
-                          .infinity, // Ensure it takes the full width of the screen
-                      height: 200,
-                      child: Swiper(
-                        itemBuilder: (context, index) {
-                          final image = state.offerImages[index];
-                          return Image.network(
-                            image,
-                            fit: BoxFit.fill,
-                          );
-                        },
-                        indicatorLayout: PageIndicatorLayout.COLOR,
-                        autoplay: true,
-                        itemCount: state.offerImages.length,
-                        pagination: const SwiperPagination(),
-                        control: const SwiperControl(),
-                      ),
-                    ),
+                    state.offerImages.isNotEmpty
+                        ? Container(
+                            width: double
+                                .infinity, // Ensure it takes the full width of the screen
+                            height: 200,
+                            child: Swiper(
+                              itemBuilder: (context, index) {
+                                final image = state.offerImages[index];
+                                return Image.network(
+                                  image,
+                                  fit: BoxFit.fill,
+                                );
+                              },
+                              indicatorLayout: PageIndicatorLayout.COLOR,
+                              autoplay: true,
+                              itemCount: state.offerImages.length,
+                              pagination: const SwiperPagination(),
+                              control: const SwiperControl(),
+                            ),
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 200,
+                            child:
+                                Center(child: Text("لا يوجد عروض حاليا".tr()))),
 
                     const SizedBox(height: 20),
 
@@ -841,7 +747,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "  ${state.offersDuration} ايام".tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
                         ),
@@ -849,7 +755,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "مدة الخصم".tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
                         ),
@@ -863,7 +769,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                           child: Text(
                             "${state.endDay}/${state.endMonth}/${state.endYear}"
                                 .tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
                         ),
@@ -871,7 +777,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "نهاية الخصم".tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
                         ),
@@ -886,7 +792,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                             state.discountPercentage.isNotEmpty
                                 ? state.discountPercentage.tr()
                                 : state.discountPercentageTo.tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
                         ),
@@ -894,7 +800,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "مقدار الخصم".tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
                         ),

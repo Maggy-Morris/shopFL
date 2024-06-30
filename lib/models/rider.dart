@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:foodpanda_seller/models/user.dart';
+import 'package:anwer_shop/models/user.dart';
 
 class Rider {
   User user;

@@ -4,12 +4,17 @@ class SettingsState extends Equatable {
   final Submission submission;
   final String userName;
   final String password;
+  final String fetchedPassword;
   final String newPassword;
+  final String confirmNewPassword;
+
   final String language;
 
   final bool changePassword;
 
   const SettingsState({
+    this.fetchedPassword = '',
+    this.confirmNewPassword = '',
     this.language = '',
     this.submission = Submission.initial,
     this.userName = '',
@@ -19,6 +24,8 @@ class SettingsState extends Equatable {
   });
 
   SettingsState copyWith({
+    String? fetchedPassword,
+    String? confirmNewPassword,
     Submission? submission,
     String? userName,
     String? password,
@@ -27,6 +34,8 @@ class SettingsState extends Equatable {
     bool? changePassword,
   }) {
     return SettingsState(
+      fetchedPassword: fetchedPassword ?? this.fetchedPassword,
+      confirmNewPassword: confirmNewPassword ?? this.confirmNewPassword,
       language: language ?? this.language,
       submission: submission ?? this.submission,
       userName: userName ?? this.userName,
@@ -38,6 +47,8 @@ class SettingsState extends Equatable {
 
   @override
   List<Object?> get props => [
+        fetchedPassword,
+        confirmNewPassword,
         language,
         submission,
         userName,

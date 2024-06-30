@@ -31,6 +31,31 @@ class EditNewPassword extends SettingsEvent {
   List<Object> get props => [newPassword];
 }
 
+class EditConfirmNewPassword extends SettingsEvent {
+  final String confirmNewPassword;
+  const EditConfirmNewPassword({required this.confirmNewPassword});
+
+  @override
+  List<Object> get props => [confirmNewPassword];
+}
+
+class FetchUserData extends SettingsEvent {
+  const FetchUserData();
+
+  @override
+  List<Object> get props => [];
+}
+
+
+class UpdateUserData extends SettingsEvent {
+
+
+  const UpdateUserData();
+
+  @override
+  List<Object> get props => [];
+}
+
 
 
 

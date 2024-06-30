@@ -27,7 +27,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                 stepSize: 5,
                 min: 0,
                 max: 100,
-                tooltipShape: const SfPaddleTooltipShape(),
+                tooltipShape: SfPaddleTooltipShape(),
                 values: _values,
                 onChanged: (SfRangeValues values) {
                   _values = values;
