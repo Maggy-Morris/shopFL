@@ -7,9 +7,6 @@ import 'package:geolocator/geolocator.dart';
 import '../cubit/map_marker_cubit.dart';
 import '../cubit/slider_cubit.dart';
 import 'promotion_buttom_sheet.dart';
-// import 'package:shops/screens/home_screen/cubit/map_marker_cubit.dart';
-// import 'package:shops/screens/home_screen/cubit/slider_cubit.dart';
-// import 'package:shops/screens/home_screen/widgets/promotion_buttom_sheet.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -36,16 +33,34 @@ class _MapScreenState extends State<MapScreen> {
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      // Show a message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Location services are disabled. Please enable them.'),
+        ),
+      );
       return;
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
+        // Show a message to the user
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Location permissions are denied.'),
+          ),
+        );
         return;
       }
     }
     if (permission == LocationPermission.deniedForever) {
+      // Show a message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Location permissions are permanently denied.'),
+        ),
+      );
       return;
     }
   }
@@ -75,30 +90,9 @@ class _MapScreenState extends State<MapScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Row(
-                  children: [
-                    Icon(Icons.local_offer, color: Colors.red),
-                    SizedBox(width: 5),
-                    Text(
-                      'Anwar Shop',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+                _buildOverlayHeader(),
                 const SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: List.generate(5, (index) {
-                    return const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 16,
-                    );
-                  }),
-                ),
+                _buildRatingRow(),
                 const SizedBox(height: 10),
                 const Text(
                   '20% OFF',
@@ -108,39 +102,72 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    _removeOverlay();
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      context: context,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(16.0),
-                        ),
-                      ),
-                      builder: (context) {
-                        return const PromotionBottomSheet();
-                      },
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(200, 40),
-                    backgroundColor: const Color(0xFF6C63FF),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: const Text(
-                    'المزيد',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                _buildMoreButton(context),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOverlayHeader() {
+    return const Row(
+      children: [
+        Icon(Icons.local_offer, color: Colors.red),
+        SizedBox(width: 5),
+        Text(
+          'Anwar Shop',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRatingRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: List.generate(5, (index) {
+        return const Icon(
+          Icons.star,
+          color: Colors.amber,
+          size: 16,
+        );
+      }),
+    );
+  }
+
+  Widget _buildMoreButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        _removeOverlay();
+        showModalBottomSheet(
+          isScrollControlled: true,
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(16.0),
+            ),
+          ),
+          builder: (context) {
+            return const PromotionBottomSheet();
+          },
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        fixedSize: const Size(200, 40),
+        backgroundColor: const Color(0xFF6C63FF),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      child: const Text(
+        'المزيد',
+        style: TextStyle(
+          color: Colors.white,
         ),
       ),
     );
@@ -169,88 +196,79 @@ class _MapScreenState extends State<MapScreen> {
                   marker.discount <= discountRange.end;
             }).toList();
             return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.45,
-                child:
-                    //  state.locationFetched
-                    //     ?
-                    FlutterMap(
-                  options: MapOptions(
-                    initialCenter: state.currentLocation,
-                    initialZoom: 14.0,
-                    onTap: (tapPosition, latLng) {
-                      _removeOverlay();
-                    },
+              height: MediaQuery.of(context).size.height * 0.45,
+              child: FlutterMap(
+                options: MapOptions(
+                  initialCenter: state.currentLocation,
+                  initialZoom: 14.0,
+                  onTap: (tapPosition, latLng) {
+                    _removeOverlay();
+                  },
+                ),
+                children: [
+                  TileLayer(
+                    urlTemplate:
+                        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    userAgentPackageName: 'com.example.app',
+                    subdomains: ['a', 'b', 'c'],
                   ),
-                  children: [
-                    TileLayer(
-                      urlTemplate:
-                          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-
-                      // 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                      // userAgentPackageName: 'com.example.app',
-                      subdomains: ['a', 'b', 'c'],
-                    ),
-                    MarkerLayer(
-                      markers: [
-                        Marker(
+                  MarkerLayer(
+                    markers: [
+                      Marker(
+                        width: 80.0,
+                        height: 80.0,
+                        point: state.currentLocation,
+                        child: const Icon(Icons.location_on, color: Colors.red),
+                      ),
+                      ...filteredMarkers.map((marker) {
+                        return Marker(
                           width: 80.0,
                           height: 80.0,
-                          point: state.currentLocation,
-                          child:
-                              const Icon(Icons.location_on, color: Colors.red),
-                        ),
-                        ...filteredMarkers.map(
-                          (marker) {
-                            return Marker(
-                              width: 80.0,
-                              height: 80.0,
-                              point: marker.position,
-                              child: Builder(
-                                builder: (context) => GestureDetector(
-                                  onTap: () {
-                                    RenderBox renderBox =
-                                        context.findRenderObject() as RenderBox;
-                                    Offset markerPosition =
-                                        renderBox.localToGlobal(Offset.zero);
-                                    Size markerSize = renderBox.size;
-                                    Offset overlayPosition =
-                                        markerPosition.translate(
-                                      markerSize.width / 2,
-                                      -markerSize.height / 2,
-                                    );
-                                    _showOverlay(context, overlayPosition);
-                                  },
-                                  child: Stack(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/icon_images/Union.svg',
-                                        color: const Color(0xff606161),
-                                        height: 40.0,
-                                        width: 40.0,
-                                      ),
-                                      Positioned(
-                                        left: 7.0,
-                                        top: 7.0,
-                                        child: Image.asset(
-                                          'assets/icon_images/rabais 1.png',
-                                          color: Colors.white,
-                                          height: 20.0,
-                                          width: 20.0,
-                                        ),
-                                      ),
-                                    ],
+                          point: marker.position,
+                          child: Builder(
+                            builder: (context) => GestureDetector(
+                              onTap: () {
+                                RenderBox renderBox =
+                                    context.findRenderObject() as RenderBox;
+                                Offset markerPosition =
+                                    renderBox.localToGlobal(Offset.zero);
+                                Size markerSize = renderBox.size;
+                                Offset overlayPosition =
+                                    markerPosition.translate(
+                                  markerSize.width / 2,
+                                  -markerSize.height / 2,
+                                );
+                                _showOverlay(context, overlayPosition);
+                              },
+                              child: Stack(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icon_images/Union.svg',
+                                    color: const Color(0xff606161),
+                                    height: 40.0,
+                                    width: 40.0,
                                   ),
-                                ),
+                                  Positioned(
+                                    left: 7.0,
+                                    top: 7.0,
+                                    child: Image.asset(
+                                      'assets/icon_images/rabais 1.png',
+                                      color: Colors.white,
+                                      height: 20.0,
+                                      width: 20.0,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        ),
-                      ],
-                    )
-                  ],
-                )
-                // : const Center(child: CircularProgressIndicator()),
-                );
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ],
+                  ),
+                ],
+              ),
+            );
           },
         );
       },

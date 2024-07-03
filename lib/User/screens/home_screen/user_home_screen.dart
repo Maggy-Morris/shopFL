@@ -34,6 +34,7 @@ class UserHomeScreen extends StatelessWidget {
         BlocProvider(
           create: (context) => MapMarkerCubit()
             ..getAddressFromLatLng()
+            ..fetchMarkers()
             ..getCurrentLocation(),
         ),
         BlocProvider(
@@ -226,14 +227,22 @@ class UserHomeScreen extends StatelessWidget {
                                       MediaQuery.of(context).size.height * 0.25,
                                   child: ImageSlideshow(
                                     children: [
-                                      Image.network(
-                                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+                                      Image.asset(
+                                        "assets/icon_images/Rectangle 556.png",
                                         fit: BoxFit.cover,
                                       ),
-                                      Image.network(
-                                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+                                      Image.asset(
+                                        "assets/icon_images/Rectangle 556.png",
                                         fit: BoxFit.cover,
                                       ),
+                                      // Image.network(
+                                      //   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+                                      //   fit: BoxFit.cover,
+                                      // ),
+                                      // Image.network(
+                                      //   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+                                      //   fit: BoxFit.cover,
+                                      // ),
                                     ],
                                   ),
                                 ),
