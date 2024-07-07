@@ -481,7 +481,7 @@ class _AddsScreenState extends State<AddsScreen> {
                               ),
                               onChanged: (value) {
                                 AddsBloc.get(context).add(EditAddsDuration(
-                                  addsDuration: value,
+                                  addsDuration: int.parse(value),
                                 ));
                               },
                             ),
@@ -653,9 +653,6 @@ class _AddsScreenState extends State<AddsScreen> {
                                 child: Text("لا يوجد اعلانات حاليا".tr()))),
                     const SizedBox(height: 20),
 
-
-
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -767,9 +764,11 @@ class _AddsScreenState extends State<AddsScreen> {
                         onPressed: () {
                           state.agreementPolicy == true
                               ? AddsBloc.get(context).add(
-                                 const EditAgreementPolicy(agreementPolicy: false))
+                                  const EditAgreementPolicy(
+                                      agreementPolicy: false))
                               : AddsBloc.get(context).add(
-                                const  EditAgreementPolicy(agreementPolicy: true));
+                                  const EditAgreementPolicy(
+                                      agreementPolicy: true));
                         },
                         text: "اوافق".tr(),
                       ),

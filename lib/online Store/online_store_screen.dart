@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:anwer_shop/constants/colors.dart';
@@ -203,6 +204,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 20.0),
                             child: TextField(
+                              keyboardType: TextInputType.number,
                               textAlign: TextAlign.end,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -211,11 +213,13 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                                   color: MyColors.lightText,
                                 ),
                               ),
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               onChanged: (value) {
-                                OnlineStoreBloc.get(context)
-                                    .add(EditOffersDuration(
-                                  offersDuration: value,
-                                ));
+                                OnlineStoreBloc.get(context).add(
+                                    EditOffersDuration(
+                                        offersDuration: int.parse(value)));
                               },
                             ),
                           ),
@@ -381,6 +385,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
                               child: TextField(
+                                keyboardType: TextInputType.number,
                                 textAlign: TextAlign.end,
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
@@ -394,10 +399,14 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                                     color: Colors.grey[500],
                                   ),
                                 ),
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                                 onChanged: (value) {
                                   OnlineStoreBloc.get(context).add(
                                       EditDiscountPercentageTo(
-                                          discountPercentageTo: value));
+                                          discountPercentageTo:
+                                              double.parse(value)));
 
                                   // setState(() {
                                   //   // categoriesText = value;
@@ -423,7 +432,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                               child: TextField(
                                 textAlign: TextAlign.end,
                                 decoration: InputDecoration(
-                                  prefixIcon: Icon(
+                                  prefixIcon:const Icon(
                                     Icons.percent_rounded,
                                     color: MyColors.lightText,
                                     size: 15,
@@ -434,10 +443,15 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                                     color: Colors.grey[500],
                                   ),
                                 ),
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                                 onChanged: (value) {
                                   OnlineStoreBloc.get(context).add(
                                       EditDiscountPercentageFrom(
-                                          discountPercentageFrom: value));
+                                          discountPercentageFrom:
+                                              double.parse(value)));
 
                                   // setState(() {
                                   //   // categoriesText = value;
@@ -473,8 +487,8 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                       width: MediaQuery.of(context).size.width,
                       child: GradientButtonFb1(
                         onPressed: () {
-                          (state.discountPercentageFrom.isNotEmpty &&
-                                  state.discountPercentageTo.isNotEmpty &&
+                          (state.discountPercentageFrom != 0 &&
+                                  state.discountPercentageTo != 0 &&
                                   state.startDay != 0 &&
                                   state.shopLink.isNotEmpty &&
                                   state.agreementPolicy == false)

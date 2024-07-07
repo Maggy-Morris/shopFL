@@ -3,19 +3,17 @@ import 'dart:io';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:anwer_shop/constants/colors.dart';
 import 'package:anwer_shop/generated/assets.dart';
 import 'package:anwer_shop/models/address.dart';
-import 'package:anwer_shop/providers/register_shop_provider.dart';
 import 'package:anwer_shop/widgets/constant/toast.dart';
 
 import 'package:anwer_shop/widgets/drop_down_widgets.dart';
-import 'package:anwer_shop/widgets/enum/enum.dart';
 
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 import '../../widgets/Icons_wit_text.dart';
 import '../../widgets/assetImage_withtext.dart';
@@ -33,13 +31,6 @@ class AddOffersScreen extends StatefulWidget {
 
 class _AddOffersScreenState extends State<AddOffersScreen> {
   XFile? imageXFile;
-  final ImagePicker _picker = ImagePicker();
-  // GoogleMapController? mapPreviewController;
-
-  // TextEditingController nameController = TextEditingController();
-  // TextEditingController categoriesController = TextEditingController();
-
-  // TextEditingController descriptionController = TextEditingController();
 
   String nameText = '';
   String categoriesText = '';
@@ -100,7 +91,6 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     const SizedBox(height: 20),
-
                     const SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -110,7 +100,6 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
-
                     const SizedBox(height: 20),
                     Container(
                       decoration: BoxDecoration(
@@ -144,7 +133,6 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-
                     SizedBox(
                         width: MediaQuery.of(context).size.width,
                         child: GradientButtonFb3(
@@ -162,7 +150,6 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                           imagePath: Assets.downloadIcon,
                         )),
                     const SizedBox(height: 20),
-
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -200,41 +187,6 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                       height: 50,
                       color: Color.fromARGB(108, 158, 158, 158),
                     ),
-                    // const SizedBox(height: 20),
-                    // Container(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 15),
-                    //   alignment: Alignment.center,
-                    //   decoration: BoxDecoration(
-                    //     color: MyColors.white,
-                    //     border: Border.all(
-                    //       color: MyColors.white,
-                    //     ),
-                    //     borderRadius: BorderRadius.circular(20),
-                    //   ),
-                    //   child: TextField(
-                    //     textAlign: TextAlign.end,
-                    //     onChanged: (value) {
-                    //       setState(() {
-                    //         descriptionText = value;
-                    //       });
-                    //     },
-                    //     // maxLength: 500,
-                    //     style: const TextStyle(
-                    //       fontSize: 14,
-                    //       fontWeight: FontWeight.normal,
-                    //     ),
-                    //     controller: descriptionController,
-                    //     maxLines: 2,
-                    //     decoration: InputDecoration(
-                    //       border: InputBorder.none,
-                    //       hintText: 'من نحن'.tr(),
-                    //       counterStyle: TextStyle(
-                    //         color: MyColors.white,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-
                     const SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -244,7 +196,6 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -279,11 +230,12 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                                 if (value == null || value.isEmpty) {
                                   return 'This field is required';
                                 }
+                                // return 'This field is required';
                               },
                               onChanged: (value) {
                                 AddOffersBloc.get(context)
                                     .add(EditOffersDuration(
-                                  offersDuration: value,
+                                  offersDuration: int.parse(value),
                                 ));
                               },
                             ),
@@ -291,9 +243,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                         ),
                       ],
                     ),
-
                     const SizedBox(height: 20),
-
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -302,7 +252,6 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
-
                     SizedBox(
                       height: 55,
                       width: MediaQuery.of(context).size.width,
@@ -359,7 +308,6 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -368,7 +316,6 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
-
                     SizedBox(
                       height: 55,
                       width: MediaQuery.of(context).size.width,
@@ -422,9 +369,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 20),
-
                     (state.showOffersDisplay == "كتالوج")
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -472,11 +417,15 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                                               color: Colors.grey[500],
                                             ),
                                           ),
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                          ],
                                           onChanged: (value) {
                                             AddOffersBloc.get(context).add(
                                                 EditDiscountPercentageTo(
                                                     discountPercentageTo:
-                                                        value));
+                                                        double.parse(value)));
                                             // setState(() {
                                             //   // categoriesText = value;
                                             // });
@@ -514,11 +463,15 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                                               color: Colors.grey[500],
                                             ),
                                           ),
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                          ],
                                           onChanged: (value) {
                                             AddOffersBloc.get(context).add(
                                                 EditDiscountPercentageFrom(
                                                     discountPercentageFrom:
-                                                        value));
+                                                        double.parse(value)));
                                           },
                                         ),
                                       ),
@@ -571,10 +524,15 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                                               color: Colors.grey[500],
                                             ),
                                           ),
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                          ],
                                           onChanged: (value) {
                                             AddOffersBloc.get(context).add(
                                                 EditPriceAfterDiscount(
-                                                    priceAfterDiscount: value));
+                                                    priceAfterDiscount:
+                                                        double.parse(value)));
                                             // setState(() {
                                             //   // categoriesText = value;
                                             // });
@@ -607,10 +565,15 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                                               color: Colors.grey[500],
                                             ),
                                           ),
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                          ],
                                           onChanged: (value) {
                                             AddOffersBloc.get(context).add(
                                                 EditOriginalPrice(
-                                                    originalPrice: value));
+                                                    originalPrice:
+                                                        double.parse(value)));
                                             // setState(() {
                                             //   // categoriesText = value;
                                             // });
@@ -684,10 +647,15 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                                               color: Colors.grey[500],
                                             ),
                                           ),
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
+                                          ],
                                           onChanged: (value) {
                                             AddOffersBloc.get(context).add(
                                                 EditDiscountPercentage(
-                                                    discountPercentage: value));
+                                                    discountPercentage:
+                                                        double.parse(value)));
                                             // setState(() {
                                             //   // categoriesText = value;
                                             // });
@@ -700,9 +668,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                               ),
                             ],
                           ),
-
                     const SizedBox(height: 20),
-
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -737,9 +703,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                             height: 200,
                             child:
                                 Center(child: Text("لا يوجد عروض حاليا".tr()))),
-
                     const SizedBox(height: 20),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -789,9 +753,9 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            state.discountPercentage.isNotEmpty
-                                ? state.discountPercentage.tr()
-                                : state.discountPercentageTo.tr(),
+                            state.discountPercentage != 0
+                                ? "${state.discountPercentage}"
+                                : "${state.discountPercentageTo}",
                             style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
@@ -829,7 +793,6 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                               icon: Icons.search),
                         ]),
                     const SizedBox(height: 20),
-
                     Row(
                       children: [
                         Text(
@@ -845,9 +808,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                             }),
                       ],
                     ),
-
                     const SizedBox(height: 20),
-
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: GradientButtonFb1(
@@ -865,7 +826,6 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                         text: "نشر".tr(),
                       ),
                     ),
-
                     const SizedBox(height: 40),
                   ],
                 ),

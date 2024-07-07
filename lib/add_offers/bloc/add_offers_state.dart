@@ -4,13 +4,13 @@ class AddOffersState extends Equatable {
   // final String shopDescription;
   // final String shopName;
   final String showOffersDisplay;
-  final String offersDuration;
-  final String discountPercentageFrom;
-  final String discountPercentageTo;
-  final String originalPrice;
-  final String priceAfterDiscount;
+  final int offersDuration;
+  final double discountPercentageFrom;
+  final double discountPercentageTo;
+  final double originalPrice;
+  final double priceAfterDiscount;
   final String currency;
-  final String discountPercentage;
+  final double discountPercentage;
 
   final bool agreementPolicy;
 
@@ -42,21 +42,21 @@ class AddOffersState extends Equatable {
 
   AddOffersState({
     this.agreementPolicy = false,
-    this.originalPrice = '',
+    this.originalPrice = 0,
     this.currency = '',
-    this.priceAfterDiscount = '',
-    this.discountPercentageFrom = '',
-    this.discountPercentageTo = '',
+    this.priceAfterDiscount = 0,
+    this.discountPercentageFrom = 0,
+    this.discountPercentageTo = 0,
     this.startDay = 0,
     this.startMonth = 0,
     this.startYear = 0,
     this.endDay = 0,
     this.endMonth = 0,
     this.endYear = 0,
-    this.discountPercentage = '',
+    this.discountPercentage = 0,
     this.offerImages = const [],
     this.imageXFile = emptyImage,
-    this.offersDuration = '',
+    this.offersDuration = 0,
     this.showOffersDisplay = "عرض لمنتج واحد في صفحة واحدة",
     this.shopImage = "",
     // this.shopName = "",
@@ -75,12 +75,12 @@ class AddOffersState extends Equatable {
 
   AddOffersState copyWith({
     bool? agreementPolicy,
-    String? originalPrice,
+    double? originalPrice,
     String? currency,
-    String? priceAfterDiscount,
-    String? discountPercentageFrom,
-    String? discountPercentageTo,
-    String? discountPercentage,
+    double? priceAfterDiscount,
+    double? discountPercentageFrom,
+    double? discountPercentageTo,
+    double? discountPercentage,
     int? startDay,
     int? startMonth,
     int? startYear,
@@ -89,7 +89,7 @@ class AddOffersState extends Equatable {
     int? endYear,
     List<String>? offerImages,
     XFile? imageXFile,
-    String? offersDuration,
+    int? offersDuration,
     String? showOffersDisplay,
     String? shopImage,
     // String? shopName,

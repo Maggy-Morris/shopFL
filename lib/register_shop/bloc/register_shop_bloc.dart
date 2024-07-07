@@ -170,20 +170,7 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
   Future checkInfo() async {
     final rp = RegisterShopProvider();
     await rp.checkIfAddressExist();
-    // setState(() {
-
-    //   // categoriesController.text = rp.shopCategories ?? '';
-    //   // categoriesText = rp.shopCategories;
-
-    //   nameController.text = rp.shopName ?? '';
-    //   nameText = rp.shopName ?? '';
-
-    //   descriptionController.text = rp.shopDescription ?? '';
-    //   descriptionText = rp.shopDescription ?? '';
-
-    //   address = rp.shopAddress;
-    //   imageUrl = rp.shopImage ?? '';
-    // });
+   
   }
 
   _onRegisterShopToFireBase(
@@ -219,40 +206,7 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
       print("Error fetching shop info: $e");
     }
   }
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
 
-  // void pickAndAddFiles() async {
-  //   try {
-  //     List<XFile>? result = await ImagePicker().pickMultiImage();
-
-  //     if (result.isNotEmpty) {
-  //       List<Future<PlatformFile>> pickedFilesFutures =
-  //           result.map((file) async {
-  //         int size = await File(file.path).length();
-  //         return PlatformFile(
-  //           name: file.name,
-  //           path: file.path,
-  //           size: size,
-  //           bytes: await File(file.path).readAsBytes(),
-  //         );
-  //       }).toList();
-
-  //       List<PlatformFile> pickedFiles = await Future.wait(pickedFilesFutures);
-
-  //       List<PlatformFile> updatedFiles = List.from(state.files);
-  //       updatedFiles.addAll(pickedFiles);
-
-  // add(pickImageXFile(imageXFile: pickedFile));
-  //       add(EditShopImage(shopImage: pickedFile.path ?? ""));
-  //       // add(AddFilesEvent(files: updatedFiles));
-  //     }
-  //   } catch (error) {
-  //     // Handle error
-  //     print("Error picking images: $error");
-  //   }
-  // }
 
   void captureAndAddImage() async {
     try {
@@ -377,8 +331,6 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
       shopCategories: result.shopCategories,
       shopType: result.shopType,
     ));
-    // } else {
-    //   emit(state.copyWith(submission: Submission.noDataFound));
-    // }
+  
   }
 }

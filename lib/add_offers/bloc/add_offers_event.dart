@@ -17,7 +17,7 @@ class EditShowOffersDisplay extends AddOffersEvent {
 }
 
 class EditOffersDuration extends AddOffersEvent {
-  final String offersDuration;
+  final int offersDuration;
 
   const EditOffersDuration({required this.offersDuration});
 
@@ -27,7 +27,7 @@ class EditOffersDuration extends AddOffersEvent {
 
 ///////////
 class EditDiscountPercentageFrom extends AddOffersEvent {
-  final String discountPercentageFrom;
+  final double discountPercentageFrom;
 
   const EditDiscountPercentageFrom({required this.discountPercentageFrom});
 
@@ -36,7 +36,7 @@ class EditDiscountPercentageFrom extends AddOffersEvent {
 }
 
 class EditDiscountPercentageTo extends AddOffersEvent {
-  final String discountPercentageTo;
+  final double discountPercentageTo;
 
   const EditDiscountPercentageTo({required this.discountPercentageTo});
 
@@ -45,7 +45,7 @@ class EditDiscountPercentageTo extends AddOffersEvent {
 }
 
 class EditOriginalPrice extends AddOffersEvent {
-  final String originalPrice;
+  final double originalPrice;
 
   const EditOriginalPrice({required this.originalPrice});
 
@@ -54,7 +54,7 @@ class EditOriginalPrice extends AddOffersEvent {
 }
 
 class EditPriceAfterDiscount extends AddOffersEvent {
-  final String priceAfterDiscount;
+  final double priceAfterDiscount;
 
   const EditPriceAfterDiscount({required this.priceAfterDiscount});
 
@@ -79,7 +79,7 @@ class EditCurrency extends AddOffersEvent {
 
 
 class EditDiscountPercentage extends AddOffersEvent {
-  final String discountPercentage;
+  final double discountPercentage;
 
   const EditDiscountPercentage({required this.discountPercentage});
 

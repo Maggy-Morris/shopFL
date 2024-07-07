@@ -17,7 +17,7 @@ class AddsEvent extends Equatable {
 // }
 
 class EditAddsDuration extends AddsEvent {
-  final String addsDuration;
+  final int addsDuration;
 
   const EditAddsDuration({required this.addsDuration});
 
@@ -27,7 +27,7 @@ class EditAddsDuration extends AddsEvent {
 
 ///////////
 class EditDiscountPercentageFrom extends AddsEvent {
-  final String discountPercentageFrom;
+  final double discountPercentageFrom;
 
   const EditDiscountPercentageFrom({required this.discountPercentageFrom});
 
@@ -36,7 +36,7 @@ class EditDiscountPercentageFrom extends AddsEvent {
 }
 
 class EditDiscountPercentageTo extends AddsEvent {
-  final String discountPercentageTo;
+  final double discountPercentageTo;
 
   const EditDiscountPercentageTo({required this.discountPercentageTo});
 
@@ -45,7 +45,7 @@ class EditDiscountPercentageTo extends AddsEvent {
 }
 
 class EditOriginalPrice extends AddsEvent {
-  final String originalPrice;
+  final double originalPrice;
 
   const EditOriginalPrice({required this.originalPrice});
 
@@ -54,7 +54,7 @@ class EditOriginalPrice extends AddsEvent {
 }
 
 class EditPriceAfterDiscount extends AddsEvent {
-  final String priceAfterDiscount;
+  final double priceAfterDiscount;
 
   const EditPriceAfterDiscount({required this.priceAfterDiscount});
 
@@ -72,7 +72,7 @@ class EditCurrency extends AddsEvent {
 }
 
 class EditDiscountPercentage extends AddsEvent {
-  final String discountPercentage;
+  final double discountPercentage;
 
   const EditDiscountPercentage({required this.discountPercentage});
 

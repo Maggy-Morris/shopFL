@@ -35,6 +35,11 @@ class AuthenticationProvider extends ChangeNotifier {
   String? _email;
   String? get email => _email;
 
+  double? _latitude;
+  double? get latitude => _latitude;
+  double? _longitude;
+  double? get longitude => _longitude;
+
   String? _imageUrl;
   String? get imageUrl => _imageUrl;
 
@@ -82,13 +87,21 @@ class AuthenticationProvider extends ChangeNotifier {
     sharedPreferences.clear();
   }
 
-  Future registerWithEmail(name, email, password, role, shopName) async {
+  Future registerWithEmail(
+    name,
+    email,
+    password,
+    role,
+    shopName,
+  ) async {
     try {
       final User userDetails = (await firebaseAuth
               .createUserWithEmailAndPassword(email: email, password: password))
           .user!;
       _role = role;
       _shopName = shopName;
+      _latitude = latitude;
+      _longitude = longitude;
       _name = name;
       _password = password;
       _email = userDetails.email;
@@ -155,6 +168,8 @@ class AuthenticationProvider extends ChangeNotifier {
         "name": _name,
         "password": _password,
         "shopName": _shopName,
+        'longitude': _longitude,
+        "latitude": _latitude,
         "email": _email,
         "uid": _uid,
         "role": roleChosen,
@@ -172,6 +187,8 @@ class AuthenticationProvider extends ChangeNotifier {
         await SharedPreferences.getInstance();
     await sharedPreferences.setString('name', _name!);
     await sharedPreferences.setString('password', _password!);
+    // await sharedPreferences.setDouble('longitude', _longitude!);
+    // await sharedPreferences.setDouble('latitude', _latitude!);
 
     await sharedPreferences.setString('shopName', _shopName ?? "");
     await sharedPreferences.setString('role', roleChosen);
@@ -193,6 +210,8 @@ class AuthenticationProvider extends ChangeNotifier {
     _shopName = sharedPreferences.getString('shopName');
 
     _role = sharedPreferences.getString('role');
+    _longitude = sharedPreferences.getDouble('longitude');
+    _latitude = sharedPreferences.getDouble('latitude');
 
     _email = sharedPreferences.getString('email');
     _uid = sharedPreferences.getString('uid');
@@ -215,6 +234,8 @@ class AuthenticationProvider extends ChangeNotifier {
               _password = snapshot['password'],
               _shopName = snapshot['shopName'],
               _email = snapshot['email'],
+              // _longitude = snapshot['longitude'],
+              // _latitude = snapshot['latitude'],
               _imageUrl = snapshot['image_url'],
               _phoneNumber = snapshot['phoneNumber'],
               _emailVerified = snapshot['emailVerified'],
@@ -234,6 +255,8 @@ class AuthenticationProvider extends ChangeNotifier {
               _role = snapshot['role'],
               _name = snapshot['name'],
               _password = snapshot['password'],
+              // _longitude = snapshot['longitude'],
+              // _latitude = snapshot['latitude'],
               _email = snapshot['email'],
               _imageUrl = snapshot['image_url'],
               _phoneNumber = snapshot['phoneNumber'],

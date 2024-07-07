@@ -438,12 +438,12 @@ class UserHomeScreen extends StatelessWidget {
                                     Navigator.pop(ctx);
                                   },
                                   action2Func: () async {
-                                    await ap.userSignOut();
-
-                                    Navigator.pushNamedAndRemoveUntil(
-                                        ctx,
-                                        AuthenticationScreen.routeName,
-                                        (route) => false);
+                                    await ap.userSignOut().then((onValue) {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          ctx,
+                                          AuthenticationScreen.routeName,
+                                          (route) => false);
+                                    });
                                   },
                                 ),
                               );

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../cubit/map_marker_cubit.dart';
 import '../cubit/slider_cubit.dart';
@@ -192,8 +193,8 @@ class _MapScreenState extends State<MapScreen> {
         return BlocBuilder<MapMarkerCubit, MapMarkerState>(
           builder: (context, state) {
             final filteredMarkers = state.markers.where((marker) {
-              return marker.discount >= discountRange.start &&
-                  marker.discount <= discountRange.end;
+              return marker.discountPercentageTo >= discountRange.start &&
+                  marker.discountPercentageFrom <= discountRange.end;
             }).toList();
             return SizedBox(
               height: MediaQuery.of(context).size.height * 0.45,
@@ -224,7 +225,7 @@ class _MapScreenState extends State<MapScreen> {
                         return Marker(
                           width: 80.0,
                           height: 80.0,
-                          point: marker.position,
+                          point: LatLng(marker.latitude, marker.latitude),
                           child: Builder(
                             builder: (context) => GestureDetector(
                               onTap: () {

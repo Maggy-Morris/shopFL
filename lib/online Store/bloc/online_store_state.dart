@@ -4,11 +4,11 @@ class OnlineStoreState extends Equatable {
   final String shopDescription;
   final String shopLink;
   final String showOffersDisplay;
-  final String offersDuration;
-  final String discountPercentageFrom;
-  final String discountPercentageTo;
-  final String originalPrice;
-  final String priceAfterDiscount;
+  final int offersDuration;
+  final double discountPercentageFrom;
+  final double discountPercentageTo;
+  final double originalPrice;
+  final double priceAfterDiscount;
   final bool agreementPolicy;
 
   final int startDay;
@@ -39,10 +39,10 @@ class OnlineStoreState extends Equatable {
 
   OnlineStoreState({
     this.agreementPolicy = false,
-    this.originalPrice = '',
-    this.priceAfterDiscount = '',
-    this.discountPercentageFrom = '',
-    this.discountPercentageTo = '',
+    this.originalPrice = 0,
+    this.priceAfterDiscount = 0,
+    this.discountPercentageFrom = 0,
+    this.discountPercentageTo = 0,
     this.startDay = 0,
     this.startMonth = 0,
     this.startYear = 0,
@@ -52,7 +52,7 @@ class OnlineStoreState extends Equatable {
 
     // this.branches_list = const [],
     // this.imageXFile = emptyImage,
-    this.offersDuration = '',
+    this.offersDuration = 0,
     this.showOffersDisplay = "عرض لمنتج واحد في صفحة واحدة",
     this.shopImage = "",
     this.shopLink = "",
@@ -71,10 +71,10 @@ class OnlineStoreState extends Equatable {
 
   OnlineStoreState copyWith({
     bool? agreementPolicy,
-    String? originalPrice,
-    String? priceAfterDiscount,
-    String? discountPercentageFrom,
-    String? discountPercentageTo,
+    double? originalPrice,
+    double? priceAfterDiscount,
+    double? discountPercentageFrom,
+    double? discountPercentageTo,
     int? startDay,
     int? startMonth,
     int? startYear,
@@ -83,7 +83,7 @@ class OnlineStoreState extends Equatable {
     int? endYear,
     // List<Branches>? branches_list,
     // XFile? imageXFile,
-    String? offersDuration,
+    int? offersDuration,
     String? showOffersDisplay,
     String? shopImage,
     String? shopLink,

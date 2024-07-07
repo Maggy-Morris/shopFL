@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:anwer_shop/providers/models/shop_model.dart';
 import 'package:flutter/material.dart';
 import 'package:anwer_shop/common/firebare_storage_repository.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterOfferProvider extends ChangeNotifier {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -20,8 +20,8 @@ class RegisterOfferProvider extends ChangeNotifier {
   String? _showOffersDisplay;
   String? get showOffersDisplay => _showOffersDisplay;
 
-  String? _offersDuration;
-  String? get offersDuration => _offersDuration;
+  int? _offersDuration;
+  int? get offersDuration => _offersDuration;
 
   String? _startOffersDate;
   String? get startOffersDate => _startOffersDate;
@@ -35,35 +35,55 @@ class RegisterOfferProvider extends ChangeNotifier {
   // Address? _shopAddress;
   // Address? get shopAddress => _shopAddress;
 
-  String? _originalPrice;
-  String? get originalPrice => _originalPrice;
+  double? _originalPrice;
+  double? get originalPrice => _originalPrice;
 
-  String? _priceAfterDiscount;
-  String? get priceAfterDiscount => _priceAfterDiscount;
+  double? _priceAfterDiscount;
+  double? get priceAfterDiscount => _priceAfterDiscount;
 
-  String? _discountPercentage;
-  String? get discountPercentage => _discountPercentage;
-  String? _discountPercentageFrom;
-  String? get discountPercentageFrom => _discountPercentageFrom;
-  String? _discountPercentageTo;
-  String? get discountPercentageTo => _discountPercentageTo;
+  double? _discountPercentage;
+  double? get discountPercentage => _discountPercentage;
+  double? _discountPercentageFrom;
+  double? get discountPercentageFrom => _discountPercentageFrom;
+  double? _discountPercentageTo;
+  double? get discountPercentageTo => _discountPercentageTo;
 
   String? _currency;
   String? get currency => _currency;
 
+  double? _latitude;
+  double? get latitude => _latitude;
+  double? _longitude;
+  double? get longitude => _longitude;
+
+  String? _email;
+  String? get email => _email;
+  String? _imageUrl;
+  String? get imageUrl => _imageUrl;
+
+  String? _uid;
+  String? get uid => _uid;
+
+  String? _shopName;
+  String? get shopName => _shopName;
+
+  String? _role;
+  String? get role => _role;
+
   List<String> _offerImages = [];
   List<String> get offerImages => _offerImages;
+
   Future addOffer({
     required String showOffersDisplay,
-    required String offersDuration,
+    required int offersDuration,
     required String startOffersDate,
     required String endOffersDate,
-    required String originalPrice,
+    required double originalPrice,
     required String currency,
-    required String discountPercentage,
-    required String discountPercentageFrom,
-    required String discountPercentageTo,
-    required String priceAfterDiscount,
+    required double discountPercentage,
+    required double discountPercentageFrom,
+    required double discountPercentageTo,
+    required double priceAfterDiscount,
     // required Address address,
     // required List<Branches> branchesList,
     XFile? image,
@@ -78,18 +98,22 @@ class RegisterOfferProvider extends ChangeNotifier {
     } else {
       offerImage = imageUrl!;
     }
+
     final ref = firestore
-        .collection('sellers')
-        .doc(firebaseAuth.currentUser!.uid)
+        // .collection('sellers')
+        // .doc(firebaseAuth.currentUser!.uid)
         .collection('offers')
         .doc();
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    String shopNameSP = sharedPreferences.getString('shopName') ?? "";
+
+    final shopData =
+        await getUserDataFromFirestore(firebaseAuth.currentUser?.uid);
+    // final SharedPreferences sharedPreferences =
+    //     await SharedPreferences.getInstance();
+    // String shopNameSP = sharedPreferences.getString('shopName') ?? "";
     await ref.set(
       {
         "id": ref.id,
-        "shopName": shopNameSP,
+        "shopName": _shopName,
 
         "showOffersDisplay": showOffersDisplay,
         "offersDuration": offersDuration,
@@ -108,8 +132,12 @@ class RegisterOfferProvider extends ChangeNotifier {
         // 'area': address.area,
         // 'floor': address.floor,
         // 'houseNumber': address.houseNumber,
-        // 'latitude': address.latitude,
-        // 'longitude': address.longitude,
+        'latitude': shopData.latitude,
+        'longitude': shopData.longitude,
+        'email': shopData.email,
+        'shopImageUrl': shopData.shopImage,
+        'sellerUid': firebaseAuth.currentUser?.uid,
+
         // 'province': address.province,
         // 'street': address.street,
         // 'branchesList': branchesList.map((branch) => branch.toMap()).toList(),
@@ -136,10 +164,14 @@ class RegisterOfferProvider extends ChangeNotifier {
   }
 
   Future<List<String>> fetchOfferImages() async {
-    final ref = firestore
-        .collection('sellers')
-        .doc(firebaseAuth.currentUser!.uid)
-        .collection('offers');
+    final uid = firebaseAuth.currentUser?.uid;
+
+    // final ref = firestore
+    // .collection('sellers')
+    // .doc(firebaseAuth.currentUser!.uid)
+    // .collection('offers');
+    final ref =
+        firestore.collection('offers').where('sellerUid', isEqualTo: uid);
 
     final snapshot = await ref.get();
     final List<String> imageUrls = [];
@@ -153,5 +185,32 @@ class RegisterOfferProvider extends ChangeNotifier {
     _offerImages = imageUrls;
     notifyListeners();
     return _offerImages;
+  }
+
+  Future<ShopModel> getUserDataFromFirestore(uid) async {
+    await FirebaseFirestore.instance
+        .collection('sellers')
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot snapshot) => {
+              _uid = snapshot['uid'],
+              _role = snapshot['role'],
+              _shopName = snapshot['shopName'],
+              _email = snapshot['email'],
+              _longitude = snapshot['longitude'],
+              _latitude = snapshot['latitude'],
+              _imageUrl = snapshot['shopImage'],
+            });
+
+    notifyListeners();
+    return ShopModel(
+      id: _uid,
+      email: _email,
+      name: _shopName,
+      latitude: _latitude,
+      longitude: _longitude,
+      shopImage: _imageUrl,
+      // role: _role,
+    );
   }
 }

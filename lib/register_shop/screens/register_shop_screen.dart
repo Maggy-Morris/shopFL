@@ -14,10 +14,7 @@ import 'package:anwer_shop/register_shop/bloc/register_shop_bloc.dart';
 import 'package:anwer_shop/register_shop/screens/search_address_manual_screen.dart';
 import 'package:anwer_shop/widgets/drop_down_widgets.dart';
 
-import 'package:anwer_shop/widgets/my_snack_bar.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:provider/provider.dart';
 
 import '../../widgets/Icons_wit_text.dart';
 import '../../widgets/assetImage_withtext.dart';
@@ -28,102 +25,9 @@ class RegisterShopScreen extends StatelessWidget {
   static const String routeName = '/register-shop-screen';
   RegisterShopScreen({super.key});
 
-  // XFile? imageXFile;
-  // final ImagePicker _picker = ImagePicker();
-
   dynamic mapPreviewController;
 
   MapController? mapController;
-
-  /// Variables to store country state city data in onChanged method.
-  // String? countryValue = "";
-  // String? stateValue = "";
-  // String? cityValue = "";
-  // String address = "";
-
-  // Future checkInfo() async {
-  //   final rp = context.read<RegisterShopProvider>();
-  //   await rp.checkIfAddressExist();
-  //   setState(() {
-  //     // categoriesController.text = rp.shopCategories ?? '';
-  //     // categoriesText = rp.shopCategories;
-
-  //     nameController.text = rp.shopName ?? '';
-  //     nameText = rp.shopName ?? '';
-
-  //     descriptionController.text = rp.shopDescription ?? '';
-  //     descriptionText = rp.shopDescription ?? '';
-
-  //     address = rp.shopAddress;
-  //     imageUrl = rp.shopImage ?? '';
-  //   });
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   checkInfo();
-  // }
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   nameController.dispose();
-  //   descriptionController.dispose();
-  // }
-
-  // handleRegisterShop() async {
-  //   final registerShopProvider = context.read<RegisterShopProvider>();
-  //   final internetProvider = context.read<InternetProvider>();
-
-  //   await internetProvider.checkInternetConnection();
-  //   if (internetProvider.hasInternet == false) {
-  //     Navigator.pop(context);
-  //     openSnackbar(context, 'Check your internet connection', scheme.primary);
-  //   } else {
-  //     if (imageUrl.isNotEmpty) {
-  //       await registerShopProvider.registerShop(
-  //         shopName: nameController.text.trim().toString(),
-  //         shopDescription: descriptionController.text.trim().toString(),
-  //         imageUrl: imageUrl,
-  //         address: address!,
-  //       );
-  //     } else {
-  //       await registerShopProvider.registerShop(
-  //         shopName: nameController.text.trim().toString(),
-  //         shopDescription: descriptionController.text.trim().toString(),
-  //         image: imageXFile!,
-  //         address: address!,
-  //       );
-  //     }
-
-  //     Navigator.pop(context);
-  //   }
-  // }
-
-  // takePhoto() async {
-  //   imageXFile = await _picker.pickImage(
-  //     source: ImageSource.camera,
-  //     maxHeight: 720,
-  //     maxWidth: 1280,
-  //   );
-
-  //   setState(() {
-  //     imageXFile;
-  //   });
-  // }
-
-  // uploadPhoto() async {
-  //   imageXFile = await _picker.pickImage(
-  //     source: ImageSource.gallery,
-  //     maxHeight: 720,
-  //     maxWidth: 1280,
-  //   );
-
-  //   setState(() {
-  //     imageXFile;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +126,7 @@ class RegisterShopScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Text(
                             state.shopName,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
@@ -240,7 +144,7 @@ class RegisterShopScreen extends StatelessWidget {
                                 fit: BoxFit.cover,
                                 image: state.shopImage.isNotEmpty
                                     ? NetworkImage(state.shopImage)
-                                    : AssetImage(
+                                    : const AssetImage(
                                             "assets/images/person_icon.png")
                                         as ImageProvider,
                               ),

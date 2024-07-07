@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:anwer_shop/constants/colors.dart';
 import 'package:anwer_shop/firebase_options.dart';
 import 'package:anwer_shop/providers/location_provider.dart';
@@ -12,7 +11,6 @@ import 'package:anwer_shop/router.dart';
 import 'package:anwer_shop/splash_screen/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'User/auth/blocs/authentication_bloc/authentication_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +34,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => InternetProvider()),
         ChangeNotifierProvider(create: (context) => RegisterShopProvider()),
         ChangeNotifierProvider(create: (context) => LocationProvider()),
+        
+
+
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

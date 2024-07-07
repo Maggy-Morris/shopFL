@@ -7,6 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'models/shop_model.dart';
+
 class RegisterAddsProvider extends ChangeNotifier {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -20,8 +22,8 @@ class RegisterAddsProvider extends ChangeNotifier {
   bool _anotherShop = false;
   bool get anotherShop => _anotherShop;
 
-  String? _addDuration;
-  String? get addDuration => _addDuration;
+  int? _addDuration;
+  int? get addDuration => _addDuration;
 
   String? _startAddsDate;
   String? get startAddsDate => _startAddsDate;
@@ -32,6 +34,24 @@ class RegisterAddsProvider extends ChangeNotifier {
   String? _addImage;
   String? get addImage => _addImage;
 
+  double? _latitude;
+  double? get latitude => _latitude;
+  double? _longitude;
+  double? get longitude => _longitude;
+
+  String? _email;
+  String? get email => _email;
+  String? _imageUrl;
+  String? get imageUrl => _imageUrl;
+
+  String? _uid;
+  String? get uid => _uid;
+
+  String? _shopName;
+  String? get shopName => _shopName;
+
+  String? _role;
+  String? get role => _role;
   // Address? _shopAddress;
   // Address? get shopAddress => _shopAddress;
 
@@ -56,7 +76,7 @@ class RegisterAddsProvider extends ChangeNotifier {
   Future addAdds({
     required bool anotherShop,
     required bool shopRelated,
-    required String addsDuration,
+    required int addsDuration,
     required String startAddsDate,
     required String endAddsDate,
     // required String originalPrice,
@@ -79,9 +99,12 @@ class RegisterAddsProvider extends ChangeNotifier {
     } else {
       addImage = imageUrl!;
     }
+    final shopData =
+        await getUserDataFromFirestore(firebaseAuth.currentUser?.uid);
+
     final ref = firestore
-        .collection('sellers')
-        .doc(firebaseAuth.currentUser!.uid)
+        // .collection('sellers')
+        // .doc(firebaseAuth.currentUser!.uid)
         .collection('Adds')
         .doc();
 
@@ -91,6 +114,9 @@ class RegisterAddsProvider extends ChangeNotifier {
 
     await ref.set(
       {
+        "shopId": firebaseAuth.currentUser!.uid,
+        // 'latitude': address.latitude,
+        // 'longitude': address.longitude,
         "shopName": shopNameSP,
         "id": ref.id,
         "shopRelated": shopRelated,
@@ -100,6 +126,11 @@ class RegisterAddsProvider extends ChangeNotifier {
         "startAddsDate": startAddsDate,
         "endAddsDate": endAddsDate,
         "addImage": addImage,
+        'latitude': shopData.latitude,
+        'longitude': shopData.longitude,
+        'email': shopData.email,
+        'shopImageUrl': shopData.shopImage,
+        'sellerUid': firebaseAuth.currentUser?.uid,
 
         // "originalPrice": originalPrice,
         // "priceAfterDiscount": priceAfterDiscount,
@@ -145,10 +176,13 @@ class RegisterAddsProvider extends ChangeNotifier {
   }
 
   Future<List<String>> fetchAddImages() async {
-    final ref = firestore
-        .collection('sellers')
-        .doc(firebaseAuth.currentUser!.uid)
-        .collection('Adds');
+    final uid = firebaseAuth.currentUser?.uid;
+
+    final ref = firestore.collection('Adds').where('sellerUid', isEqualTo: uid);
+    // final ref = firestore
+    //     .collection('sellers')
+    //     .doc(firebaseAuth.currentUser!.uid)
+    //     .collection('Adds');
 
     final snapshot = await ref.get();
     final List<String> imageUrls = [];
@@ -162,5 +196,32 @@ class RegisterAddsProvider extends ChangeNotifier {
     _addImages = imageUrls;
     notifyListeners();
     return _addImages;
+  }
+
+  Future<ShopModel> getUserDataFromFirestore(uid) async {
+    await FirebaseFirestore.instance
+        .collection('sellers')
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot snapshot) => {
+              _uid = snapshot['uid'],
+              _role = snapshot['role'],
+              _shopName = snapshot['shopName'],
+              _email = snapshot['email'],
+              _longitude = snapshot['longitude'],
+              _latitude = snapshot['latitude'],
+              _imageUrl = snapshot['shopImage'],
+            });
+
+    notifyListeners();
+    return ShopModel(
+      id: _uid,
+      email: _email,
+      name: _shopName,
+      latitude: _latitude,
+      longitude: _longitude,
+      shopImage: _imageUrl,
+      // role: _role,
+    );
   }
 }

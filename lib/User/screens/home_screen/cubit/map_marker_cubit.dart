@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,81 +10,48 @@ part 'map_marker_state.dart';
 class MapMarkerCubit extends Cubit<MapMarkerState> {
   MapMarkerCubit() : super(const MapMarkerState());
   Position? _currentPosition;
-  void fetchMarkers() {
+  void fetchMarkers() async {
     emit(state.copyWith(state: MapMarkerStatus.loading));
     try {
-      final List<MapMarkerModel> markers = [
-        MapMarkerModel(
-          discount: 20,
-          id: '1',
-          name: 'Cairo',
-          description: 'Capital city of Egypt',
-          position: LatLng(30.0444, 31.2357),
-        ),
-        MapMarkerModel(
-          discount: 10,
-          id: '2',
-          name: 'Alexandria',
-          description: "Egypt's second-largest city",
-          position: LatLng(31.2156, 29.9553),
-        ),
-        MapMarkerModel(
-          discount: 30,
-          id: '3',
-          name: 'Luxor',
-          description: 'Famous for its ancient monuments',
-          position: LatLng(25.6872, 32.6396),
-        ),
-        MapMarkerModel(
-          discount: 40,
-          id: '4',
-          name: 'Example place 4',
-          description: 'This is an example place 4',
-          position: const LatLng(23.774265, 45.738586),
-        ),
-        MapMarkerModel(
-          discount: 50,
-          id: '5',
-          name: 'Example place 5',
-          description: 'This is an example place 5',
-          position: const LatLng(26.774265, 46.738586),
-        ),
-        MapMarkerModel(
-          discount: 60,
-          id: '6',
-          name: 'Example place 6',
-          description: 'This is an example place 6',
-          position: const LatLng(25.774265, 45.738586),
-        ),
-        MapMarkerModel(
-          discount: 70,
-          id: '7',
-          name: 'Example place 7',
-          description: 'This is an example place 7',
-          position: const LatLng(24.774265, 44.738586),
-        ),
-        MapMarkerModel(
-          discount: 80,
-          id: '8',
-          name: 'Example place 8',
-          description: 'This is an example place 8',
-          position: const LatLng(23.774265, 46.738586),
-        ),
-        MapMarkerModel(
-          discount: 90,
-          id: '9',
-          name: 'Example place 9',
-          description: 'This is an example place 9',
-          position: const LatLng(26.774265, 44.738586),
-        ),
-        MapMarkerModel(
-          discount: 100,
-          id: '10',
-          name: 'Example place 10',
-          description: 'This is an example place 10',
-          position: const LatLng(24.774265, 45.738586),
-        ),
-      ];
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      final ref = firestore.collection('offers');
+
+      final snapshot = await ref.get();
+      final List<MapMarkerModel> markers = snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data();
+        return MapMarkerModel(
+          id: doc.id,
+          name: data['shopName'] ?? 'No name',
+          description: data['description'] ?? 'No description',
+
+          // discount: data['discount'],
+
+          // position: LatLng(
+          //   map['position']['latitude'],
+          //   map['position']['longitude'],
+          // ),
+          currency: data['currency'],
+          discountPercentageFrom: data['discountPercentageFrom'],
+          discountPercentageTo: data['discountPercentageTo'],
+          discountPercentage: data['discountPercentage'],
+          endOfferDate: data['endOfferDate'],
+
+          latitude: data['latitude'],
+          longitude: data['longitude'],
+          offerImage: data['offerImage'],
+          offersDuration: data['offersDuration'],
+          originalPrice: data['originalPrice'],
+          priceAfterDiscount: data['priceAfterDiscount'],
+          sellerUid: data['sellerUid'],
+          shopImageUrl: data['shopImageUrl'],
+          shopName: data['shopName'],
+          showOffersDisplay: data['showOffersDisplay'],
+          startOffersDate: data['startOffersDate'],
+
+          // position: LatLng(data['latitude'] ?? 0.0, data['longitude'] ?? 0.0),
+        );
+      }).toList();
+
       emit(state.copyWith(state: MapMarkerStatus.loaded, markers: markers));
     } catch (e) {
       emit(state.copyWith(

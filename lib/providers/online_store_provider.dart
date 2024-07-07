@@ -1,8 +1,6 @@
-import 'dart:io';
-
+import 'package:anwer_shop/providers/models/shop_model.dart';
 import 'package:flutter/material.dart';
-import 'package:anwer_shop/common/firebare_storage_repository.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -19,8 +17,8 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
   String? _shopLink;
   String? get shopLink => _shopLink;
 
-  String? _offersDuration;
-  String? get offersDuration => _offersDuration;
+  int? _offersDuration;
+  int? get offersDuration => _offersDuration;
 
   String? _startOffersDate;
   String? get startOffersDate => _startOffersDate;
@@ -42,26 +40,45 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
 
   // String? _discountPercentage;
   // String? get discountPercentage => _discountPercentage;
-  String? _discountPercentageFrom;
-  String? get discountPercentageFrom => _discountPercentageFrom;
-  String? _discountPercentageTo;
-  String? get discountPercentageTo => _discountPercentageTo;
+  double? _discountPercentageFrom;
+  double? get discountPercentageFrom => _discountPercentageFrom;
+  double? _discountPercentageTo;
+  double? get discountPercentageTo => _discountPercentageTo;
 
   String? _shopCategories;
   String? get shopCategories => _shopCategories;
+
+  double? _latitude;
+  double? get latitude => _latitude;
+  double? _longitude;
+  double? get longitude => _longitude;
+
+  String? _email;
+  String? get email => _email;
+  String? _imageUrl;
+  String? get imageUrl => _imageUrl;
+
+  String? _uid;
+  String? get uid => _uid;
+
+  String? _shopName;
+  String? get shopName => _shopName;
+
+  String? _role;
+  String? get role => _role;
 
   // List<String> _offerImages = [];
   // List<String> get offerImages => _offerImages;
   Future addOnlineStore({
     required String shopLink,
-    required String offersDuration,
+    required int offersDuration,
     required String startOffersDate,
     required String endOffersDate,
     // required String originalPrice,
     required String shopCategories,
     // required String discountPercentage,
-    required String discountPercentageFrom,
-    required String discountPercentageTo,
+    required double discountPercentageFrom,
+    required double discountPercentageTo,
     // required String priceAfterDiscount,
     // required Address address,
     // required List<Branches> branchesList,
@@ -77,9 +94,13 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
     // } else {
     //   offerImage = imageUrl!;
     // }
+
+    final shopData =
+        await getUserDataFromFirestore(firebaseAuth.currentUser?.uid);
+
     final ref = firestore
-        .collection('sellers')
-        .doc(firebaseAuth.currentUser!.uid)
+        // .collection('sellers')
+        // .doc(firebaseAuth.currentUser!.uid)
         .collection('onlineStore')
         .doc();
     await ref.set(
@@ -96,6 +117,14 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
         // "offerImage": offerImage,
         "discountPercentageFrom": discountPercentageFrom,
         "discountPercentageTo": discountPercentageTo,
+
+        'latitude': shopData.latitude,
+        'longitude': shopData.longitude,
+        'email': shopData.email,
+        'shopImageUrl': shopData.shopImage,
+        'sellerUid': firebaseAuth.currentUser?.uid,
+                "shopName": _shopName,
+
 
         // "rating": 0,
 
@@ -127,6 +156,33 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
     _shopCategories = shopCategories;
 
     notifyListeners();
+  }
+
+  Future<ShopModel> getUserDataFromFirestore(uid) async {
+    await FirebaseFirestore.instance
+        .collection('sellers')
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot snapshot) => {
+              _uid = snapshot['uid'],
+              _role = snapshot['role'],
+              _shopName = snapshot['shopName'],
+              _email = snapshot['email'],
+              _longitude = snapshot['longitude'],
+              _latitude = snapshot['latitude'],
+              _imageUrl = snapshot['shopImage'],
+            });
+
+    notifyListeners();
+    return ShopModel(
+      id: _uid,
+      email: _email,
+      name: _shopName,
+      latitude: _latitude,
+      longitude: _longitude,
+      shopImage: _imageUrl,
+      // role: _role,
+    );
   }
 
   // Future<List<String>> fetchOfferImages() async {
