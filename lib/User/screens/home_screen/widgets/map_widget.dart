@@ -187,18 +187,26 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final MapController _mapController = MapController();
+
     return BlocBuilder<SliderCubit, SliderState>(
       builder: (context, state) {
         final discountRange = state.newValues;
+        debugPrint('Discount Range: $discountRange');
+
         return BlocBuilder<MapMarkerCubit, MapMarkerState>(
           builder: (context, state) {
             final filteredMarkers = state.markers.where((marker) {
-              return marker.discountPercentageTo >= discountRange.start &&
-                  marker.discountPercentageFrom <= discountRange.end;
+              return marker.discountPercentageFrom >= discountRange.start &&
+                  marker.discountPercentageTo <= discountRange.end;
             }).toList();
+            debugPrint('Filtered Markers: $filteredMarkers');
+
             return SizedBox(
               height: MediaQuery.of(context).size.height * 0.45,
               child: FlutterMap(
+                mapController: _mapController, // Add the map controller here
+
                 options: MapOptions(
                   initialCenter: state.currentLocation,
                   initialZoom: 14.0,
@@ -225,7 +233,7 @@ class _MapScreenState extends State<MapScreen> {
                         return Marker(
                           width: 80.0,
                           height: 80.0,
-                          point: LatLng(marker.latitude, marker.latitude),
+                          point: LatLng(marker.latitude, marker.longitude),
                           child: Builder(
                             builder: (context) => GestureDetector(
                               onTap: () {
