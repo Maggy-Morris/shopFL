@@ -23,18 +23,11 @@ class MapMarkerCubit extends Cubit<MapMarkerState> {
           id: doc.id,
           name: data['shopName'] ?? 'No name',
           description: data['description'] ?? 'No description',
-
-          // discount: data['discount'],
-
-          // position: LatLng(
-          //   map['position']['latitude'],
-          //   map['position']['longitude'],
-          // ),
           currency: data['currency'],
           discountPercentageFrom: data['discountPercentageFrom'],
           discountPercentageTo: data['discountPercentageTo'],
           discountPercentage: data['discountPercentage'],
-          endOfferDate: data['endOfferDate'],
+          endOfferDate: data['endOffersDate'],
 
           latitude: data['latitude'],
           longitude: data['longitude'],
@@ -48,7 +41,6 @@ class MapMarkerCubit extends Cubit<MapMarkerState> {
           showOffersDisplay: data['showOffersDisplay'],
           startOffersDate: data['startOffersDate'],
 
-          // position: LatLng(data['latitude'] ?? 0.0, data['longitude'] ?? 0.0),
         );
       }).toList();
 

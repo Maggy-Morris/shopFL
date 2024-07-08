@@ -56,7 +56,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: isCustomer ? scheme.primary : Colors.grey,
+                        backgroundColor: isCustomer ? scheme.primary : Colors.grey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -77,7 +77,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: !isCustomer ? scheme.primary : Colors.grey,
+                        backgroundColor: !isCustomer ? scheme.primary : Colors.grey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
