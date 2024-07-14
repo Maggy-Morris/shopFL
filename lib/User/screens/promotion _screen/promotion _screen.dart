@@ -4,13 +4,16 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
+import '../home_screen/models/map_marker_model.dart';
+import '../home_screen/widgets/countdown_timer.dart';
 import '../home_screen/widgets/custom_appbar.dart';
 import '../home_screen/widgets/image_slider_widget.dart';
 
 class PromotionScreen extends StatelessWidget {
+  MapMarkerModel mapMarkerModel;
   static const String routeName = '/Promotion-screen';
 
-  PromotionScreen({super.key});
+  PromotionScreen({required this.mapMarkerModel, super.key});
 
   final AdvancedDrawerController _advancedDrawerController =
       AdvancedDrawerController();
@@ -31,7 +34,7 @@ class PromotionScreen extends StatelessWidget {
                     CustomAppBar(
                         advancedDrawerController: _advancedDrawerController),
                     const SizedBox(height: 10),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,59 +43,79 @@ class PromotionScreen extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text('Anwar Supermarket',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold)),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Text(mapMarkerModel.shopName,
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
+                              ),
                               SizedBox(height: 10),
                               Row(
                                 children: [
                                   Column(
                                     children: [
-                                      Text('السعودية',
+                                      Text(mapMarkerModel.province,
                                           style: TextStyle(fontSize: 16)),
                                       Text(
-                                        'الرياض',
+                                        mapMarkerModel.area,
                                         style: TextStyle(fontSize: 16),
                                       ),
                                     ],
                                   ),
-                                  Icon(Icons.location_on, color: Colors.grey),
+                                  const Icon(Icons.location_on,
+                                      color: Colors.grey),
                                 ],
                               ),
                             ],
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           CircleAvatar(
+                            backgroundColor: Colors
+                                .transparent, // Optional, sets the background to transparent
+
                             radius: 30,
-                            backgroundColor: Color(0xffF0F5FA),
-                            child: Icon(
-                              Icons.person,
-                              size: 20,
-                              color: Color(0xffD2D5F9),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: mapMarkerModel.shopImageUrl.isNotEmpty
+                                      ? NetworkImage(
+                                          mapMarkerModel.shopImageUrl)
+                                      : const AssetImage(
+                                              "assets/images/person_icon.png")
+                                          as ImageProvider,
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 30),
-                    const ImageSliderWidget(),
+                    ImageSliderWidget(
+                      imageUrls: [mapMarkerModel.offerImage],
+                    ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text('1 day 15 hour 45 min 23 sec',
+                        CountdownTimer(
+                            targetDateString: mapMarkerModel.endOfferDate),
+                        const Text('تبقى للخصم',
                             style: TextStyle(color: Colors.grey)),
-                        Text('تبقى للخصم',
-                            style: TextStyle(color: Colors.grey)),
-                        Icon(Icons.share, color: Colors.grey),
-                        Text('20', style: TextStyle(color: Colors.grey)),
-                        Icon(Icons.remove_red_eye, color: Colors.grey),
-                        Text('20', style: TextStyle(color: Colors.grey)),
+                        const Icon(Icons.share, color: Colors.grey),
+                        const Text('20', style: TextStyle(color: Colors.grey)),
+                        const Icon(Icons.remove_red_eye, color: Colors.grey),
+                        const Text('20', style: TextStyle(color: Colors.grey)),
                       ],
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                    const ImageSliderWidget(),
+                    ImageSliderWidget(
+                      imageUrls: [mapMarkerModel.offerImage],
+                    ),
                   ],
                 ),
               ),

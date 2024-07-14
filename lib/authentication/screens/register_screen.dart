@@ -153,6 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ],
       ),
       body: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -269,7 +270,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     width: 400,
                     defaultColor: Colors.grey[400]!,
                     failureColor: Colors.red,
-                    height: 150,
+                    height: 170,
                     onSuccess: () {
                       setState(() {
                         isError = false;
@@ -281,7 +282,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       });
                     },
                   ),
-                  const SizedBox(height: 20),
+                  // const SizedBox(height: 20),
                 ],
               ),
               Divider(

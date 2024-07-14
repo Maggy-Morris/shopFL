@@ -153,7 +153,7 @@ class UserHomeScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text('مشاركة التطبيق'),
+                                Text('مشاركة التطبيق'.tr()),
                                 const SizedBox(width: 10),
                                 SvgPicture.asset(
                                     "assets/icon_images/share.svg"),
@@ -192,8 +192,8 @@ class UserHomeScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: const Text(
-                              'تسجيل الخروج',
+                            child: Text(
+                              'تسجيل الخروج'.tr(),
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -207,59 +207,64 @@ class UserHomeScreen extends StatelessWidget {
                   ),
                   rtlOpening: true,
                   child: SafeArea(
-                    child: Scaffold(
-                      body: SingleChildScrollView(
-                        // Added SingleChildScrollView here
-                        child: Column(
-                          children: [
-                            Column(
+                    child: BlocBuilder<MapMarkerCubit, MapMarkerState>(
+                      builder: (context, state) {
+                        return Scaffold(
+                          body: SingleChildScrollView(
+                            // Added SingleChildScrollView here
+                            child: Column(
                               children: [
-                                CustomAppBar(
-                                    advancedDrawerController:
-                                        _advancedDrawerController),
-                                const MapScreen(),
+                                Column(
+                                  children: [
+                                    CustomAppBar(
+                                        advancedDrawerController:
+                                            _advancedDrawerController),
+                                    MapScreen(),
 
-                                const SliderWidget(),
+                                    const SliderWidget(),
 
-                                // slider range
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.25,
-                                  child: ImageSlideshow(
-                                    children: [
-                                      Image.asset(
-                                        "assets/icon_images/Rectangle 556.png",
-                                        fit: BoxFit.cover,
+                                    // slider range
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.25,
+                                      child: ImageSlideshow(
+                                        children: [
+                                          Image.asset(
+                                            "assets/icon_images/Rectangle 556.png",
+                                            fit: BoxFit.cover,
+                                          ),
+                                          Image.asset(
+                                            "assets/icon_images/Rectangle 556.png",
+                                            fit: BoxFit.cover,
+                                          ),
+                                          // Image.network(
+                                          //   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+                                          //   fit: BoxFit.cover,
+                                          // ),
+                                          // Image.network(
+                                          //   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+                                          //   fit: BoxFit.cover,
+                                          // ),
+                                        ],
                                       ),
-                                      Image.asset(
-                                        "assets/icon_images/Rectangle 556.png",
-                                        fit: BoxFit.cover,
-                                      ),
-                                      // Image.network(
-                                      //   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
-                                      //   fit: BoxFit.cover,
-                                      // ),
-                                      // Image.network(
-                                      //   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
-                                      //   fit: BoxFit.cover,
-                                      // ),
-                                    ],
-                                  ),
+                                    ),
+
+                                    const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 12.0),
+                                      child: CustomNavigationBar(),
+                                    )
+                                    // SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                  ],
                                 ),
-
-                                const Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 12.0),
-                                  child: CustomNavigationBar(),
-                                )
-                                // SizedBox(
-                                //   height: 10,
-                                // ),
                               ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 )
@@ -312,15 +317,15 @@ class UserHomeScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: const Text(
-                              'تسجيل الدخول',
+                            child: Text(
+                              'تسجيل الدخول'.tr(),
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
                           ElevatedButton(
                             onPressed: () {
                               Navigator.pushNamed(
-                                  arguments: "تاجر",
+                                  arguments: "تاجر".tr(),
                                   context,
                                   LoginScreen.routeName);
                               // Navigator.push(
@@ -336,8 +341,8 @@ class UserHomeScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: const Text(
-                              'تسجيل الدخول كتاجر',
+                            child: Text(
+                              'تسجيل الدخول كتاجر'.tr(),
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -377,25 +382,25 @@ class UserHomeScreen extends StatelessWidget {
                           ),
                           const Divider(),
                           CustomButton(
-                            text: 'الشروط و الأحكام',
+                            text: 'الشروط و الأحكام'.tr(),
                             icon: "assets/icon_images/conditions.svg",
                             onTap: () {},
                           ),
                           const Divider(),
                           CustomButton(
-                            text: 'سياسة الخصوصية',
+                            text: 'سياسة الخصوصية'.tr(),
                             icon: "assets/icon_images/politics.svg",
                             onTap: () {},
                           ),
                           const Divider(),
                           CustomButton(
-                            text: 'تواصل معنا',
+                            text: 'تواصل معنا'.tr(),
                             icon: "assets/icon_images/phone.svg",
                             onTap: () {},
                           ),
                           const Divider(),
                           CustomButton(
-                            text: 'الاشعارات',
+                            text: 'الاشعارات'.tr(),
                             icon:
                                 "assets/icon_images/ic_round-notifications.svg",
                             onTap: () {},
@@ -415,7 +420,7 @@ class UserHomeScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text('مشاركة التطبيق'),
+                                Text('مشاركة التطبيق'.tr()),
                                 const SizedBox(width: 10),
                                 SvgPicture.asset(
                                     "assets/icon_images/share.svg"),
@@ -468,20 +473,24 @@ class UserHomeScreen extends StatelessWidget {
                   ),
                   rtlOpening: true,
                   child: SafeArea(
-                    child: Scaffold(
-                      body: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            CustomAppBar(
-                                advancedDrawerController:
-                                    _advancedDrawerController),
-                            const MapScreen(),
-                            const SliderWidget(),
-                            const ImageSliderWidget(),
-                            const CustomNavigationBar()
-                          ],
-                        ),
-                      ),
+                    child: BlocBuilder<MapMarkerCubit, MapMarkerState>(
+                      builder: (context, state) {
+                        return Scaffold(
+                          body: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                CustomAppBar(
+                                    advancedDrawerController:
+                                        _advancedDrawerController),
+                                MapScreen(),
+                                const SliderWidget(),
+                                //  ImageSliderWidget(),
+                                const CustomNavigationBar()
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),

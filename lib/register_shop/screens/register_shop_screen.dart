@@ -883,6 +883,7 @@ class RegisterShopScreen extends StatelessWidget {
                             ),
                           ),
                           controller: controllerShopPhoneNumber,
+                          keyboardType: TextInputType.phone,
                           // initialValue: state.shopPhoneNumber.toString(),
                           // onChanged: (value) {
                           //   RegisterShopBloc.get(context).add(

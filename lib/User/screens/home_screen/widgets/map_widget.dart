@@ -1,3 +1,4 @@
+import 'package:anwer_shop/User/screens/home_screen/models/map_marker_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -9,8 +10,11 @@ import '../cubit/map_marker_cubit.dart';
 import '../cubit/slider_cubit.dart';
 import 'promotion_buttom_sheet.dart';
 
+// ignore: must_be_immutable
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  // List<MapMarkerModel> mapMarkerModel;
+
+  MapScreen({super.key});
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -66,7 +70,11 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  OverlayEntry _createOverlayEntry(BuildContext context, Offset position) {
+  OverlayEntry _createOverlayEntry(
+    MapMarkerModel mapMarkerModel,
+    BuildContext context,
+    Offset position,
+  ) {
     return OverlayEntry(
       builder: (context) => Positioned(
         left: position.dx,
@@ -91,7 +99,7 @@ class _MapScreenState extends State<MapScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _buildOverlayHeader(),
+                _buildOverlayHeader(mapMarkerModel),
                 const SizedBox(height: 5),
                 _buildRatingRow(),
                 const SizedBox(height: 10),
@@ -103,7 +111,7 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                _buildMoreButton(context),
+                _buildMoreButton(context, mapMarkerModel),
               ],
             ),
           ),
@@ -112,14 +120,14 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  Widget _buildOverlayHeader() {
-    return const Row(
+  Widget _buildOverlayHeader(MapMarkerModel mapMarkerModel) {
+    return Row(
       children: [
-        Icon(Icons.local_offer, color: Colors.red),
-        SizedBox(width: 5),
+        const Icon(Icons.local_offer, color: Colors.red),
+        const SizedBox(width: 5),
         Text(
-          'Anwar Shop',
-          style: TextStyle(
+          mapMarkerModel.shopName,
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -141,7 +149,7 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  Widget _buildMoreButton(BuildContext context) {
+  Widget _buildMoreButton(BuildContext context, MapMarkerModel mapMarkerModel) {
     return ElevatedButton(
       onPressed: () {
         _removeOverlay();
@@ -154,7 +162,9 @@ class _MapScreenState extends State<MapScreen> {
             ),
           ),
           builder: (context) {
-            return const PromotionBottomSheet();
+            return PromotionBottomSheet(
+              mapMarkerModel: mapMarkerModel,
+            );
           },
         );
       },
@@ -174,9 +184,14 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  void _showOverlay(BuildContext context, Offset position) {
+  void _showOverlay(
+      BuildContext context, Offset position, MapMarkerModel mapMarkerModel) {
     _removeOverlay();
-    _overlayEntry = _createOverlayEntry(context, position);
+    _overlayEntry = _createOverlayEntry(
+      mapMarkerModel,
+      context,
+      position,
+    );
     Overlay.of(context).insert(_overlayEntry!);
   }
 
@@ -187,11 +202,12 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final MapController _mapController = MapController();
+    // final MapController _mapController = MapController();
 
     return BlocBuilder<SliderCubit, SliderState>(
       builder: (context, state) {
         final discountRange = state.newValues;
+
         debugPrint('Discount Range: $discountRange');
 
         return BlocBuilder<MapMarkerCubit, MapMarkerState>(
@@ -200,14 +216,17 @@ class _MapScreenState extends State<MapScreen> {
               return marker.discountPercentageFrom >= discountRange.start &&
                   marker.discountPercentageTo <= discountRange.end;
             }).toList();
-            debugPrint('Filtered Markers: $filteredMarkers');
+            // debugPrint('Filtered Markers: $filteredMarkers');
 
             return SizedBox(
               height: MediaQuery.of(context).size.height * 0.45,
               child: FlutterMap(
-                mapController: _mapController, // Add the map controller here
+                mapController: context
+                    .read<MapMarkerCubit>()
+                    .mapController, // Add the map controller here
 
                 options: MapOptions(
+                  keepAlive: true,
                   initialCenter: state.currentLocation,
                   initialZoom: 14.0,
                   onTap: (tapPosition, latLng) {
@@ -219,7 +238,7 @@ class _MapScreenState extends State<MapScreen> {
                     urlTemplate:
                         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                     userAgentPackageName: 'com.example.app',
-                    subdomains: ['a', 'b', 'c'],
+                    subdomains: const ['a', 'b', 'c'],
                   ),
                   MarkerLayer(
                     markers: [
@@ -247,7 +266,11 @@ class _MapScreenState extends State<MapScreen> {
                                   markerSize.width / 2,
                                   -markerSize.height / 2,
                                 );
-                                _showOverlay(context, overlayPosition);
+                                _showOverlay(
+                                  context,
+                                  overlayPosition,
+                                  marker,
+                                );
                               },
                               child: Stack(
                                 children: [

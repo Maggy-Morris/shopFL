@@ -3,6 +3,7 @@ part of 'map_marker_cubit.dart';
 enum MapMarkerStatus { initial, loading, loaded, error }
 
 class MapMarkerState extends Equatable {
+  
   final MapMarkerStatus state;
   final List<MapMarkerModel> markers;
   final String? errorMessage;
@@ -10,7 +11,7 @@ class MapMarkerState extends Equatable {
   final bool locationFetched;
   final String currentLocationName;
   const MapMarkerState({
-    this.currentLocation = const LatLng(24.774265, 46.738586),
+    this.currentLocation = const LatLng(0.774265, 0.738586),
     this.state = MapMarkerStatus.initial,
     this.markers = const [],
     this.errorMessage,
@@ -35,6 +36,7 @@ class MapMarkerState extends Equatable {
       currentLocationName: currentLocationName ?? this.currentLocationName,
     );
   }
+
   @override
   List<Object?> get props => [
         state,

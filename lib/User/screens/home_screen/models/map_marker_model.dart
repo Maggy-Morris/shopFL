@@ -2,7 +2,7 @@ import 'package:latlong2/latlong.dart';
 
 class MapMarkerModel {
   final String id;
-   final String name;
+  final String name;
   final String description;
   // final LatLng position;
 
@@ -26,26 +26,28 @@ class MapMarkerModel {
   final String shopName;
   final String showOffersDisplay;
   final String startOffersDate;
+  final String province;
+  final String area;
 
- 
-
-  MapMarkerModel(
-{    this.currency = '',
-    this.discountPercentageFrom =0,
-    this.discountPercentageTo =0,
-    this.discountPercentage =0,
-    this.endOfferDate ='',
-    this.latitude =0,
-    this.longitude =0,
-    this.offerImage ='',
-    this.offersDuration =0,
-    this.originalPrice =0,
-    this.priceAfterDiscount=0,
+  MapMarkerModel({
+    this.province = '',
+    this.area = '',
+    this.currency = '',
+    this.discountPercentageFrom = 0,
+    this.discountPercentageTo = 0,
+    this.discountPercentage = 0,
+    this.endOfferDate = '',
+    this.latitude = 0,
+    this.longitude = 0,
+    this.offerImage = '',
+    this.offersDuration = 0,
+    this.originalPrice = 0,
+    this.priceAfterDiscount = 0,
     this.sellerUid = '',
     this.shopImageUrl = '',
     this.shopName = '',
     this.showOffersDisplay = '',
-    this.startOffersDate = '', 
+    this.startOffersDate = '',
     // required this.discount,
     required this.id,
     required this.name,
@@ -75,6 +77,8 @@ class MapMarkerModel {
     String? shopName,
     String? showOffersDisplay,
     String? startOffersDate,
+    String? province,
+    String? area,
   }) {
     return MapMarkerModel(
       // discount: discount ?? this.discount,
@@ -83,8 +87,9 @@ class MapMarkerModel {
       description: description ?? this.description,
       // position: position ?? this.position,
 
-        currency: currency ?? this.currency,
-      discountPercentageFrom: discountPercentageFrom ?? this.discountPercentageFrom,
+      currency: currency ?? this.currency,
+      discountPercentageFrom:
+          discountPercentageFrom ?? this.discountPercentageFrom,
       discountPercentageTo: discountPercentageTo ?? this.discountPercentageTo,
       discountPercentage: discountPercentage ?? this.discountPercentage,
       endOfferDate: endOfferDate ?? this.endOfferDate,
@@ -99,7 +104,8 @@ class MapMarkerModel {
       shopName: shopName ?? this.shopName,
       showOffersDisplay: showOffersDisplay ?? this.showOffersDisplay,
       startOffersDate: startOffersDate ?? this.startOffersDate,
-
+      province: province ?? this.province,
+      area: area ?? this.area,
     );
   }
 
@@ -125,13 +131,13 @@ class MapMarkerModel {
       'offersDuration': offersDuration,
       'originalPrice': originalPrice,
       'priceAfterDiscount': priceAfterDiscount,
-     'sellerUid': sellerUid,
-     'shopImageUrl': shopImageUrl,
-     'shopName': shopName,
-     'showOffersDisplay': showOffersDisplay,
-     'startOffersDate': startOffersDate,
-
-
+      'sellerUid': sellerUid,
+      'shopImageUrl': shopImageUrl,
+      'shopName': shopName,
+      'showOffersDisplay': showOffersDisplay,
+      'startOffersDate': startOffersDate,
+      'province': province,
+      'area': area,
     };
   }
 
@@ -162,7 +168,8 @@ class MapMarkerModel {
       shopName: map['shopName'],
       showOffersDisplay: map['showOffersDisplay'],
       startOffersDate: map['startOffersDate'],
-
+      province: map['province'],
+      area: map['area'],
     );
   }
 }

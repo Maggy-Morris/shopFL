@@ -1,10 +1,13 @@
+import 'package:anwer_shop/User/screens/home_screen/models/map_marker_model.dart';
+import 'package:anwer_shop/User/screens/home_screen/widgets/countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 import '../../promotion _screen/promotion _screen.dart';
 
 class PromotionBottomSheet extends StatelessWidget {
-  const PromotionBottomSheet({super.key});
+  MapMarkerModel mapMarkerModel;
+  PromotionBottomSheet({required this.mapMarkerModel, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +28,17 @@ class PromotionBottomSheet extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const Column(
+              Column(
                 children: [
                   Text(
-                    'Anwar shop',
-                    style: TextStyle(
+                    mapMarkerModel.shopName,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8.0),
-                  Row(
+                  const SizedBox(height: 8.0),
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Icon(Icons.star, color: Colors.yellow),
@@ -47,20 +50,21 @@ class PromotionBottomSheet extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(width: 8.0),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(5),
+              // const SizedBox(width: 8.0),
+              CircleAvatar(
+                backgroundColor: Colors
+                    .transparent, // Optional, sets the background to transparent
+
+                radius: 25,
                 child: Container(
-                  color: Colors.red,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                    vertical: 4.0,
-                  ),
-                  child: const Text(
-                    'متجر',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: mapMarkerModel.shopImageUrl.isNotEmpty
+                          ? NetworkImage(mapMarkerModel.shopImageUrl)
+                          : const AssetImage("assets/images/person_icon.png")
+                              as ImageProvider,
                     ),
                   ),
                 ),
@@ -68,69 +72,76 @@ class PromotionBottomSheet extends StatelessWidget {
             ],
           ),
           const Divider(),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '20%',
-                style: TextStyle(
+                mapMarkerModel.discountPercentage != 0
+                    ? '${mapMarkerModel.discountPercentage}%'
+                    : '${mapMarkerModel.discountPercentageFrom}% > ${mapMarkerModel.discountPercentageTo}% ',
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
+              const Text(
                 'نسبة الخصم',
                 style: TextStyle(fontSize: 18),
               ),
             ],
           ),
           const Divider(),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CountdownTimer(),
-              Text(
+              CountdownTimer(targetDateString: mapMarkerModel.endOfferDate),
+              const Text(
                 'تبقى للخصم',
                 style: TextStyle(fontSize: 18),
               ),
             ],
           ),
           const Divider(),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'الرياض, السعودية',
-                style: TextStyle(
+                '${mapMarkerModel.province} , ${mapMarkerModel.area}',
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
+              const Text(
                 'مكان محل الخصم',
                 style: TextStyle(fontSize: 18),
               ),
             ],
           ),
           SizedBox(
+            height: 10,
+          ),
+          SizedBox(
             height: MediaQuery.of(context).size.height * 0.2,
             child: ImageSlideshow(
               children: [
-                Image.asset(
-                  "assets/icon_images/Rectangle 556.png",
-                  fit: BoxFit.cover,
+                Image.network(
+                  mapMarkerModel.offerImage,
+                  fit: BoxFit.fill,
                 ),
-                Image.asset(
-                  "assets/icon_images/Rectangle 556.png",
-                  fit: BoxFit.cover,
-                ),
+                // Image.asset(
+                //   "assets/icon_images/Rectangle 556.png",
+                //   fit: BoxFit.cover,
+                // ),
               ],
             ),
           ),
           ElevatedButton(
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return PromotionScreen();
+                return PromotionScreen(
+                  mapMarkerModel: mapMarkerModel,
+                );
               }));
             },
             style: ElevatedButton.styleFrom(
@@ -146,22 +157,6 @@ class PromotionBottomSheet extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class CountdownTimer extends StatelessWidget {
-  const CountdownTimer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    // Replace with your countdown timer logic
-    return const Text(
-      '1  15  45  23 ',
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
       ),
     );
   }

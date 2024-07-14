@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -8,7 +9,11 @@ import '../models/map_marker_model.dart';
 part 'map_marker_state.dart';
 
 class MapMarkerCubit extends Cubit<MapMarkerState> {
+  final MapController _mapController = MapController();
+
   MapMarkerCubit() : super(const MapMarkerState());
+  // Public getter for the MapController
+  MapController get mapController => _mapController;
   Position? _currentPosition;
   void fetchMarkers() async {
     emit(state.copyWith(state: MapMarkerStatus.loading));
@@ -20,28 +25,27 @@ class MapMarkerCubit extends Cubit<MapMarkerState> {
       final List<MapMarkerModel> markers = snapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data();
         return MapMarkerModel(
-          id: doc.id,
-          name: data['shopName'] ?? 'No name',
-          description: data['description'] ?? 'No description',
-          currency: data['currency'],
-          discountPercentageFrom: data['discountPercentageFrom'],
-          discountPercentageTo: data['discountPercentageTo'],
-          discountPercentage: data['discountPercentage'],
-          endOfferDate: data['endOffersDate'],
-
-          latitude: data['latitude'],
-          longitude: data['longitude'],
-          offerImage: data['offerImage'],
-          offersDuration: data['offersDuration'],
-          originalPrice: data['originalPrice'],
-          priceAfterDiscount: data['priceAfterDiscount'],
-          sellerUid: data['sellerUid'],
-          shopImageUrl: data['shopImageUrl'],
-          shopName: data['shopName'],
-          showOffersDisplay: data['showOffersDisplay'],
-          startOffersDate: data['startOffersDate'],
-
-        );
+            id: doc.id,
+            name: data['shopName'] ?? 'No name',
+            description: data['description'] ?? 'No description',
+            currency: data['currency'],
+            discountPercentageFrom: data['discountPercentageFrom'],
+            discountPercentageTo: data['discountPercentageTo'],
+            discountPercentage: data['discountPercentage'],
+            endOfferDate: data['endOffersDate'],
+            latitude: data['latitude'],
+            longitude: data['longitude'],
+            offerImage: data['offerImage'],
+            offersDuration: data['offersDuration'],
+            originalPrice: data['originalPrice'],
+            priceAfterDiscount: data['priceAfterDiscount'],
+            sellerUid: data['sellerUid'],
+            shopImageUrl: data['shopImageUrl'],
+            shopName: data['shopName'],
+            showOffersDisplay: data['showOffersDisplay'],
+            startOffersDate: data['startOffersDate'],
+            area: data['area'],
+            province: data['province']);
       }).toList();
 
       emit(state.copyWith(state: MapMarkerStatus.loaded, markers: markers));
@@ -59,6 +63,12 @@ class MapMarkerCubit extends Cubit<MapMarkerState> {
       _currentPosition = position;
 
       if (_currentPosition != null) {
+        // Move the map to the current location
+        _mapController.move(
+          LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
+          _mapController.camera.zoom,
+        );
+
         emit(state.copyWith(
           currentLocation:
               LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
