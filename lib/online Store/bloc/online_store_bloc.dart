@@ -1,7 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
 
 import '../../providers/online_store_provider.dart';
 import '../../widgets/enum/enum.dart';
@@ -17,7 +15,7 @@ class OnlineStoreBloc extends Bloc<OnlineStoreEvent, OnlineStoreState> {
     on<OnlineStoreEvent>((event, emit) {});
     on<EditshopLink>(_onEditshopLink);
 
-    // on<EditShopDescription>(_onEditShopDescription);
+    on<EditShopDescription>(_onEditShopDescription);
     on<EditShopCategories>(_onEditShopCategories);
     // on<EditShopType>(_onEditShopType);
     // on<EditShopLocation>(_onEditShopLocation);
@@ -29,7 +27,7 @@ class OnlineStoreBloc extends Bloc<OnlineStoreEvent, OnlineStoreState> {
 
     // on<EditShopImage>(_onEditShopImage);
 
-    // on<EditShowOffersDisplay>(_onEditShowOffersDisplay);
+    on<EditShowOffersDisplay>(_onEditShowOffersDisplay);
     on<EditOffersDuration>(_onEditOffersDuration);
 
     on<EditDiscountPercentageFrom>(_onEditDiscountPercentageFrom);
@@ -332,8 +330,7 @@ class OnlineStoreBloc extends Bloc<OnlineStoreEvent, OnlineStoreState> {
   _onAddOnlineStore(
       AddOnlineStore event, Emitter<OnlineStoreState> emit) async {
     emit(state.copyWith(submission: Submission.loading));
-
-    final result = await RegisterOnlineStoreProvider().addOnlineStore(
+    await RegisterOnlineStoreProvider().addOnlineStore(
       offersDuration: state.offersDuration,
       startOffersDate:
           "${state.startDay}/${state.startMonth}/${state.startYear}",

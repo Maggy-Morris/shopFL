@@ -27,7 +27,7 @@ class IconWithText extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(text,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: MyColors.lightText)),

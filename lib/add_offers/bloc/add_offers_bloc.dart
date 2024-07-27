@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:anwer_shop/providers/offers_provider.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../register_shop/bloc/register_shop_bloc.dart';
 import '../../widgets/enum/enum.dart';
 
 part 'add_offers_event.dart';

@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class userInfo {
+class UserInfo {
   final String? userName;
   final String? userPassword;
 
-  userInfo({
+  UserInfo({
     this.userName,
     this.userPassword,
   });
@@ -26,7 +26,7 @@ class UserProvider extends ChangeNotifier {
     checkIfUserExist();
   }
 
-  Future<userInfo> checkIfUserExist() async {
+  Future<UserInfo> checkIfUserExist() async {
     await firestore
         .collection('users')
         .doc(firebaseAuth.currentUser!.uid)
@@ -40,13 +40,13 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
     });
 
-    return userInfo(
+    return UserInfo(
       userName: userName,
       userPassword: userPassword,
     );
   }
 
-  Future UpdateUserData({
+  Future updateUserData({
     required String userName,
     required String newUserPassword,
   }) async {

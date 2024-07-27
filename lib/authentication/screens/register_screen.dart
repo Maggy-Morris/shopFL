@@ -126,9 +126,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF3D7CA),
+      backgroundColor: const Color(0xffF3D7CA),
       appBar: AppBar(
-        backgroundColor: Color(0xffF3D7CA),
+        backgroundColor: const Color(0xffF3D7CA),
         actions: [
           TextButton(
             onPressed: firstNameText.isEmpty ||
@@ -175,13 +175,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         padding: const EdgeInsets.only(right: 25.0),
                         child: Text(
                           "${widget.role}".tr(),
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                         ),
                       )
                     ],
                   ),
                   Text(
-                    'Sign up with your email'.tr(),
+                    'سجل الدخول بالبريد الالكنروني'.tr(),
                     style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -223,7 +223,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   (widget.role == "تاجر")
                       ? Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Container(
+                          child: SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: CustomTextField(
                               controller: shopNameController,
@@ -236,7 +236,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   CustomTextField(
                     controller: emailController,
                     labelText: 'Email',

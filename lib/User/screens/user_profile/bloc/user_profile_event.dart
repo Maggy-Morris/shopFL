@@ -71,6 +71,7 @@ class ChangePassword extends UserProfileEvent {
 class EditLangueage extends UserProfileEvent {
   final String language;
   const EditLangueage({required this.language});
+  
 
   @override
   List<Object> get props => [language];

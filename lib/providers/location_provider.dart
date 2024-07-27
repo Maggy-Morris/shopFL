@@ -44,16 +44,12 @@ class LocationProvider with ChangeNotifier {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
-    if (position != null) {
-      _latitude = position.latitude;
-      _longitude = position.longitude;
-      _isCurrentLocation = true;
-      await sharedPreferences.setBool('isCurrentLocationAddress', true);
-      notifyListeners();
-    } else {
-      print('Permission not allowed');
+    _latitude = position.latitude;
+    _longitude = position.longitude;
+    _isCurrentLocation = true;
+    await sharedPreferences.setBool('isCurrentLocationAddress', true);
+    notifyListeners();
     }
-  }
 
   Future setLocationManually(LatLng latLng) async {
     final SharedPreferences sharedPreferences =
@@ -96,7 +92,7 @@ class LocationProvider with ChangeNotifier {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(_latitude!, _longitude!);
 
-    if (placemarks.length > 0) {
+    if (placemarks.isNotEmpty) {
       Address newAddress = Address(
         houseNumber: placemarks[0].subThoroughfare ?? '',
         street: placemarks[0].thoroughfare != null

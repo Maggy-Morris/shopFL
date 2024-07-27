@@ -1,10 +1,12 @@
 import 'package:anwer_shop/User/screens/home_screen/models/map_marker_model.dart';
 import 'package:anwer_shop/User/screens/home_screen/widgets/countdown_timer.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 import '../../promotion _screen/promotion _screen.dart';
 
+// ignore: must_be_immutable
 class PromotionBottomSheet extends StatelessWidget {
   MapMarkerModel mapMarkerModel;
   PromotionBottomSheet({required this.mapMarkerModel, super.key});
@@ -95,9 +97,9 @@ class PromotionBottomSheet extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CountdownTimer(targetDateString: mapMarkerModel.endOfferDate),
-              const Text(
-                'تبقى للخصم',
-                style: TextStyle(fontSize: 18),
+              Text(
+                'تبقى للخصم'.tr(),
+                style: const TextStyle(fontSize: 18),
               ),
             ],
           ),
@@ -112,13 +114,13 @@ class PromotionBottomSheet extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Text(
-                'مكان محل الخصم',
-                style: TextStyle(fontSize: 18),
+              Text(
+                'مكان محل الخصم'.tr(),
+                style: const TextStyle(fontSize: 18),
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           SizedBox(
@@ -151,9 +153,9 @@ class PromotionBottomSheet extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            child: const Text(
-              'عرض المزيد',
-              style: TextStyle(color: Colors.white, fontSize: 18),
+            child: Text(
+              'عرض المزيد'.tr(),
+              style: const TextStyle(color: Colors.white, fontSize: 18),
             ),
           ),
         ],

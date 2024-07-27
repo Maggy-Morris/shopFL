@@ -45,8 +45,8 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
   double? _discountPercentageTo;
   double? get discountPercentageTo => _discountPercentageTo;
 
-  String? _shopCategories;
-  String? get shopCategories => _shopCategories;
+  List<String>? _shopCategories;
+  List<String>? get shopCategories => _shopCategories;
 
   double? _latitude;
   double? get latitude => _latitude;
@@ -64,6 +64,11 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
   String? _shopName;
   String? get shopName => _shopName;
 
+  String? _area;
+  String? get area => _area;
+  String? _province;
+  String? get province => _province;
+
   String? _role;
   String? get role => _role;
 
@@ -75,7 +80,7 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
     required String startOffersDate,
     required String endOffersDate,
     // required String originalPrice,
-    required String shopCategories,
+    required List<String> shopCategories,
     // required String discountPercentage,
     required double discountPercentageFrom,
     required double discountPercentageTo,
@@ -123,8 +128,10 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
         'email': shopData.email,
         'shopImageUrl': shopData.shopImage,
         'sellerUid': firebaseAuth.currentUser?.uid,
-                "shopName": _shopName,
+        "shopName": _shopName,
+        "area": _area,
 
+        'province': _province,
 
         // "rating": 0,
 
@@ -171,6 +178,8 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
               _longitude = snapshot['longitude'],
               _latitude = snapshot['latitude'],
               _imageUrl = snapshot['shopImage'],
+              _area = snapshot['area'],
+              _province = snapshot['province'],
             });
 
     notifyListeners();
@@ -181,8 +190,39 @@ class RegisterOnlineStoreProvider extends ChangeNotifier {
       latitude: _latitude,
       longitude: _longitude,
       shopImage: _imageUrl,
+      area: _area,
+      province: _province,
       // role: _role,
     );
+  }
+
+  Future<void> deleteExpiredOnlineStore() async {
+    final now = DateTime.now();
+    final snapshot = await firestore.collection('onlineStore').get();
+
+    for (var doc in snapshot.docs) {
+      String endAddsDateString = doc['endOffersDate'];
+      DateTime endAddsDate = parseDate(endAddsDateString);
+
+      if (endAddsDate.isBefore(now) || endAddsDate.isAtSameMomentAs(now)) {
+        await doc.reference.delete();
+      }
+    }
+
+    debugPrint('Expired onlineStores deleted successfully.');
+  }
+
+  DateTime parseDate(String dateString) {
+    final parts = dateString.split('/');
+    final day = int.parse(parts[0]);
+    final month = int.parse(parts[1]);
+    final year = int.parse(parts[2]);
+    return DateTime(year, month, day);
+  }
+
+  Future<void> checkAndDeleteExpiredOnlineStore() async {
+    await deleteExpiredOnlineStore();
+    notifyListeners();
   }
 
   // Future<List<String>> fetchOfferImages() async {

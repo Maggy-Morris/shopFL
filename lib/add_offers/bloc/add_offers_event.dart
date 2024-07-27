@@ -249,7 +249,7 @@ class FetchOffersImages extends AddOffersEvent {
 
 class pickImageXFile extends AddOffersEvent {
   final XFile? imageXFile;
-  pickImageXFile({required this.imageXFile});
+  const pickImageXFile({required this.imageXFile});
 
   @override
   List<Object?> get props => [imageXFile];
@@ -257,7 +257,7 @@ class pickImageXFile extends AddOffersEvent {
 
 class EditShopImage extends AddOffersEvent {
   final String shopImage;
-  EditShopImage({required this.shopImage});
+  const EditShopImage({required this.shopImage});
 
   @override
   List<Object?> get props => [shopImage];

@@ -15,8 +15,8 @@ import 'package:anwer_shop/widgets/drop_down_widgets.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../widgets/Icons_wit_text.dart';
-import '../../widgets/assetImage_withtext.dart';
+import '../widgets/icons_with_text.dart';
+import '../widgets/asset_image_with_text.dart';
 
 import '../widgets/button_widget.dart';
 import 'bloc/add_offers_bloc.dart';
@@ -53,7 +53,8 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
           return Scaffold(
             backgroundColor: MyColors.onBackground,
             appBar: AppBar(
-              foregroundColor: Colors.white,
+              forceMaterialTransparency: true,
+              foregroundColor: MyColors.onBackground,
               title: Text(
                 "اضافة عروض".tr(),
                 style: const TextStyle(
@@ -64,22 +65,28 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
               centerTitle: true,
               actions: [
                 IconButton(
-                  onPressed: nameText.isNotEmpty &&
-                          descriptionText.isNotEmpty &&
-                          address != null &&
-                          ((imageXFile == null && imageUrl.isNotEmpty) ||
-                              (imageXFile != null && imageUrl.isEmpty))
-                      ? null
-                      : null,
-                  icon: Icon(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+
+                  //  nameText.isNotEmpty &&
+                  //         descriptionText.isNotEmpty &&
+                  //         address != null &&
+                  //         ((imageXFile == null && imageUrl.isNotEmpty) ||
+                  //             (imageXFile != null && imageUrl.isEmpty))
+                  //     ? null
+                  //     : null,
+                  icon: const Icon(
                     Icons.arrow_forward_ios_sharp,
-                    color: nameText.isNotEmpty &&
-                            descriptionText.isNotEmpty &&
-                            address != null &&
-                            ((imageXFile == null && imageUrl.isNotEmpty) ||
-                                (imageXFile != null && imageUrl.isEmpty))
-                        ? Colors.white
-                        : Colors.black,
+                    color:
+                        //  nameText.isNotEmpty &&
+                        //         descriptionText.isNotEmpty &&
+                        //         address != null &&
+                        //         ((imageXFile == null && imageUrl.isNotEmpty) ||
+                        //             (imageXFile != null && imageUrl.isEmpty))
+                        //     ? Colors.white
+                        //     :
+                        MyColors.textColor,
                   ),
                 ),
               ],
@@ -119,7 +126,10 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                           iconWidget:
                               const Icon(Icons.keyboard_arrow_down_sharp),
                           titleName: "عرض لمنتج واحد في صفحة واحدة".tr(),
-                          itemsList: ['كتالوج', 'عرض لمنتج واحد في صفحة واحدة'],
+                          itemsList: [
+                            'كتالوج'.tr(),
+                            'عرض لمنتج واحد في صفحة واحدة'.tr()
+                          ],
                           isEnabled: true,
                           isRequired: false),
                     ),
@@ -230,6 +240,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                                 if (value == null || value.isEmpty) {
                                   return 'This field is required';
                                 }
+                                return null;
                                 // return 'This field is required';
                               },
                               onChanged: (value) {
@@ -679,7 +690,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                     ),
                     const SizedBox(height: 20),
                     state.offerImages.isNotEmpty
-                        ? Container(
+                        ? SizedBox(
                             width: double
                                 .infinity, // Ensure it takes the full width of the screen
                             height: 200,
@@ -698,7 +709,7 @@ class _AddOffersScreenState extends State<AddOffersScreen> {
                               control: const SwiperControl(),
                             ),
                           )
-                        : Container(
+                        : SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: 200,
                             child:

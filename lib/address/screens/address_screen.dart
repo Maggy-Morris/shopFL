@@ -24,7 +24,7 @@ class AddressScreenState extends State<AddressScreen> {
               width: double.infinity,
               color: Colors.grey[300],
               alignment: Alignment.bottomCenter,
-              child: Center(child: Text('Shop  on maps', style: TextStyle(fontSize: 30))),
+              child: const Center(child:  Text('Shop  on maps', style: TextStyle(fontSize: 30))),
             ),
             DraggableScrollableSheet(
               initialChildSize: 0.3,
@@ -83,7 +83,7 @@ class AddressScreenState extends State<AddressScreen> {
                                               size: 30,
                                             ),
                                             const SizedBox(width: 20),
-                                             Column(
+                                             const Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [

@@ -224,4 +224,33 @@ class RegisterAddsProvider extends ChangeNotifier {
       // role: _role,
     );
   }
+
+  Future<void> deleteExpiredAdds() async {
+    final now = DateTime.now();
+    final snapshot = await firestore.collection('Adds').get();
+
+    for (var doc in snapshot.docs) {
+      String endAddsDateString = doc['endAddsDate'];
+      DateTime endAddsDate = parseDate(endAddsDateString);
+
+      if (endAddsDate.isBefore(now) || endAddsDate.isAtSameMomentAs(now)) {
+        await doc.reference.delete();
+      }
+    }
+
+    debugPrint('Expired offers deleted successfully.');
+  }
+
+  DateTime parseDate(String dateString) {
+    final parts = dateString.split('/');
+    final day = int.parse(parts[0]);
+    final month = int.parse(parts[1]);
+    final year = int.parse(parts[2]);
+    return DateTime(year, month, day);
+  }
+
+  Future<void> checkAndDeleteExpiredAdds() async {
+    await deleteExpiredAdds();
+    notifyListeners();
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:anwer_shop/User/core/screen/not_sign_in_screen.dart';
@@ -6,7 +7,8 @@ import 'package:anwer_shop/User/screens/user_profile/user_profile_screen.dart';
 
 import '../../../../providers/authentication_provider.dart';
 // import '../../../auth/blocs/authentication_bloc/authentication_bloc.dart';
-import '../../../../settings/settings_screen.dart';
+import '../../discount_screen_user/discount_screen_user.dart';
+import '../../offers_screen_user/offers_screen_user.dart';
 import 'custom_navigation_icons.dart';
 
 class CustomNavigationBar extends StatelessWidget {
@@ -44,12 +46,13 @@ class CustomNavigationBar extends StatelessWidget {
               }
             },
             image: "assets/icon_images/share-2.svg",
-            text: "مشاركة التطبيق",
+            text: "مشاركة التطبيق".tr(),
           ),
           CustomNavigationIcons(
             onTap: () {
               if (ap.isSignedIn) {
                 debugPrint("Authenticated");
+                Navigator.pushNamed(context, OffersScreenUser.routeName);
               } else {
                 Navigator.pushNamed(context, NotSignInScreen.routeName);
 
@@ -57,20 +60,20 @@ class CustomNavigationBar extends StatelessWidget {
               }
             },
             image: "assets/icon_images/briefcase.svg",
-            text: "العروض",
+            text: "العروض".tr(),
           ),
           CustomNavigationIcons(
             onTap: () {
               if (ap.isSignedIn) {
                 debugPrint("Authenticated");
+
+                Navigator.pushNamed(context, DiscountScreenUser.routeName);
               } else {
                 Navigator.pushNamed(context, NotSignInScreen.routeName);
-
-                // Navigator.pushNamed(context, "NotSigned");
               }
             },
             image: "assets/icon_images/shopping-bag.svg",
-            text: "الخصومات",
+            text: "الخصومات".tr(),
           ),
           CustomNavigationIcons(
             onTap: () {
@@ -83,7 +86,7 @@ class CustomNavigationBar extends StatelessWidget {
               }
             },
             image: "assets/icon_images/user.svg",
-            text: "حسابي",
+            text: "حسابي".tr(),
           )
         ],
       ),

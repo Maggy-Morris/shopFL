@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:anwer_shop/providers/register_shop_provider.dart';
 import 'package:anwer_shop/widgets/branches_widget.dart';
@@ -25,15 +26,17 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
     on<EditShopType>(_onEditShopType);
     on<EditShopLocation>(_onEditShopLocation);
     on<EditShopState>(_onEditShopState);
+    on<EditShopCity>(_onEditShopCity);
+
     on<EditShopAddress>(_onEditShopAddress);
     on<EditShopEmail>(_onEditShopEmail);
     on<EditShopPhoneNumber>(_onEditShopPhoneNumber);
     on<EditbranchesList>(_onEditbranchesList);
-    on<AddFilesEvent>(_onAddFilesEvent);
+    // on<AddFilesEvent>(_onAddFilesEvent);
 
     on<EditShopImage>(_onEditShopImage);
 
-    on<pickImageXFile>(_onpickImageXFile);
+    on<PickImageXFile>(_onPickImageXFile);
 
     on<RegisterShopToFireBase>(_onRegisterShopToFireBase);
     on<EditShopDataToFireBase>(_onEditShopDataToFireBase);
@@ -101,8 +104,8 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
     ));
   }
 
-  _onpickImageXFile(pickImageXFile event, Emitter<RegisterShopState> emit) {
-    print("Event received: ${event.imageXFile?.path}");
+  _onPickImageXFile(PickImageXFile event, Emitter<RegisterShopState> emit) {
+    debugPrint("Event received: ${event.imageXFile?.path}");
 
     if (event.imageXFile == null) {
       emit(state.copyWith(
@@ -111,7 +114,7 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
       emit(state.copyWith(
           imageXFile: event.imageXFile, submission: Submission.editing));
     }
-    print("State updated: ${state.imageXFile?.path}");
+    debugPrint("State updated: ${state.imageXFile?.path}");
   }
 
   _onEditShopImage(EditShopImage event, Emitter<RegisterShopState> emit) {
@@ -170,7 +173,6 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
   Future checkInfo() async {
     final rp = RegisterShopProvider();
     await rp.checkIfAddressExist();
-   
   }
 
   _onRegisterShopToFireBase(
@@ -197,21 +199,25 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
           shopWebsite: result.shopWebsite,
           shopEmail: result.shopEmail,
           shopPhoneNumber: result.shopPhoneNumber,
+          shareCount: result.shareCount,
+          shopCity: result.shopCityMainBranch,
+          shopState: result.shopStateMainBranch,
+          followersCount: result.followersCount,
+          viewersCount: result.viewersCount,
         ));
       } else {
         emit(state.copyWith(submission: Submission.noDataFound));
       }
     } catch (e) {
       emit(state.copyWith(submission: Submission.error));
-      print("Error fetching shop info: $e");
+      debugPrint("Error fetching shop info: $e");
     }
   }
-
 
   void captureAndAddImage() async {
     try {
       XFile? image = await ImagePicker().pickImage(
-        source: ImageSource.camera, // Specify the image source as camera
+        source: ImageSource.camera,
       );
 
       if (image != null) {
@@ -223,15 +229,14 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
           bytes: await File(image.path).readAsBytes(),
         );
 
-        // List<PlatformFile> updatedFiles = List.from(state.files);
-        // updatedFiles.add(pickedFile);
+        add(AddFileEvent(file: pickedFile));
+        emit(state.copyWith(imageXFile: pickedFile.xFile));
 
-        add(pickImageXFile(imageXFile: image));
-        add(EditShopImage(shopImage: image.path));
+        add(EditShopImage(
+            shopImage: image.path)); // Update with your actual event
       }
     } catch (error) {
-      // Handle error
-      print("Error picking image from camera: $error");
+      debugPrint("Error picking image from camera: $error");
     }
   }
 
@@ -249,43 +254,21 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
           bytes: await File(result.path).readAsBytes(),
         );
 
-        // Assuming `state.files` is a list of PlatformFile
-        List<PlatformFile> updatedFiles = List.from(state.files);
-        updatedFiles.add(pickedFile);
-
-        // Add your custom event handlers here
-        add(pickImageXFile(imageXFile: result));
-        add(EditShopImage(shopImage: result.path));
-        // add(AddFilesEvent(files: updatedFiles));
+        add(AddFileEvent(file: pickedFile));
+        emit(state.copyWith(imageXFile: pickedFile.xFile));
+        add(EditShopImage(
+            shopImage: result.path)); // Update with your actual event
       }
     } catch (error) {
-      // Handle error
-      print("Error picking image: $error");
+      debugPrint("Error picking image: $error");
     }
   }
 
-  void removeFileAtIndex(int index) {
-    List<PlatformFile> updatedFiles = List.from(state.files);
-    updatedFiles.removeAt(index);
-    emit(state.copyWith(files: updatedFiles));
+  void removeFile() {
+    add(const RemoveFileEvent());
+    emit(state.copyWith(imageXFile: null));
   }
 
-  _onAddFilesEvent(AddFilesEvent event, Emitter<RegisterShopState> emit) {
-    List<PlatformFile> newFiles = List.from(state.files);
-
-    if (event.files != null && event.files.isNotEmpty) {
-      newFiles.addAll(event.files);
-
-      emit(state.copyWith(
-        files: newFiles,
-      ));
-    } else if (event.index != null) {
-      newFiles.removeAt(event.index ?? 0);
-      emit(state.copyWith(
-        files: newFiles,
-      ));
-    }
-  }
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
@@ -315,6 +298,8 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
       shopPhoneNumber: state.shopPhoneNumber,
       shopEmail: state.shopEmail,
       shopWebsite: state.shopWebsite,
+      shopCityMainBranch: state.shopCity,
+      shopStateMainBranch: state.shopState,
     );
 
     // if (result.isRegistered) {
@@ -331,6 +316,5 @@ class RegisterShopBloc extends Bloc<RegisterShopEvent, RegisterShopState> {
       shopCategories: result.shopCategories,
       shopType: result.shopType,
     ));
-  
   }
 }

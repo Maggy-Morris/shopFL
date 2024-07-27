@@ -11,6 +11,12 @@ import '../widgets/branches_widget.dart';
 
 class ShopInfo {
   final List<Branches>? branchesList;
+  final List<String>? viewersCount;
+  final List<String>? shareCount;
+  final List<String>? followersCount;
+
+  final String? shopCityMainBranch;
+  final String? shopStateMainBranch;
 
   final String? shopName;
   final String? shopDescription;
@@ -25,6 +31,11 @@ class ShopInfo {
   final bool isRegistered;
 
   ShopInfo({
+    this.viewersCount,
+    this.shareCount,
+    this.followersCount,
+    this.shopCityMainBranch,
+    this.shopStateMainBranch,
     this.branchesList,
     this.shopName,
     this.shopDescription,
@@ -46,6 +57,15 @@ class RegisterShopProvider extends ChangeNotifier {
 
   List<Branches>? _branchesList;
   List<Branches>? get branchesList => _branchesList;
+
+  List<String>? _viewersCount;
+  List<String>? get viewersCount => _viewersCount;
+
+  List<String>? _shareCount;
+  List<String>? get shareCount => _shareCount;
+
+  List<String>? _followersCount;
+  List<String>? get followersCount => _followersCount;
 
   bool _isRegistered = false;
   bool get isRegistered => _isRegistered;
@@ -77,6 +97,12 @@ class RegisterShopProvider extends ChangeNotifier {
   String? _shopEmail;
   String? get shopEmail => _shopEmail;
 
+  String? _shopCityMainBranch;
+  String? get shopCityMainBranch => _shopCityMainBranch;
+
+  String? _shopStateMainBranch;
+  String? get shopStateMainBranch => _shopStateMainBranch;
+
   String? _shopPhoneNumber;
   String? get shopPhoneNumber => _shopPhoneNumber;
 
@@ -98,12 +124,40 @@ class RegisterShopProvider extends ChangeNotifier {
         );
       }
 
+      if (doc.data().toString().contains('viewersCount')) {
+        _viewersCount = List<String>.from(doc.get('viewersCount'));
+      } else {
+        _viewersCount = [];
+      }
+
+      if (doc.data().toString().contains('shareCount')) {
+        _shareCount = List<String>.from(doc.get('shareCount'));
+      } else {
+        _shareCount = [];
+      }
+
+      if (doc.data().toString().contains('followersCount')) {
+        _followersCount = List<String>.from(doc.get('followersCount'));
+      } else {
+        _followersCount = [];
+      }
+
       _shopName =
           doc.data().toString().contains('shopName') ? doc.get('shopName') : '';
+
+      _shopCityMainBranch = doc.data().toString().contains('shopCityMainBranch')
+          ? doc.get('shopCityMainBranch')
+          : '';
+
+      _shopStateMainBranch =
+          doc.data().toString().contains('shopStateMainBranch')
+              ? doc.get('shopStateMainBranch')
+              : '';
 
       _shopDescription = doc.data().toString().contains('shopDescription')
           ? doc.get('shopDescription')
           : '';
+
       _shopCategories = doc.data().toString().contains('shopCategories')
           ? doc.get('shopCategories')
           : '';
@@ -163,6 +217,9 @@ class RegisterShopProvider extends ChangeNotifier {
 
     _branchesList = branchesList;
     return ShopInfo(
+      viewersCount: viewersCount,
+      shareCount: shareCount,
+      followersCount: followersCount,
       branchesList: branchesList,
       shopName: shopName,
       shopDescription: shopDescription,
@@ -175,6 +232,8 @@ class RegisterShopProvider extends ChangeNotifier {
       shopImage: shopImage,
       shopAddress: shopAddress,
       isRegistered: isRegistered,
+      shopCityMainBranch: shopCityMainBranch,
+      shopStateMainBranch: shopStateMainBranch,
     );
   }
 
@@ -188,6 +247,8 @@ class RegisterShopProvider extends ChangeNotifier {
     required String shopName,
     required String shopDescription,
     required Address address,
+    required String shopStateMainBranch,
+    required String shopCityMainBranch,
     required List<Branches> branchesList,
     XFile? image,
     String? imageUrl,
@@ -226,6 +287,11 @@ class RegisterShopProvider extends ChangeNotifier {
         'province': address.province,
         'street': address.street,
         'branchesList': branchesList.map((branch) => branch.toMap()).toList(),
+        'shopCityMainBracnch': shopCityMainBranch,
+        'shopStateMainBracnch': shopStateMainBranch,
+        'viewersCount': [],
+        'shareCount': [],
+        'followersCount': [],
       },
       SetOptions(merge: true),
     );
@@ -240,6 +306,11 @@ class RegisterShopProvider extends ChangeNotifier {
     _shopWebsite = shopWebsite;
     _shopEmail = shopEmail;
     _shopPhoneNumber = shopPhoneNumber;
+    _shopStateMainBranch = shopStateMainBranch;
+    _shopCityMainBranch = shopCityMainBranch;
+    _viewersCount = viewersCount;
+    _shareCount = shareCount;
+    _followersCount = followersCount;
 
     notifyListeners();
   }

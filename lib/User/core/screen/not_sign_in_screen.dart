@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../authentication/screens/login_screen.dart';
-import '../../../authentication/screens/register_screen.dart';
 
 class NotSignInScreen extends StatelessWidget {
   static const String routeName = '/NotSignedIn-screen';

@@ -17,7 +17,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         await _auth.sendPasswordResetEmail(email: _emailController.text.trim());
         // Show a success message or navigate to another screen
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Password reset email sent successfully'),
           ),
         );
@@ -36,7 +36,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reset Password'),
+        title: const Text('Reset Password'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -47,9 +47,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             children: [
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -58,10 +58,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: _resetPassword,
-                child: Text('Reset Password'),
+                child: const Text('Reset Password'),
               ),
             ],
           ),

@@ -5,12 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:anwer_shop/User/screens/home_screen/user_home_screen.dart';
 import 'package:anwer_shop/authentication/screens/authentication_screen.dart';
-import 'package:anwer_shop/constants/colors.dart';
 import 'package:anwer_shop/home/screens/home_screen.dart';
 import 'package:anwer_shop/home/screens/home_screen_no_approve.dart';
 import 'package:anwer_shop/providers/authentication_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../providers/adds_provider.dart';
+import '../../providers/offers_provider.dart';
+import '../../providers/online_store_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,28 +27,46 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     final ap = context.read<AuthenticationProvider>();
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<RegisterAddsProvider>(context, listen: false)
+          .checkAndDeleteExpiredAdds();
+      Provider.of<RegisterOfferProvider>(context, listen: false)
+          .checkAndDeleteExpiredOffers();
+      Provider.of<RegisterOnlineStoreProvider>(context, listen: false)
+          .checkAndDeleteExpiredOnlineStore();
+    });
+
     super.initState();
 
     Timer(const Duration(seconds: 2), () async {
       if (!ap.isSignedIn) {
-        Navigator.pushReplacementNamed(context, AuthenticationScreen.routeName);
+        if (mounted) {
+          Navigator.pushReplacementNamed(
+              context, AuthenticationScreen.routeName);
+        }
       } else {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String role = prefs.getString('role') ?? "";
-        (role == "تاجر")
-            ? await ap.getUserDataFromFirestore(
-                FirebaseAuth.instance.currentUser!.uid)
-            : await ap.getUserUSERDataFromFirestore(
-                FirebaseAuth.instance.currentUser!.uid);
+        if (role == "تاجر") {
+          await ap
+              .getUserDataFromFirestore(FirebaseAuth.instance.currentUser!.uid);
+        } else {
+          await ap.getUserUSERDataFromFirestore(
+              FirebaseAuth.instance.currentUser!.uid);
+        }
 
         if (ap.isApproved) {
-          (role == "تاجر")
-              ? Navigator.pushReplacementNamed(context, HomeScreen.routeName)
-              : Navigator.pushReplacementNamed(
-                  context, UserHomeScreen.routeName);
+          if (mounted) {
+            Navigator.pushReplacementNamed(
+              context,
+              role == "تاجر" ? HomeScreen.routeName : UserHomeScreen.routeName,
+            );
+          }
         } else {
-          Navigator.pushReplacementNamed(
-              context, HomeScreenNoApprove.routeName);
+          if (mounted) {
+            Navigator.pushReplacementNamed(
+                context, HomeScreenNoApprove.routeName);
+          }
         }
       }
     });

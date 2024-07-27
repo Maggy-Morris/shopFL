@@ -80,7 +80,6 @@ class _FTapEffectState extends State<FTapEffect>
     Animation<double> animation2,
   ) {
     return AnimatedBuilder(
-      child: widget.child,
       animation: controller,
       builder: (context, child) {
         Widget result = child ?? const SizedBox();
@@ -96,6 +95,7 @@ class _FTapEffectState extends State<FTapEffect>
         }
         return result;
       },
+      child: widget.child,
     );
   }
 }

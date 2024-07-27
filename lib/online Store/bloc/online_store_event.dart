@@ -129,7 +129,7 @@ class EditShopDescription extends OnlineStoreEvent {
 }
 
 class EditShopCategories extends OnlineStoreEvent {
-  final String shopCategories;
+  final List<String> shopCategories;
 
   const EditShopCategories({required this.shopCategories});
 

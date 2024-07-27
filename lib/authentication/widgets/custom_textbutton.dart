@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:anwer_shop/constants/colors.dart';
 
+// ignore: must_be_immutable
 class CustomTextButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;

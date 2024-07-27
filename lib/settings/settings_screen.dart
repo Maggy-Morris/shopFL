@@ -1,3 +1,4 @@
+import 'package:anwer_shop/home/screens/home_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,18 +28,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
           return Scaffold(
             backgroundColor: MyColors.onBackground,
             appBar: AppBar(
-              foregroundColor: Colors.white,
+              forceMaterialTransparency: true,
+              foregroundColor: MyColors.onBackground,
               title: Text(
                 'الاعدادات'.tr(),
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: MyColors.textColor,
                   fontSize: 16,
                 ),
               ),
               centerTitle: true,
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, HomeScreen.routeName);
+                  },
                   // nameText.isNotEmpty &&
                   //         descriptionText.isNotEmpty &&
                   //         address != null &&
@@ -147,7 +151,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 : SettingsBloc.get(context).add(
                                     const ChangePassword(changePassword: true));
                           },
-                          child: Text("تعديل الرقم السري".tr())),
+                          child: Text("تعديل الرمز السري".tr())),
                     ),
                     state.changePassword == true
                         ? Column(
@@ -155,7 +159,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "تعديل الرقم السري".tr(),
+                                  "تعديل الرمز السري".tr(),
                                   style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400),
@@ -302,13 +306,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       child: singleSelectGenericDropdown(
                           onChanged: (value) {
+                            changeLanguage(
+                                context, value == 'العربية' ? "ar" : "en");
                             SettingsBloc.get(context)
                                 .add(EditLangueage(language: value ?? ""));
                           },
                           iconWidget:
                               const Icon(Icons.keyboard_arrow_down_sharp),
                           titleName: "اللغة".tr(),
-                          itemsList: ['فرنساوي', 'انجليزي', 'عربي'],
+                          itemsList: ['العربية', 'English'],
                           isEnabled: true,
                           isRequired: false),
                     ),
@@ -338,5 +344,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         },
       ),
     );
+  }
+
+  void changeLanguage(BuildContext context, String languageCode) {
+    EasyLocalization.of(context)!.setLocale(Locale(languageCode));
   }
 }

@@ -14,7 +14,7 @@ import 'promotion_buttom_sheet.dart';
 class MapScreen extends StatefulWidget {
   // List<MapMarkerModel> mapMarkerModel;
 
-  MapScreen({super.key});
+  const MapScreen({super.key});
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -276,7 +276,9 @@ class _MapScreenState extends State<MapScreen> {
                                 children: [
                                   SvgPicture.asset(
                                     'assets/icon_images/Union.svg',
-                                    color: const Color(0xff606161),
+                                    theme: const SvgTheme(
+                                        currentColor: Color(0xff606161)),
+                                    // color: const Color(0xff606161),
                                     height: 40.0,
                                     width: 40.0,
                                   ),

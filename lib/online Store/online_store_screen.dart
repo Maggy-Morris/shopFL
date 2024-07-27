@@ -30,21 +30,24 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
           return Scaffold(
             backgroundColor: MyColors.onBackground,
             appBar: AppBar(
-              foregroundColor: Colors.white,
+              forceMaterialTransparency: true,
+              foregroundColor: MyColors.onBackground,
               title: Text(
                 'المتجر الالكتروني'.tr(),
-                style: TextStyle(
-                  color: Colors.black,
+                style: const TextStyle(
+                  color: MyColors.textColor,
                   fontSize: 16,
                 ),
               ),
               centerTitle: true,
               actions: [
                 IconButton(
-                  onPressed: () {},
-                  icon: Icon(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
                     Icons.arrow_forward_ios_sharp,
-                    color: Colors.black,
+                    color: MyColors.textColor,
                   ),
                 ),
               ],
@@ -77,7 +80,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "رابط المتجر".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -150,7 +153,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "اختيار الفئة".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -162,14 +165,33 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                         ),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: singleSelectGenericDropdown(
+                      child: multiSelectGenericDropdown(
                           onChanged: (value) {
                             OnlineStoreBloc.get(context).add(EditShopCategories(
-                              shopCategories: value.toString(),
+                              shopCategories: value ?? [],
                             ));
                           },
-                          iconWidget: Icon(Icons.keyboard_arrow_down_sharp),
+                          // iconWidget:
+                          //     const Icon(Icons.keyboard_arrow_down_sharp),
                           titleName: ".....".tr(),
+                          itemsList: [
+                            "إلكترونيات".tr(),
+                            "ملابس".tr(),
+                            "أحذية".tr(),
+                            "أدوات منزلية".tr(),
+                            "منتجات تجميل".tr(),
+                            "صحة وعافية".tr(),
+                            "ألعاب وهدايا".tr(),
+                            "رياضة في الهواء الطلق".tr(),
+                            "مستلزمات حيوانات أليفة".tr(),
+                            "فن وحرف".tr(),
+                            "مستلزمات مكتبية".tr(),
+                            "مطاعم ومقاهي".tr(),
+                            "صالونات وسبا".tr(),
+                            "خدمات إصلاح".tr(),
+                            "مراكز لياقة".tr(),
+                            "السيارات".tr(),
+                          ],
                           isEnabled: true,
                           isRequired: false),
                     ),
@@ -179,7 +201,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "مدة الخصم".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -187,7 +209,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text("يوم".tr()),
-                        SizedBox(
+                        const SizedBox(
                             width:
                                 10), // Add spacing between text and text field if needed
 
@@ -209,7 +231,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "5".tr(),
-                                counterStyle: TextStyle(
+                                counterStyle: const TextStyle(
                                   color: MyColors.lightText,
                                 ),
                               ),
@@ -233,7 +255,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "تاريخ بداية العرض".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -274,7 +296,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.date_range_outlined,
                               color: MyColors.lightText,
                             ),
@@ -362,7 +384,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "تحديد نسبة الخصم".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -388,7 +410,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.end,
                                 decoration: InputDecoration(
-                                  prefixIcon: Icon(
+                                  prefixIcon: const Icon(
                                     Icons.percent_rounded,
                                     color: MyColors.lightText,
                                     size: 15,
@@ -432,7 +454,7 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen> {
                               child: TextField(
                                 textAlign: TextAlign.end,
                                 decoration: InputDecoration(
-                                  prefixIcon:const Icon(
+                                  prefixIcon: const Icon(
                                     Icons.percent_rounded,
                                     color: MyColors.lightText,
                                     size: 15,

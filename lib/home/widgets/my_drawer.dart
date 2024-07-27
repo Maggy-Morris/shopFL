@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:anwer_shop/address/screens/address_screen.dart';
 import 'package:anwer_shop/authentication/screens/authentication_screen.dart';
@@ -62,25 +63,25 @@ class MyDrawer extends StatelessWidget {
                   ],
                 ));
           }),
+          // listTile(
+          //   context,
+          //   'Orders History',
+          //   Icons.my_library_books_outlined,
+          //   () {
+          //     // Navigator.pushNamed(context, OrderHistoryScreen.routeName);
+          //   },
+          // ),
+          // listTile(
+          //   context,
+          //   'Addresses',
+          //   Icons.location_on_outlined,
+          //   () {
+          //     Navigator.pushNamed(context, AddressScreen.routeName);
+          //   },
+          // ),
           listTile(
             context,
-            'Orders History',
-            Icons.my_library_books_outlined,
-            () {
-              // Navigator.pushNamed(context, OrderHistoryScreen.routeName);
-            },
-          ),
-          listTile(
-            context,
-            'Addresses',
-            Icons.location_on_outlined,
-            () {
-              Navigator.pushNamed(context, AddressScreen.routeName);
-            },
-          ),
-          listTile(
-            context,
-            'Help center',
+            'تحتاج للمساعدة'.tr(),
             Icons.help_outline_outlined,
             () {
               Navigator.pop(context);
@@ -90,17 +91,17 @@ class MyDrawer extends StatelessWidget {
             height: 1,
             color: MyColors.borderColor,
           ),
+          // listTile(
+          //   context,
+          //   'Settings',
+          //   null,
+          //   () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
           listTile(
             context,
-            'Settings',
-            null,
-            () {
-              Navigator.pop(context);
-            },
-          ),
-          listTile(
-            context,
-            'Terms & Conditions / Privacy',
+            "الشروط و الاحكام".tr(),
             null,
             () {
               Navigator.pop(context);
@@ -109,25 +110,26 @@ class MyDrawer extends StatelessWidget {
           Builder(builder: (c) {
             return listTile(
               context,
-              'Log out',
+              'تسجيل الخروج'.tr(),
               null,
               () {
                 Scaffold.of(c).closeDrawer();
                 showDialog(
                   context: c,
                   builder: (ctx) => MyAlertDialog(
-                    title: 'Logging out?',
-                    subtitle: 'Thanks for stopping by. See you again soon!',
-                    action1Name: 'Cancel',
-                    action2Name: 'Log out',
+                    title: 'تسجيل الخروج'.tr(),
+                    subtitle: "شكرًا لتوقفك هنا. نراكم مرة أخرى قريبًا!".tr(),
+                    action1Name: 'الغاء'.tr(),
+                    action2Name: 'الخروج'.tr(),
                     action1Func: () {
                       Navigator.pop(ctx);
                     },
                     action2Func: () async {
-                      await ap.userSignOut();
-
-                      Navigator.pushNamedAndRemoveUntil(ctx,
-                          AuthenticationScreen.routeName, (route) => false);
+                      await ap.userSignOut().then((value) =>
+                          Navigator.pushNamedAndRemoveUntil(
+                              ctx,
+                              AuthenticationScreen.routeName,
+                              (route) => false));
                     },
                   ),
                 );

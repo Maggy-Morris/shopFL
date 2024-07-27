@@ -5,11 +5,11 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:anwer_shop/User/screens/home_screen/widgets/custom_buttoms.dart';
-import 'package:anwer_shop/User/screens/home_screen/widgets/image_slider_widget.dart';
 import '../../../authentication/screens/authentication_screen.dart';
 import '../../../authentication/screens/login_screen.dart';
 import '../../../providers/authentication_provider.dart';
 import '../../../widgets/my_alert_dialog.dart';
+import '../user_profile/bloc/user_profile_bloc.dart';
 import 'cubit/map_marker_cubit.dart';
 import 'cubit/slider_cubit.dart';
 import 'widgets/custom_appbar.dart';
@@ -88,24 +88,40 @@ class UserHomeScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                DropdownButton<String>(
-                                  iconEnabledColor: const Color(0xff4624C2),
-                                  items: <String>['العربية', 'English']
-                                      .map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value,
-                                          style: const TextStyle(
-                                              color: Color(0xff4624C2))),
-                                    );
-                                  }).toList(),
-                                  onChanged: (_) {},
-                                  hint: const Text('العربية',
-                                      style:
-                                          TextStyle(color: Color(0xff4624C2))),
+                                BlocProvider(
+                                  create: (context) => UserProfileBloc(),
+                                  child: BlocBuilder<UserProfileBloc,
+                                      UserProfileState>(
+                                    builder: (context, state) {
+                                      return DropdownButton<String>(
+                                        iconEnabledColor:
+                                            const Color(0xff4624C2),
+                                        items: <String>['العربية', 'English']
+                                            .map((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value,
+                                                style: const TextStyle(
+                                                    color: Color(0xff4624C2))),
+                                          );
+                                        }).toList(),
+                                        onChanged: (value) {
+                                          changeLanguage(context,
+                                              value == 'العربية' ? "ar" : "en");
+
+                                          UserProfileBloc.get(context).add(
+                                              EditLangueage(
+                                                  language: value ?? ""));
+                                        },
+                                        hint: Text(state.language,
+                                            style: const TextStyle(
+                                                color: Color(0xff4624C2))),
+                                      );
+                                    },
+                                  ),
                                 ),
                                 const Spacer(),
-                                const Text('اللغة'),
+                                Text('اللغة'.tr()),
                                 const SizedBox(
                                   width: 10,
                                 ),
@@ -115,27 +131,27 @@ class UserHomeScreen extends StatelessWidget {
                           ),
                           const Divider(),
                           CustomButton(
-                            text: 'الاشعارات',
-                            icon:
-                                "assets/icon_images/ic_round-notifications.svg",
+                            text: 'الشروط و الاحكام'.tr(),
+                            icon: "assets/icon_images/terms_of_conditions.svg",
                             onTap: () {},
                           ),
                           const Divider(),
                           CustomButton(
-                            text: 'القائمة المفضلة',
-                            icon: "assets/icon_images/favorite.svg",
+                            text: 'سياسة الخصوصية'.tr(),
+                            icon: "assets/icon_images/privacy_policy.svg",
                             onTap: () {},
                           ),
                           const Divider(),
                           CustomButton(
-                            text: 'بريد',
+                            text: 'تواصل معنا'.tr(),
                             icon: "assets/icon_images/phone.svg",
                             onTap: () {},
                           ),
                           const Divider(),
                           CustomButton(
-                            text: 'الاعدادات',
-                            icon: "assets/icon_images/sitting.svg",
+                            text: 'الاشعارات'.tr(),
+                            icon:
+                                "assets/icon_images/ic_round-notifications.svg",
                             onTap: () {},
                           ),
                           const Divider(),
@@ -166,22 +182,22 @@ class UserHomeScreen extends StatelessWidget {
                               showDialog(
                                 context: context,
                                 builder: (ctx) => MyAlertDialog(
-                                  title: 'Logging out?'.tr(),
+                                  title: 'تسجيل الخروج'.tr(),
                                   subtitle:
-                                      'Thanks for stopping by. See you again soon!'
+                                      "شكرًا لتوقفك هنا. نراكم مرة أخرى قريبًا!"
                                           .tr(),
-                                  action1Name: 'Cancel'.tr(),
-                                  action2Name: 'Log out'.tr(),
+                                  action1Name: 'الغاء'.tr(),
+                                  action2Name: 'الخروج'.tr(),
                                   action1Func: () {
                                     Navigator.pop(ctx);
                                   },
                                   action2Func: () async {
-                                    await ap.userSignOut();
-
-                                    Navigator.pushNamedAndRemoveUntil(
-                                        ctx,
-                                        AuthenticationScreen.routeName,
-                                        (route) => false);
+                                    await ap.userSignOut().then((value) {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          ctx,
+                                          AuthenticationScreen.routeName,
+                                          (route) => false);
+                                    });
                                   },
                                 ),
                               );
@@ -194,7 +210,7 @@ class UserHomeScreen extends StatelessWidget {
                             ),
                             child: Text(
                               'تسجيل الخروج'.tr(),
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
 
@@ -498,5 +514,9 @@ class UserHomeScreen extends StatelessWidget {
       //   },
       // ),
     );
+  }
+
+  void changeLanguage(BuildContext context, String languageCode) {
+    EasyLocalization.of(context)!.setLocale(Locale(languageCode));
   }
 }

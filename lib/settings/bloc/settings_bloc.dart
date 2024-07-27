@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../providers/settings_provider.dart';
@@ -75,7 +76,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       }
     } catch (e) {
       emit(state.copyWith(submission: Submission.error));
-      print("Error fetching shop info: $e");
+      debugPrint("Error fetching shop info: $e");
     }
   }
 

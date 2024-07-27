@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../widgets/enum/enum.dart';
@@ -7,9 +8,9 @@ import '../user_profile_provider.dart';
 part 'user_profile_event.dart';
 part 'user_profile_state.dart';
 
-
 class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
-  static UserProfileBloc get(context) => BlocProvider.of<UserProfileBloc>(context);
+  static UserProfileBloc get(context) =>
+      BlocProvider.of<UserProfileBloc>(context);
   UserProfileBloc() : super(const UserProfileState()) {
     on<UserProfileEvent>((event, emit) {});
 
@@ -25,9 +26,17 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
   }
 
   _onEditLangueage(EditLangueage event, Emitter<UserProfileState> emit) {
+   
+
     emit(state.copyWith(
         language: event.language, submission: Submission.editing));
   }
+
+  
+
+// void changeLanguage(BuildContext context, String languageCode) {
+//   EasyLocalization.of(context)!.setLocale(Locale(languageCode));
+// }
 
   _onChangePassword(ChangePassword event, Emitter<UserProfileState> emit) {
     emit(state.copyWith(
@@ -76,14 +85,15 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
       }
     } catch (e) {
       emit(state.copyWith(submission: Submission.error));
-      print("Error fetching shop info: $e");
+      debugPrint("Error fetching shop info: $e");
     }
   }
 
-  _onUpdateUserData(UpdateUserData event, Emitter<UserProfileState> emit) async {
+  _onUpdateUserData(
+      UpdateUserData event, Emitter<UserProfileState> emit) async {
     emit(state.copyWith(submission: Submission.loading));
 
-    await UserProvider().UpdateUserData(
+    await UserProvider().updateUserData(
         userName: state.userName, newUserPassword: state.newPassword);
 
     // if (result.isRegistered) {

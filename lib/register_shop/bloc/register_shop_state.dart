@@ -1,5 +1,6 @@
 part of 'register_shop_bloc.dart';
 
+// ignore: must_be_immutable
 class RegisterShopState extends Equatable {
   final String shopDescription;
   final String shopName;
@@ -16,9 +17,18 @@ class RegisterShopState extends Equatable {
   final String shopImage;
   final String shopPhoneNumber;
   final Submission submission;
+  final List<String> shareCount;
+    final List<String> followersCount;
+        final List<String> viewersCount;
+
+
   final List<PlatformFile> files;
 
   RegisterShopState({
+    this.shareCount = const [],
+    this.followersCount = const [],
+    this.viewersCount = const [],
+  
     this.files = const [],
     this.branchesList = const [],
     this.imageXFile,
@@ -38,6 +48,9 @@ class RegisterShopState extends Equatable {
   });
 
   RegisterShopState copyWith({
+    List<String>? shareCount, 
+    List<String>? followersCount,
+    List<String>? viewersCount, 
     List<PlatformFile>? files, // Add this parameter
 
     List<Branches>? branchesList,
@@ -57,6 +70,9 @@ class RegisterShopState extends Equatable {
     Submission? submission,
   }) {
     return RegisterShopState(
+      shareCount: shareCount?? this.shareCount,
+      followersCount: followersCount?? this.followersCount,
+      viewersCount: viewersCount?? this.viewersCount,  
       files: files ?? this.files,
       branchesList: branchesList ?? this.branchesList,
       imageXFile: imageXFile ?? this.imageXFile,
@@ -78,6 +94,9 @@ class RegisterShopState extends Equatable {
 
   @override
   List<Object?> get props => [
+    shareCount,
+        followersCount,
+        viewersCount,  
         files,
         branchesList,
         imageXFile,

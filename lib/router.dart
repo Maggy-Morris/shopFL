@@ -1,3 +1,4 @@
+import 'package:anwer_shop/User/screens/offers_screen_user/offers_screen_user.dart';
 import 'package:flutter/material.dart';
 import 'package:anwer_shop/User/core/screen/not_sign_in_screen.dart';
 import 'package:anwer_shop/address/screens/address_screen.dart';
@@ -15,6 +16,7 @@ import 'package:anwer_shop/register_shop/screens/register_shop_screen.dart';
 import 'package:anwer_shop/register_shop/screens/search_address_manual_screen.dart';
 
 // import 'User/user home screen/user_home_screen.dart';
+import 'User/screens/discount_screen_user/discount_screen_user.dart';
 import 'User/screens/home_screen/user_home_screen.dart';
 import 'User/screens/user_profile/user_profile_screen.dart';
 import 'add_offers/add_offers_screen.dart';
@@ -58,6 +60,18 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const NotSignInScreen(),
+      );
+
+    case OffersScreenUser.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => OffersScreenUser(),
+      );
+
+    case DiscountScreenUser.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const DiscountScreenUser(),
       );
 
     //  case MarkerPage.routeName:

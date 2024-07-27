@@ -90,7 +90,7 @@ class _SendVerificationEmailScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF3D7CA),
+      backgroundColor: const Color(0xffF3D7CA),
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -101,7 +101,7 @@ class _SendVerificationEmailScreenState
             color: Colors.black,
           ),
         ),
-        backgroundColor: Color(0xffF3D7CA),
+        backgroundColor: const Color(0xffF3D7CA),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),

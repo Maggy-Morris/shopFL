@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:anwer_shop/constants/colors.dart';
 
+// ignore: must_be_immutable
 class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String labelText;
@@ -28,7 +29,7 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  FocusNode _focus = FocusNode();
+  final FocusNode _focus = FocusNode();
   bool isNotFocus = true;
   bool isObscure = false;
 

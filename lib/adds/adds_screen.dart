@@ -13,8 +13,8 @@ import 'package:anwer_shop/generated/assets.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../widgets/Icons_wit_text.dart';
-import '../../widgets/assetImage_withtext.dart';
+import '../widgets/icons_with_text.dart';
+import '../widgets/asset_image_with_text.dart';
 
 import '../widgets/button_widget.dart';
 import '../widgets/constant/toast.dart';
@@ -40,18 +40,21 @@ class _AddsScreenState extends State<AddsScreen> {
           return Scaffold(
             backgroundColor: MyColors.onBackground,
             appBar: AppBar(
-              foregroundColor: Colors.white,
+              forceMaterialTransparency: true,
+              foregroundColor: MyColors.onBackground,
               title: Text(
                 "الاعلانات".tr(),
-                style: TextStyle(
-                  color: Colors.black,
+                style: const TextStyle(
+                  color: MyColors.textColor,
                   fontSize: 16,
                 ),
               ),
               centerTitle: true,
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   //  nameText.isNotEmpty &&
                   //         descriptionText.isNotEmpty &&
                   //         address != null &&
@@ -254,7 +257,8 @@ class _AddsScreenState extends State<AddsScreen> {
                                                       SizedBox(
                                                         width: 100,
                                                         child: CustomTextButton(
-                                                          text: 'Take a photo',
+                                                          text:
+                                                              'ألتقط صورة'.tr(),
                                                           onPressed: () async {
                                                             await _picker
                                                                 .pickImage(
@@ -396,15 +400,15 @@ class _AddsScreenState extends State<AddsScreen> {
                                             ? Image.file(
                                                 File(state.imageXFile!.path),
                                                 fit: BoxFit.fill)
-                                            : Text("No image selected"),
+                                            : const Text("No image selected"),
                                       );
                                     });
                               },
                               icon: Icons.search),
                         ]),
-                    Divider(
+                    const Divider(
                       height: 50,
-                      color: const Color.fromARGB(108, 158, 158, 158),
+                      color: Color.fromARGB(108, 158, 158, 158),
                     ),
                     // const SizedBox(height: 20),
                     // Container(
@@ -445,7 +449,7 @@ class _AddsScreenState extends State<AddsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "مدة الاعلان".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -454,7 +458,7 @@ class _AddsScreenState extends State<AddsScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text("يوم".tr()),
-                        SizedBox(
+                        const SizedBox(
                             width:
                                 10), // Add spacing between text and text field if needed
 
@@ -475,7 +479,7 @@ class _AddsScreenState extends State<AddsScreen> {
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "5".tr(),
-                                counterStyle: TextStyle(
+                                counterStyle: const TextStyle(
                                   color: MyColors.lightText,
                                 ),
                               ),
@@ -496,7 +500,7 @@ class _AddsScreenState extends State<AddsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "تاريخ بداية الاعلان".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -535,7 +539,7 @@ class _AddsScreenState extends State<AddsScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.date_range_outlined,
                               color: MyColors.lightText,
                             ),
@@ -559,7 +563,7 @@ class _AddsScreenState extends State<AddsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "تاريخ نهاية الاعلان".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -598,7 +602,7 @@ class _AddsScreenState extends State<AddsScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.date_range_outlined,
                               color: MyColors.lightText,
                             ),
@@ -622,13 +626,13 @@ class _AddsScreenState extends State<AddsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "الاعلانات القائمة حاليا".tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400),
                       ),
                     ),
                     const SizedBox(height: 20),
                     state.addImages.isNotEmpty
-                        ? Container(
+                        ? SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: 200,
                             child: Swiper(
@@ -646,7 +650,7 @@ class _AddsScreenState extends State<AddsScreen> {
                               control: const SwiperControl(),
                             ),
                           )
-                        : Container(
+                        : SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: 200,
                             child: Center(
@@ -660,7 +664,7 @@ class _AddsScreenState extends State<AddsScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "  ${state.addsDuration} ايام".tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
                         ),
@@ -668,7 +672,7 @@ class _AddsScreenState extends State<AddsScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "مدة الاعلان".tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
                         ),
@@ -682,7 +686,7 @@ class _AddsScreenState extends State<AddsScreen> {
                           child: Text(
                             "${state.startDay}/${state.startMonth}/${state.startYear}"
                                 .tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
                         ),
@@ -690,7 +694,7 @@ class _AddsScreenState extends State<AddsScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "بداية الاعلان في".tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
                         ),
@@ -704,7 +708,7 @@ class _AddsScreenState extends State<AddsScreen> {
                           child: Text(
                             "${state.endDay}/${state.endMonth}/${state.endYear}"
                                 .tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
                         ),
@@ -712,7 +716,7 @@ class _AddsScreenState extends State<AddsScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "نهاية الاعلان في".tr(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
                         ),

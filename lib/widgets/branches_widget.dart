@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:anwer_shop/generated/assets.dart';
 
 import '../constants/colors.dart';
-import 'Icons_wit_text.dart';
-import 'assetImage_withtext.dart';
+import 'icons_with_text.dart';
+import 'asset_image_with_text.dart';
 
 class BranchesWidget extends StatefulWidget {
   final Function(List<Branches>) onBranchesChanged;
 
-  BranchesWidget({required this.onBranchesChanged});
+  const BranchesWidget({super.key, required this.onBranchesChanged});
 
   @override
+  // ignore: library_private_types_in_public_api
   _BranchesWidgetState createState() => _BranchesWidgetState();
 }
 
@@ -50,12 +51,12 @@ class _BranchesWidgetState extends State<BranchesWidget> {
         showCities: false,
         flagState: CountryFlag.DISABLE,
         dropdownDecoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           color: Colors.white,
           border: Border.all(color: Colors.white, width: 1),
         ),
         disabledDropdownDecoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           color: Colors.grey.shade300,
           border: Border.all(color: Colors.grey.shade300, width: 1),
         ),
@@ -69,12 +70,12 @@ class _BranchesWidgetState extends State<BranchesWidget> {
           color: Colors.black,
           fontSize: 14,
         ),
-        dropdownHeadingStyle: TextStyle(
+        dropdownHeadingStyle: const TextStyle(
           color: Colors.black,
           fontSize: 17,
           fontWeight: FontWeight.bold,
         ),
-        dropdownItemStyle: TextStyle(
+        dropdownItemStyle: const TextStyle(
           color: Colors.black,
           fontSize: 14,
         ),
@@ -121,7 +122,7 @@ class _BranchesWidgetState extends State<BranchesWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "الفروع الاخري".tr(),
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
               ),
             ],

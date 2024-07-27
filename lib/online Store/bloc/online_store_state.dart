@@ -21,7 +21,7 @@ class OnlineStoreState extends Equatable {
   // final  XFile? imageXFile;
   // static const XFile? emptyImage = null;
   // final List<Branches> branches_list;
-  final String shopCategories;
+  final List<String> shopCategories;
   final String shopType;
   final String shopLocation;
   final String shopCity;
@@ -57,7 +57,7 @@ class OnlineStoreState extends Equatable {
     this.shopImage = "",
     this.shopLink = "",
     this.shopDescription = "",
-    this.shopCategories = "",
+    this.shopCategories = const[],
     this.shopType = "",
     this.shopLocation = "",
     this.shopCity = "",
@@ -88,7 +88,7 @@ class OnlineStoreState extends Equatable {
     String? shopImage,
     String? shopLink,
     String? shopDescription,
-    String? shopCategories,
+   List <String>? shopCategories,
     String? shopType,
     String? shopLocation,
     String? shopCity,

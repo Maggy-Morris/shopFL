@@ -217,15 +217,15 @@ class _SearchAddressManualScreenState extends State<SearchAddressManualScreen> {
           FlutterMap(
             mapController: mapController,
             options: MapOptions(
-              center: widget.initialLatLng ?? latLng,
-              zoom: 13.0,
+              initialCenter: widget.initialLatLng ?? latLng,
+              initialZoom: 13.0,
               onTap: _onTapMap,
             ),
             children: [
               TileLayer(
                 urlTemplate:
                     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                subdomains: ['a', 'b', 'c'],
+                subdomains: const ['a', 'b', 'c'],
               ),
               MarkerLayer(
                 markers: [

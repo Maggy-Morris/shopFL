@@ -40,7 +40,7 @@ class AddOffersState extends Equatable {
 
   final Submission submission;
 
-  AddOffersState({
+  const AddOffersState({
     this.agreementPolicy = false,
     this.originalPrice = 0,
     this.currency = '',

@@ -26,11 +26,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           return Scaffold(
             backgroundColor: MyColors.onBackground,
             appBar: AppBar(
-              foregroundColor: Colors.white,
+              forceMaterialTransparency: true,
+              foregroundColor: MyColors.onBackground,
               title: Text(
                 'حسابي'.tr(),
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: MyColors.textColor,
                   fontSize: 16,
                 ),
               ),
@@ -50,7 +51,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   //     : null,
                   icon: const Icon(
                     Icons.arrow_forward_ios_sharp,
-                    color: Colors.black,
+                    color: MyColors.textColor,
                   ),
                 ),
               ],
@@ -148,7 +149,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 : UserProfileBloc.get(context).add(
                                     const ChangePassword(changePassword: true));
                           },
-                          child: Text("تعديل الرقم السري".tr())),
+                          child: Text("تعديل الرمز السري".tr())),
                     ),
                     state.changePassword == true
                         ? Column(
@@ -156,7 +157,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "تعديل الرقم السري".tr(),
+                                  "تعديل الرمز السري".tr(),
                                   style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400),
@@ -303,13 +304,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                       child: singleSelectGenericDropdown(
                           onChanged: (value) {
+                            changeLanguage(
+                                context, value == 'العربية' ? "ar" : "en");
                             UserProfileBloc.get(context)
                                 .add(EditLangueage(language: value ?? ""));
                           },
                           iconWidget:
                               const Icon(Icons.keyboard_arrow_down_sharp),
                           titleName: "اللغة".tr(),
-                          itemsList: ['فرنساوي', 'انجليزي', 'عربي'],
+                          itemsList: ['العربية', 'English'],
                           isEnabled: true,
                           isRequired: false),
                     ),
@@ -321,8 +324,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     const SizedBox(height: 20),
                     Center(
                       child: InvertedButtonFb2(
-                          onPressed: () {},
-                          text: "  تواصل معنا علي واتساب".tr()),
+                          onPressed: () {}, text: "تواصل معنا علي واتساب".tr()),
                     ),
                     const SizedBox(height: 20),
                     Center(
@@ -339,5 +341,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         },
       ),
     );
+  }
+
+  void changeLanguage(BuildContext context, String languageCode) {
+    EasyLocalization.of(context)!.setLocale(Locale(languageCode));
   }
 }

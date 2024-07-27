@@ -30,7 +30,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _remainingTime = targetDate.difference(DateTime.now());
       });
@@ -54,11 +54,11 @@ class _CountdownTimerState extends State<CountdownTimer> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildTimeBox(days, 'day'),
-        SizedBox(width: 5),
+        const SizedBox(width: 5),
         _buildTimeBox(hours, 'hour'),
-        SizedBox(width: 5),
+        const SizedBox(width: 5),
         _buildTimeBox(minutes, 'min'),
-        SizedBox(width: 5),
+        const SizedBox(width: 5),
         _buildTimeBox(seconds, 'sec'),
       ],
     );

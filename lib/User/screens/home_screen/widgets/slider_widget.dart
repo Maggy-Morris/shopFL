@@ -8,11 +8,12 @@ class SliderWidget extends StatefulWidget {
   const SliderWidget({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SliderWidgetState createState() => _SliderWidgetState();
 }
 
 class _SliderWidgetState extends State<SliderWidget> {
-  SfRangeValues _values = SfRangeValues(40, 60);
+  SfRangeValues _values = const SfRangeValues(40, 60);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                 stepSize: 5,
                 min: 0,
                 max: 100,
-                tooltipShape: SfPaddleTooltipShape(),
+                tooltipShape: const SfPaddleTooltipShape(),
                 values: _values,
                 onChanged: (SfRangeValues values) {
                   _values = values;

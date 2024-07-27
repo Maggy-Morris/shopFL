@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:anwer_shop/constants/colors.dart';
 
-class Icon_button extends StatelessWidget {
+class IconButtonWidget extends StatelessWidget {
   final Color? color;
   final VoidCallback onPressed;
   final String imagePath; // Path to the asset image
 
-  Icon_button({
+  const IconButtonWidget({super.key, 
     this.color,
     required this.onPressed,
     required this.imagePath, // Image asset path

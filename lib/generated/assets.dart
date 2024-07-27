@@ -14,6 +14,7 @@ class Assets {
   static const String imagesPandaEating = 'assets/images/panda_eating.png';
   static const String imagesProfileIcon = 'assets/images/profile_icon.png';
   static const String imagesSplash = 'assets/images/splash.png';
+  static const String share = 'assets/images/share.png';
 
   static const String downloadIcon = 'assets/images/download.png';
 

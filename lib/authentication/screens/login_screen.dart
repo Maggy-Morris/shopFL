@@ -71,23 +71,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (errorText.isEmpty && errorEmailText.isEmpty) {
       await internetProvider.checkInternetConnection();
-      if (internetProvider.hasInternet == false) {
-        Navigator.pop(context);
-        openSnackbar(context, 'Check your internet connection', scheme.primary);
+
+      if (!internetProvider.hasInternet) {
+        if (mounted) {
+          Navigator.pop(context);
+          openSnackbar(
+              context, 'Check your internet connection', scheme.primary);
+        }
       } else {
-        await authenticationProvider
-            .signInWithEmailAndPassword(
-          emailController.text.trim().toString(),
-          passwordController.text.toString(),
-        )
-            .then((value) async {
+        try {
+          await authenticationProvider.signInWithEmailAndPassword(
+            emailController.text.trim(),
+            passwordController.text,
+          );
+
           if (authenticationProvider.hasError) {
-            openSnackbar(
-              context,
-              authenticationProvider.errorCode,
-              scheme.primary,
-            );
-            authenticationProvider.resetError();
+            if (mounted) {
+              openSnackbar(
+                context,
+                authenticationProvider.errorCode,
+                scheme.primary,
+              );
+              authenticationProvider.resetError();
+            }
           } else {
             if (widget.role == "تاجر") {
               await authenticationProvider
@@ -99,25 +105,36 @@ class _LoginScreenState extends State<LoginScreen> {
 
             await authenticationProvider.saveDataToSharedPreferences(
                 roleChosen: authenticationProvider.role ?? '');
+
             await authenticationProvider.setSignIn();
+
             if (authenticationProvider.emailVerified) {
               if (authenticationProvider.role == "تاجر") {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, HomeScreen.routeName, (route) => false);
+                if (mounted) {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, HomeScreen.routeName, (route) => false);
+                }
               } else {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, UserHomeScreen.routeName, (route) => false);
+                if (mounted) {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, UserHomeScreen.routeName, (route) => false);
+                }
               }
             } else {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, HomeScreen.routeName, (route) => false);
-              Navigator.pushNamed(
-                  arguments: widget.role,
-                  context,
-                  SendVerificationEmailScreen.routeName);
+              if (mounted) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, HomeScreen.routeName, (route) => false);
+                Navigator.pushNamed(
+                    context, SendVerificationEmailScreen.routeName,
+                    arguments: widget.role);
+              }
             }
           }
-        });
+        } catch (e) {
+          if (mounted) {
+            openSnackbar(context, 'An error occurred: $e', scheme.primary);
+          }
+        }
       }
     }
   }

@@ -70,6 +70,12 @@ class RegisterOfferProvider extends ChangeNotifier {
   String? _role;
   String? get role => _role;
 
+  String? _area;
+  String? get area => _area;
+
+  String? _province;
+  String? get province => _province;
+
   List<String> _offerImages = [];
   List<String> get offerImages => _offerImages;
 
@@ -129,7 +135,7 @@ class RegisterOfferProvider extends ChangeNotifier {
 
         // "rating": 0,
 
-        // 'area': address.area,
+        'area': shopData.area,
         // 'floor': address.floor,
         // 'houseNumber': address.houseNumber,
         'latitude': shopData.latitude,
@@ -138,7 +144,7 @@ class RegisterOfferProvider extends ChangeNotifier {
         'shopImageUrl': shopData.shopImage,
         'sellerUid': firebaseAuth.currentUser?.uid,
 
-        // 'province': address.province,
+        'province': shopData.province,
         // 'street': address.street,
         // 'branchesList': branchesList.map((branch) => branch.toMap()).toList(),
       },
@@ -200,6 +206,8 @@ class RegisterOfferProvider extends ChangeNotifier {
               _longitude = snapshot['longitude'],
               _latitude = snapshot['latitude'],
               _imageUrl = snapshot['shopImage'],
+              _area = snapshot['area'],
+              _province = snapshot['province'],
             });
 
     notifyListeners();
@@ -210,7 +218,51 @@ class RegisterOfferProvider extends ChangeNotifier {
       latitude: _latitude,
       longitude: _longitude,
       shopImage: _imageUrl,
+      area: _area,
+      province: _province,
+
       // role: _role,
     );
+  }
+
+  // Function to fetch all offers for all sellers
+  Future<List<Map<String, dynamic>>> fetchAllOffers() async {
+    final snapshot = await firestore.collection('offers').get();
+    final List<Map<String, dynamic>> offers = [];
+
+    for (var doc in snapshot.docs) {
+      offers.add(doc.data());
+    }
+
+    return offers;
+  }
+
+  Future<void> deleteExpiredOffers() async {
+    final now = DateTime.now();
+    final snapshot = await firestore.collection('offers').get();
+
+    for (var doc in snapshot.docs) {
+      String endAddsDateString = doc['endOffersDate'];
+      DateTime endAddsDate = parseDate(endAddsDateString);
+
+      if (endAddsDate.isBefore(now) || endAddsDate.isAtSameMomentAs(now)) {
+        await doc.reference.delete();
+      }
+    }
+
+    debugPrint('Expired offers deleted successfully.');
+  }
+
+  DateTime parseDate(String dateString) {
+    final parts = dateString.split('/');
+    final day = int.parse(parts[0]);
+    final month = int.parse(parts[1]);
+    final year = int.parse(parts[2]);
+    return DateTime(year, month, day);
+  }
+
+  Future<void> checkAndDeleteExpiredOffers() async {
+    await deleteExpiredOffers();
+    notifyListeners();
   }
 }

@@ -242,7 +242,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>  HomeScreen()));
+                                      builder: (context) => const HomeScreen()));
                             }
                           },
                           style: TextButton.styleFrom(

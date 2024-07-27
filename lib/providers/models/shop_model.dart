@@ -10,6 +10,8 @@ class ShopModel {
   String? shopCategories;
   String? shopDescription;
   String? shopEmail;
+  String? area;
+  String? province;
   // String? requestDescription;
   // String? userId;
   // String? status;
@@ -18,6 +20,8 @@ class ShopModel {
   // String? message;
 
   ShopModel({
+    this.area,
+    this.province,
     this.id,
     // this.serviceId,
     this.email,
@@ -47,6 +51,8 @@ class ShopModel {
     shopImage = json['shopImage'];
     name = json['name'];
     shopEmail = json['shopEmail'];
+    area = json['area'];
+    province = json['province'];
     //   requestDescription = json['request_description'];
     //   userId = json['user_id'];
     //   status = json['status'];
@@ -65,6 +71,9 @@ class ShopModel {
       'shopImage': shopImage,
       'name': name,
       "shopEmail": shopEmail,
+      'area': area,
+      'province': province,
+
       // "request_description": requestDescription,
       // 'user_id': userId,
       // 'status': status,

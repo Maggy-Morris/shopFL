@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:anwer_shop/adds/adds_screen.dart';
 import 'package:anwer_shop/constants/colors.dart';
 import 'package:anwer_shop/home/widgets/my_drawer.dart';
-import 'package:anwer_shop/models/order.dart';
-import 'package:anwer_shop/orders/controllers/order_controller.dart';
+
 import 'package:anwer_shop/providers/authentication_provider.dart';
 import 'package:anwer_shop/providers/register_shop_provider.dart';
 import 'package:anwer_shop/register_shop/screens/register_shop_screen.dart';
@@ -21,14 +20,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrderController orderController = OrderController();
     final height = MediaQuery.of(context).size.height;
 
     final ap = context.watch<AuthenticationProvider>();
     final rp = context.watch<RegisterShopProvider>();
 
     return Scaffold(
-      backgroundColor: Color(0xFFF3F7FF),
+      backgroundColor: const Color(0xFFF3F7FF),
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: scheme.primary,
@@ -57,127 +55,118 @@ class HomeScreen extends StatelessWidget {
       drawer: MyDrawer(parentContext: context),
       body: Padding(
         padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Text(
-            //   'Welcome ${ap.name}',
-            //   style: const TextStyle(
-            //     fontSize: 25,
-            //     fontWeight: FontWeight.w600,
-            //   ),
-            // ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                collageItem(
-                  height: height,
-                  // iconData: Icons.shopping_cart,
-                  title: 'اضافة العروض'.tr(),
-                  onTap: () {
-                    // if (rp.isRegistered) {
-                    //   Navigator.pushNamed(context, MenuScreen.routeName);
-                    // } else {
-                    Navigator.pushNamed(context, AddOffersScreen.routeName);
-                    // }
-                  },
-                ),
-                const SizedBox(width: 8),
-                collageItem(
-                  height: height,
-                  iconData: Icons.photo_size_select_actual_outlined,
-                  title: 'بياناتي'.tr(),
-                  onTap: () {
-                    // if (rp.isRegistered) {
-                    //   Navigator.pushNamed(context, BannerScreen.routeName);
-                    // } else {
-                    Navigator.pushNamed(context, RegisterShopScreen.routeName);
-                    // }
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                collageItem(
-                  height: height,
-                  iconData: Icons.shopping_cart,
-                  title: 'الاعلانات'.tr(),
-                  onTap: () {
-                    // if (rp.isRegistered) {
-                    //   Navigator.pushNamed(context, MenuScreen.routeName);
-                    // } else {
-                    Navigator.pushNamed(context, AddsScreen.routeName);
-                    // }
-                  },
-                ),
-                const SizedBox(width: 8),
-                collageItem(
-                  height: height,
-                  iconData: Icons.photo_size_select_actual_outlined,
-                  title: 'المتجر الالكتروني'.tr(),
-                  onTap: () {
-                    // if (rp.isRegistered) {
-                    //   Navigator.pushNamed(context, BannerScreen.routeName);
-                    // } else {
-                    Navigator.pushNamed(context, OnlineStoreScreen.routeName);
-                    // }
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                collageItem(
-                  height: height,
-                  iconData: Icons.person_outlined,
-                  title: 'الاعدادات'.tr(),
-                  onTap: () {
-                    // if (rp.isRegistered) {
-                    //   Navigator.pushNamed(context, OrderScreen.routeName);
-                    // } else {
-                    Navigator.pushNamed(context, SettingsScreen.routeName);
-                    // }
-                  },
-                ),
-                const SizedBox(width: 8),
-                ap.isSignedIn
-                    ? StreamBuilder<List<Order>>(
-                        stream: orderController.fetchOrder(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Text('loading');
-                          }
-                          return
-                              // final food = snapshot.data![index];
-                              collageItem(
-                            height: height,
-                            iconData: Icons.shopping_cart_outlined,
-                            title: 'عملائي'.tr(),
-                            onTap: () {
-                              if (rp.isRegistered) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const CustomersScreen()));
-                              } else {
-                                Navigator.pushNamed(
-                                    context, RegisterShopScreen.routeName);
-                              }
-                            },
-                            alert: snapshot.data == null
-                                ? 0
-                                : snapshot.data!.length,
-                          );
-                        })
-                    : const SizedBox(),
-              ],
-            ),
-          ],
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Text(
+              //   'Welcome ${ap.name}',
+              //   style: const TextStyle(
+              //     fontSize: 25,
+              //     fontWeight: FontWeight.w600,
+              //   ),
+              // ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  collageItem(
+                    height: height,
+                    // iconData: Icons.shopping_cart,
+                    title: 'اضافة عروض'.tr(),
+                    onTap: () {
+                      // if (rp.isRegistered) {
+                      //   Navigator.pushNamed(context, MenuScreen.routeName);
+                      // } else {
+                      Navigator.pushNamed(context, AddOffersScreen.routeName);
+                      // }
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  collageItem(
+                    height: height,
+                    iconData: Icons.photo_size_select_actual_outlined,
+                    title: 'بياناتي'.tr(),
+                    onTap: () {
+                      // if (rp.isRegistered) {
+                      //   Navigator.pushNamed(context, BannerScreen.routeName);
+                      // } else {
+                      Navigator.pushNamed(
+                          context, RegisterShopScreen.routeName);
+                      // }
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  collageItem(
+                    height: height,
+                    iconData: Icons.shopping_cart,
+                    title: 'الاعلانات'.tr(),
+                    onTap: () {
+                      // if (rp.isRegistered) {
+                      //   Navigator.pushNamed(context, MenuScreen.routeName);
+                      // } else {
+                      Navigator.pushNamed(context, AddsScreen.routeName);
+                      // }
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  collageItem(
+                    height: height,
+                    iconData: Icons.photo_size_select_actual_outlined,
+                    title: 'المتجر الالكتروني'.tr(),
+                    onTap: () {
+                      // if (rp.isRegistered) {
+                      //   Navigator.pushNamed(context, BannerScreen.routeName);
+                      // } else {
+                      Navigator.pushNamed(context, OnlineStoreScreen.routeName);
+                      // }
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  collageItem(
+                    height: height,
+                    iconData: Icons.person_outlined,
+                    title: 'الاعدادات'.tr(),
+                    onTap: () {
+                      // if (rp.isRegistered) {
+                      //   Navigator.pushNamed(context, OrderScreen.routeName);
+                      // } else {
+                      Navigator.pushNamed(context, SettingsScreen.routeName);
+                      // }
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  ap.isSignedIn
+                      ? collageItem(
+                          height: height,
+                          iconData: Icons.shopping_cart_outlined,
+                          title: 'عملائي'.tr(),
+                          onTap: () {
+                            if (rp.isRegistered) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CustomersScreen()));
+                            } else {
+                              Navigator.pushNamed(
+                                  context, RegisterShopScreen.routeName);
+                            }
+                          },
+                        )
+                      : const SizedBox(),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -192,7 +181,7 @@ class HomeScreen extends StatelessWidget {
   }) {
     return Expanded(
       child: InkWell(
-        splashColor: Color.fromARGB(255, 53, 135, 211).withOpacity(0.2),
+        splashColor: const Color.fromARGB(255, 53, 135, 211).withOpacity(0.2),
         onTap: onTap,
         child: Ink(
           height: height * 0.17,

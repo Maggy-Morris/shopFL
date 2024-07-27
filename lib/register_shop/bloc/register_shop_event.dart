@@ -7,21 +7,21 @@ class RegisterShopEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class AddFilesEvent extends RegisterShopEvent {
-  final List<PlatformFile> files;
-  final int? index;
+class AddFileEvent extends RegisterShopEvent {
+  final PlatformFile file;
 
-  AddFilesEvent({ required this.files, this.index });
+  const AddFileEvent({required this.file});
+
   @override
-  List<Object?> get props => [files, index];
+  List<Object?> get props => [file];
 }
 
-class RemoveFile extends RegisterShopEvent {
-  final int index;
+class RemoveFileEvent extends RegisterShopEvent {
+  const RemoveFileEvent();
 
-  RemoveFile(this.index);
+  @override
+  List<Object?> get props => [];
 }
-
 
 class EditShopName extends RegisterShopEvent {
   final String shopName;
@@ -33,7 +33,7 @@ class EditShopName extends RegisterShopEvent {
 }
 
 class EditbranchesList extends RegisterShopEvent {
-  final List<Branches>  branchesList;
+  final List<Branches> branchesList;
 
   const EditbranchesList({required this.branchesList});
 
@@ -136,9 +136,9 @@ class EditShopDataToFireBase extends RegisterShopEvent {
   List<Object> get props => [];
 }
 
-class pickImageXFile extends RegisterShopEvent {
+class PickImageXFile extends RegisterShopEvent {
   final XFile? imageXFile;
-  pickImageXFile({required this.imageXFile});
+  const PickImageXFile({required this.imageXFile});
 
   @override
   List<Object?> get props => [imageXFile];
@@ -146,7 +146,7 @@ class pickImageXFile extends RegisterShopEvent {
 
 class EditShopImage extends RegisterShopEvent {
   final String shopImage;
-  EditShopImage({required this.shopImage});
+  const EditShopImage({required this.shopImage});
 
   @override
   List<Object?> get props => [shopImage];

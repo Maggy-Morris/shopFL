@@ -6,7 +6,7 @@ class ImageWithText extends StatelessWidget {
   final VoidCallback onPressed;
   final String imagePath; // Path to the asset image
 
-  ImageWithText({
+  const ImageWithText({super.key, 
     required this.color,
     required this.text,
     required this.onPressed,
@@ -24,7 +24,7 @@ class ImageWithText extends StatelessWidget {
         children: [
           Text(
             text,
-            style: TextStyle(fontSize: 12), // Adjust font size as needed
+            style: const TextStyle(fontSize: 12), // Adjust font size as needed
           ),
           Image.asset(
             imagePath, // Use the provided asset image path

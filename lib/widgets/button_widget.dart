@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:anwer_shop/constants/colors.dart';
-import 'package:anwer_shop/widgets/assetImage_withtext.dart';
 
 class GradientButtonFb1 extends StatelessWidget {
   final String text;
@@ -45,7 +44,7 @@ class GradientButtonFb1 extends StatelessWidget {
 class InvertedButtonFb2 extends StatelessWidget {
   final String text;
   final Function() onPressed;
-  InvertedButtonFb2({required this.text, required this.onPressed});
+  const InvertedButtonFb2({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +86,6 @@ class GradientButtonFb3 extends StatelessWidget {
   Widget build(BuildContext context) {
     const primaryColor = MyColors.primary;
     const secondaryColor = MyColors.primary;
-    const accentColor = Color(0xffffffff);
 
     const double borderRadius = 15;
 
@@ -113,12 +111,12 @@ class GradientButtonFb3 extends StatelessWidget {
             children: [
               Text(
                 text,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                   color: MyColors.white,
                 ), // Adjust font size as needed
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Image.asset(
@@ -142,7 +140,7 @@ class GradientButtonFb3 extends StatelessWidget {
 class InvertedButtonFb3 extends StatelessWidget {
   final String text;
   final Function() onPressed;
-  InvertedButtonFb3({required this.text, required this.onPressed});
+  const InvertedButtonFb3({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
